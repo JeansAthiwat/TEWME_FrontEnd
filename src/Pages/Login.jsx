@@ -1,5 +1,6 @@
 import React from 'react'
-import './Login.css'
+import './CSS/Login.css'
+import { Link } from 'react-router-dom'
 
 const Login = () => {
   return (
@@ -16,15 +17,13 @@ const Login = () => {
                 <p>Remember for 30 days</p>
                 </div>
                 <div className="login-remember-right">
-                <span>Forget password?</span>
+                <Link to='/resetpassword' style={{textDecoration : 'none'}} className='link'>Forget password?<hr/></Link>
                 </div>
             </div>
             <button type='submit'>Sign in</button>
             <p className="login-signup">
                 Don't have an account?
-                <span>
-                    Sign Up
-                </span>
+                <Link to='/signup' style={{textDecoration : 'none'}} className='link'>Sign Up<hr/></Link>
             </p>
         </div>
     </div>
