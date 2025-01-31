@@ -4,12 +4,13 @@ import './Course.css';
 
 const Course = (props) => {
   return (
-    <div className='course-item'> {/* Updated class name */}
+    <div className='course-item'>
       <div className="course-head">
         <Link to={`/course/${props.course_id}`}>
           <img onClick={window.scrollTo(0, 0)} src={props.image} alt="" />
         </Link>
       </div>
+      <Link to={`/course/${props.course_id}`} style={{ textDecoration: "none", color: "inherit" }}>
       <div className="course-detail">
         <p className="course-name">
           {props.course_name}
@@ -31,6 +32,7 @@ const Course = (props) => {
           {props.course_type}
         </div>
       </div>
+      </Link>
     </div>
   );
 };
