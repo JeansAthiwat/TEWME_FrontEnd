@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './CSS/Login.css';
 
-const Login = ({ onLogin, accountState }) => {
+const Login = ({ handleLogin, accountState }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate(); // Hook for redirecting after login
@@ -10,16 +10,19 @@ const Login = ({ onLogin, accountState }) => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      await onLogin(email, password); // Call the function from App.jsx
-      if (accountState !== "unregistered"){
-        navigate('/'); // Redirect to Main route after login
-      }
+      await handleLogin(email, password); // Call the function from App.jsx
     } catch (error) {
       console.error("Login error:", error);
     }
   };
+
+  // Redirect when login is successful
+  useEffect(() => {
+    if (accountState !== "unregistered") {
+      navigate('/'); // Redirect to Main route
+    }
+  }, [accountState, navigate]);
 
   return (
     <div className='login'>

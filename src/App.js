@@ -37,13 +37,13 @@ function App() {
       <BrowserRouter>
         {accountState !== "unregistered" && <Navbar />}
         <Routes>
-          <Route path="/" element={<Main />} />
+          <Route path="/" element={<Main accountState={accountState} />} />
           <Route path="/mycourse" element={<Mycourse />} />
           <Route path="/chatbox" element={<Chatbox />} />
           <Route path="/notification" element={<Notification />} />
           <Route path="/course/:courseId" element={<Course />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/login" element={<Login onLogin={handleLogin} accountState={accountState}/>} />
+          <Route path="/login" element={<Login handleLogin={handleLogin} accountState={accountState}/>} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/myprofile" element={<Myprofile />} />
           <Route path="/resetpassword" element={<Resetpassword />} />
