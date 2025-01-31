@@ -1,0 +1,39 @@
+.course{
+    width: 350px;
+    gap: 20px;
+}
+
+.course-head p{
+    width: 100px;
+    margin: 6px 0px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.course-head img{
+    width: 100%;
+    height: 75%;
+}
+
+.course-head:hover{
+    transform: scale(1.05);
+    transition: 0.6s;
+}
+
+.course-detail{
+    display: flex;
+    gap: 2px;
+    flex-direction: column;
+    font-size: 16px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.course-detail p{
+    display: flex;
+    gap: 2px;
+    flex-direction: column;
+    font-size: 18px;
+    font-weight: 600;
+    color: #374151;
+}
