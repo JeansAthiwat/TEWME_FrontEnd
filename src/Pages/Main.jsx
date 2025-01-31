@@ -2,8 +2,19 @@ import React from 'react';
 import Course from '../Components/Course/Course';
 import data_course from '../Components/Assets/all_course';
 import './CSS/Main.css';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
-const Main = () => {
+const Main = ({ accountState }) => {
+  const navigate = useNavigate();
+
+  // Redirect if the user is unregistered
+  useEffect(() => {
+    if (accountState === "unregistered") {
+      navigate('/login'); // Redirect to login page
+    }
+  }, [accountState, navigate]);
+
   return (
     <div className='main'>
       <h1>ALL COURSES</h1>
