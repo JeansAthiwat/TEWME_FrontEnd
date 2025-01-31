@@ -12,6 +12,7 @@ import Cart from './Pages/Cart'
 import Signup from './Pages/Signup'
 import Footer from './Components/Footer/Footer';
 import Resetpassword from './Pages/Resetpassword';
+import LiveClassForm from './Pages/CreateCourse';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/myprofile' element={<Myprofile/>}/>
         <Route path='/resetpassword' element={<Resetpassword/>}/>
+        <Route path='/createcourse' element={<LiveClassForm/>}/>
       </Routes>
         <Footer/>
       </BrowserRouter>
