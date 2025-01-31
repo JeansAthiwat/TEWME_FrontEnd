@@ -13,6 +13,7 @@ import Cart from './Pages/Cart';
 import Signup from './Pages/Signup';
 import Footer from './Components/Footer/Footer';
 import Resetpassword from './Pages/Resetpassword';
+import LiveClassForm from './Pages/CreateCourse';
 import { mockLoginAPI } from './api/auth'; // Importing the mock login function
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/myprofile" element={<Myprofile />} />
           <Route path="/resetpassword" element={<Resetpassword />} />
+          <Route path='/createcourse' element={<LiveClassForm/>}/>
         </Routes>
         <Footer />
       </BrowserRouter>
