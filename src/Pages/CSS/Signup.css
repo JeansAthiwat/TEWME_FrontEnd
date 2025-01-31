@@ -1,7 +1,7 @@
 .signup{
     width: 100%;
     height: 80vh;
-    padding-top: 100px;
+    padding-top: 10px;
 }
 
 .signup-container{
@@ -85,3 +85,8 @@
     transition: all 0.2s ease;
 }
 
+.signup-select{
+    width: 104%;
+    display: flex;
+    gap: 20px;
+}

@@ -7,6 +7,10 @@ const Signup = () => {
     <div className='signup'>
     <div className="signup-container">
         <h1>Sign Up</h1>
+        <div className="signup-select">
+          <button type='submit'>As a tutor</button>
+          <button type='submit'>As a learner</button>
+        </div>
         <div className="signup-fields">
             <input type="name" placeholder='Your Name'/>
             <input type="email" placeholder='Email Address'/>

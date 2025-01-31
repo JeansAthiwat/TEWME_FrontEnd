@@ -2,7 +2,11 @@ import React from 'react'
 
 const Course = () => {
   return (
-    <div></div>
+    <div className='course'>
+        <dic className="course-container">
+          
+        </dic>
+    </div>
   )
 }
 

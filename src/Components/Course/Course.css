@@ -1,26 +1,30 @@
-.course{
+/* Course.css */
+
+.course {
     width: 350px;
     gap: 20px;
 }
 
-.course-head p{
-    width: 100px;
+.course-head p {
+    width: auto;
     margin: 6px 0px;
     font-size: 20px;
     font-weight: 600;
+    text-align: center;
 }
 
-.course-head img{
+.course-head img {
     width: 100%;
     height: 75%;
+    object-fit: cover;
 }
 
-.course-head:hover{
+.course-head:hover {
     transform: scale(1.05);
     transition: 0.6s;
 }
 
-.course-detail{
+.course-detail {
     display: flex;
     gap: 2px;
     flex-direction: column;
@@ -29,7 +33,7 @@
     color: #374151;
 }
 
-.course-detail p{
+.course-detail p {
     display: flex;
     gap: 2px;
     flex-direction: column;
