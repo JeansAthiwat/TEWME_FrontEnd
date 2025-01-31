@@ -14,24 +14,10 @@ import Signup from './Pages/Signup';
 import Footer from './Components/Footer/Footer';
 import Resetpassword from './Pages/Resetpassword';
 import LiveClassForm from './Pages/CreateCourse';
-import { mockLoginAPI } from './api/auth'; // Importing the mock login function
+import { handleLogin } from './utils/authHandlers'; // Import the new login handler
 
 function App() {
   const [accountState, setAccountState] = useState("unregistered"); // Default state
-
-  // Function to handle login and update accountState
-  const handleLogin = async (email, password) => {
-    try {
-      const response = await mockLoginAPI(email, password);
-      if (response.success) {
-        setAccountState(response.role); // Set 'user' or 'admin' based on API response
-      } else {
-        alert("Login failed! Check credentials.");
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
-  };
 
   return (
     <div>
@@ -44,7 +30,7 @@ function App() {
           <Route path="/notification" element={<Notification />} />
           <Route path="/course/:courseId" element={<Course />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/login" element={<Login handleLogin={handleLogin} accountState={accountState}/>} />
+          <Route path="/login" element={<Login handleLogin={(email, password) => handleLogin(email, password, setAccountState)} accountState={accountState}/>} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/myprofile" element={<Myprofile />} />
           <Route path="/resetpassword" element={<Resetpassword />} />
