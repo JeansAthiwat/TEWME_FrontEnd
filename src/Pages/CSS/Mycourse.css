@@ -1,0 +1,16 @@
+.Mycourse h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.CreateCourse-button {
+    /* display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px; */
+    /* align-self: start; */
+    font-size: 1.5rem;
+    /* align-items: center; */
+}
