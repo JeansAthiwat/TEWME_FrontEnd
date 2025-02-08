@@ -20,6 +20,7 @@
     height: 600px;
     background: white;
     margin: auto;
+    margin-left: 370px;
     padding: 40px 60px;
 }
 
@@ -88,12 +89,20 @@
     color: #5c5c5c;
     font-size: 18px;
     font-weight: 500;
+    white-space: nowrap;
 }
 
 .login-remember-left{
     display: flex;
     align-items: center;
-    gap: 8px;    
+    gap: 15px;    
+}
+
+.login-remember-left input[type="checkbox"] {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
 }
 
 .login-remember-right{
