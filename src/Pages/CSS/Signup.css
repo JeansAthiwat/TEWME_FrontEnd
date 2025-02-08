@@ -37,7 +37,7 @@
     height: 72px;
     width: 104%;
     color: white;
-    background: #5438e0;
+    background: #1f2937;
     margin-top: 30px;
     border: none;
     font-size: 24px;
@@ -46,7 +46,7 @@
 }
 
 .signup-container button:hover{
-    background-color: #1f2937;
+    background-color: #5438e0;
     transform: scale(0.98);
     transition: all 0.2s ease;
 }
@@ -90,3 +90,36 @@
     display: flex;
     gap: 20px;
 }
+
+.image-upload{
+    margin-top:  20px;
+    width: 104%;
+}
+
+.image-upload input[type="file"] {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 104%;
+  }
+
+.button-state {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+  }
+  
+.button-state.active {
+    background-color: #5438e0;
+    color: white;
+    border-color: #5438e0;
+    flex: 2;
+  }
+  
+.button-state:hover {
+    background-color: #f5f5f5;
+  }
