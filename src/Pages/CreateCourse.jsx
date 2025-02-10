@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./CSS/CreateCourse.css";
 import {
   FaClock,
@@ -11,6 +13,7 @@ import {
 } from "react-icons/fa";
 
 const LiveClassForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -84,9 +87,13 @@ const LiveClassForm = () => {
           tags: [],
           isVideoCourse: false,
           videoLink: "",
+          courseLength: "", // 🆕 Add course length
+          maxStudents: "", // 🆕 Add max students
         });
         setInputTag("");
         setErrors({});
+
+        navigate("/mycourse");
       } catch (error) {
         console.error("Error submitting form:", error);
       }
@@ -128,6 +135,12 @@ const LiveClassForm = () => {
       <h2>
         Schedule a New Course <FaBook />
       </h2>
+      <div className="go-to-mycourses">
+        <Link to="/mycourse" className="mycourses-link">
+          Go to My Courses
+        </Link>
+      </div>
+
       <form onSubmit={handleSubmit}>
         <div className={`form-group ${errors.title ? "error" : ""}`}>
           <label>
@@ -263,6 +276,44 @@ const LiveClassForm = () => {
           </div>
           {errors.tags && <span className="error-message">{errors.tags}</span>}
         </div>
+        {/* Course Length (Only for Video-Based Courses) */}
+        {formData.isVideoCourse && (
+          <div className={`form-group ${errors.courseLength ? "error" : ""}`}>
+            <label>🎬 Course Length (Minutes)</label>
+            <input
+              type="number"
+              name="courseLength"
+              value={formData.courseLength}
+              onChange={handleChange}
+              placeholder="Enter video length in minutes"
+              min="1"
+              className="course-length-input"
+            />
+            {errors.courseLength && (
+              <span className="error-message">{errors.courseLength}</span>
+            )}
+          </div>
+        )}
+
+        {/* Max Students (Only for Live Classes) */}
+        {!formData.isVideoCourse && (
+          <div className={`form-group ${errors.maxStudents ? "error" : ""}`}>
+            <label>👥 Max Students</label>
+            <input
+              type="number"
+              name="maxStudents"
+              value={formData.maxStudents}
+              onChange={handleChange}
+              placeholder="Enter max students"
+              min="1"
+              className="max-students-input"
+            />
+            {errors.maxStudents && (
+              <span className="error-message">{errors.maxStudents}</span>
+            )}
+          </div>
+        )}
+
         <div className={`form-group ${errors.price ? "error" : ""}`}>
           <label>💰 Price (USD)</label>
           <input

@@ -64,6 +64,26 @@ h2 {
   font-size: 1rem;
   transition: border-color 0.3s ease;
 }
+.go-to-mycourses {
+  text-align: left;
+  /* margin-top: 20px; */
+  margin-bottom: 20px;
+}
+
+.mycourses-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+.mycourses-link:hover {
+  background-color: #2980b9;
+}
+
 
 .price-input:focus {
   border-color: #3498db;
