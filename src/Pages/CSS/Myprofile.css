@@ -1,0 +1,52 @@
+.profile-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-picture {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.profile-bio {
+  font-size: 16px;
+  color: #666;
+}
+
+.profile-details {
+  margin-bottom: 20px;
+}
+
+.subjects-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.subjects-list li {
+  background-color: #f9f9f9;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.profile-contact {
+  background-color: #f1f1f1;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+.profile-contact h2 {
+  margin-top: 0;
+}

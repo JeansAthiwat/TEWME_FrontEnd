@@ -15,6 +15,7 @@ import Footer from './Components/Footer/Footer';
 import Resetpassword from './Pages/Resetpassword';
 import LiveClassForm from './Pages/CreateCourse';
 import { handleLogin } from './utils/authHandlers'; // Import the new login handler
+import AdminPage from './Pages/AdminPage';
 
 function AppContent({ accountState, setAccountState }) {
   const location = useLocation();
@@ -40,6 +41,7 @@ function AppContent({ accountState, setAccountState }) {
         <Route path="/myprofile" element={<Myprofile />} />
         <Route path="/resetpassword" element={<Resetpassword />} />
         <Route path='/createcourse' element={<LiveClassForm/>}/>
+        <Route path='/admin' element={<AdminPage />} />
       </Routes>
       <Footer />
     </>

@@ -43,7 +43,7 @@ const Navbar = ({ accountState, onLogout }) => {
             Logout
           </button>
         )}
-          <Link to='/profile'><img src={profile_icon} alt="" /></Link>
+          <Link to='/myprofile'><img src={profile_icon} alt="" /></Link>
         </div>
     </div>
   )
