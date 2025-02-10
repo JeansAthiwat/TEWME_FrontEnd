@@ -1,38 +1,86 @@
+/* 🔹 Page Layout */
 .Mycourse {
-    padding: 20px 120px;
+    padding: 20px 10%;
     background-color: #f9f9f9;
     min-height: 100vh;
+    text-align: center;
 }
 
+/* 🔹 Title Styling */
 .Mycourse h1 {
-    text-align: center;
     font-size: 2.5rem;
     color: #2c3e50;
     margin-bottom: 20px;
+    font-weight: bold;
 }
 
+/* 🔹 Create Course Button */
 .CreateCourse-button {
-    font-size: 1.5rem;
-    margin-top: -25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
+/* 🔹 Styled Button */
 .decorated-button {
     background-color: #3498db;
     color: white;
     border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
+    border-radius: 6px;
+    padding: 12px 24px;
+    font-size: 1.25rem;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background 0.3s, transform 0.2s;
+    display: inline-block;
 }
 
+/* 🔹 Button Hover Effect */
 .decorated-button:hover {
     background-color: #2980b9;
+    transform: scale(1.05);
 }
 
+/* 🔹 Horizontal Line */
 .Mycourse hr {
     border: 0;
     height: 1px;
     background: #ddd;
     margin-bottom: 40px;
+}
+
+/* 🔹 Responsive Design */
+@media (max-width: 1024px) {
+    .Mycourse {
+        padding: 20px 5%;
+    }
+
+    .decorated-button {
+        font-size: 1.1rem;
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .Mycourse h1 {
+        font-size: 2rem;
+    }
+
+    .decorated-button {
+        font-size: 1rem;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .Mycourse {
+        padding: 20px 3%;
+    }
+
+    .decorated-button {
+        width: 100%;
+        font-size: 1rem;
+        padding: 10px;
+    }
 }

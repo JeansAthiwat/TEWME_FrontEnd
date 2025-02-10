@@ -1,26 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { handleLogin } from '../utils/authHandlers'; // ✅ Import the correct function
 import './CSS/Login.css';
 
-const Login = ({ handleLogin, accountState }) => {
+const Login = ({ accountState, setAccountState }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate(); // Hook for redirecting after login
 
-  // Handle form submission
+  // Handle form submission using authHandlers.js function
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+
     try {
-      await handleLogin(email, password); // Call the function from App.jsx
+      await handleLogin(email, password, setAccountState); // ✅ Call centralized login function
+      console.log("Logged in successfully");
+
+      // Redirect after login
+      navigate('/');
     } catch (error) {
-      console.error("Login error:", error);
+      setError("Login failed! Check credentials.");
     }
   };
 
   // Redirect when login is successful
   useEffect(() => {
     if (accountState !== "unregistered") {
-      navigate('/'); // Redirect to Main route
+      navigate('/');
     }
   }, [accountState, navigate]);
 
@@ -28,6 +36,7 @@ const Login = ({ handleLogin, accountState }) => {
     <div className='login'>
       <div className="login-container">
         <h1>Sign in</h1>
+        {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="login-fields">
             <input 

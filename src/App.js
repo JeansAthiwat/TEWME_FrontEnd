@@ -1,6 +1,6 @@
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { useState } from 'react';
-import './App.css';
+import { handleLogin } from './utils/authHandlers';
 import Navbar from './Components/Navbar/Navbar';
 import Login from './Pages/Login';
 import Main from './Pages/Main';
@@ -14,7 +14,6 @@ import Signup from './Pages/Signup';
 import Footer from './Components/Footer/Footer';
 import Resetpassword from './Pages/Resetpassword';
 import LiveClassForm from './Pages/CreateCourse';
-import { handleLogin } from './utils/authHandlers'; // Import the new login handler
 import AdminPage from './Pages/AdminPage';
 
 function AppContent({ accountState, setAccountState }) {
@@ -22,7 +21,11 @@ function AppContent({ accountState, setAccountState }) {
   const hideNavbarPaths = ['/login', '/signup', '/resetpassword'];
   const shouldShowNavbar = !hideNavbarPaths.includes(location.pathname);
 
+  const handleLoginWrapper = (email, password) => handleLogin(email, password, setAccountState);
+
   const handleLogout = () => {
+    localStorage.removeItem('token'); // ✅ Remove token on logout
+    localStorage.removeItem('accountState'); // ✅ Remove saved user role
     setAccountState("unregistered");
   };
 
@@ -31,16 +34,16 @@ function AppContent({ accountState, setAccountState }) {
       {shouldShowNavbar && <Navbar accountState={accountState} onLogout={handleLogout} />}
       <Routes>
         <Route path="/" element={<Main accountState={accountState} />} />
-        <Route path="/mycourse" element={<Mycourse accountState={accountState}/>} />
+        <Route path="/mycourse" element={<Mycourse accountState={accountState} />} />
         <Route path="/chatbox" element={<Chatbox />} />
         <Route path="/notification" element={<Notification />} />
         <Route path="/course/:courseId" element={<Course />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/login" element={<Login handleLogin={(email, password) => handleLogin(email, password, setAccountState)} accountState={accountState}/>} />
+        <Route path="/login" element={<Login handleLogin={handleLoginWrapper} accountState={accountState} setAccountState={setAccountState} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/myprofile" element={<Myprofile />} />
         <Route path="/resetpassword" element={<Resetpassword />} />
-        <Route path='/createcourse' element={<LiveClassForm/>}/>
+        <Route path='/createcourse' element={<LiveClassForm />} />
         <Route path='/admin' element={<AdminPage />} />
       </Routes>
       <Footer />
@@ -49,7 +52,13 @@ function AppContent({ accountState, setAccountState }) {
 }
 
 function App() {
-  const [accountState, setAccountState] = useState("unregistered");
+  const [accountState, setAccountState] = useState(() => {
+    return localStorage.getItem('accountState') || "unregistered"; // ✅ Load from storage
+  });
+
+  useEffect(() => {
+    localStorage.setItem('accountState', accountState); // ✅ Save state when changed
+  }, [accountState]);
 
   return (
     <div>
