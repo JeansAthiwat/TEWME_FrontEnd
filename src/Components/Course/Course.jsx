@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Course.css';
 
-const Course = (props) => {
+const CourseItem = (props) => {
   return (
     <div className='course-item'>
       <div className="course-head">
@@ -37,4 +37,4 @@ const Course = (props) => {
   );
 };
 
-export default Course;
+export default CourseItem;
