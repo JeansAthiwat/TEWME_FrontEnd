@@ -20,6 +20,7 @@ const LiveClassForm = () => {
     tags: [],
     isVideoCourse: false, // New State for Video Course Checkbox
     videoLink: "", // New State for YouTube Video Link
+    price: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -261,6 +262,21 @@ const LiveClassForm = () => {
             ))}
           </div>
           {errors.tags && <span className="error-message">{errors.tags}</span>}
+        </div>
+        <div className={`form-group ${errors.price ? "error" : ""}`}>
+          <label>💰 Price (USD)</label>
+          <input
+            type="number"
+            name="price"
+            value={formData.price}
+            onChange={handleChange}
+            placeholder="Enter course price"
+            min="0"
+            className="price-input"
+          />
+          {errors.price && (
+            <span className="error-message">{errors.price}</span>
+          )}
         </div>
 
         <button type="submit" className="submit-btn">

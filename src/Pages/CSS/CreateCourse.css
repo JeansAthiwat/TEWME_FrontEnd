@@ -55,6 +55,26 @@ h2 {
   transition: border-color 0.3s ease, background 0.3s ease;
   background: #fff;
 }
+/* 🔹 Price Input Field */
+.price-input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #dfe6e9;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.price-input:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+/* 🔹 Error styling for price */
+.error .price-input {
+  border-color: #e74c3c;
+}
+
 
 /* 🔹 Focus Effect */
 .datetime-input:focus {
