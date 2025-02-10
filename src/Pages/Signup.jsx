@@ -47,7 +47,7 @@ const Signup = () => {
         },
         body: JSON.stringify({
           ...formData,
-          role: UserType === 'Tutor' ? 'tutor' : 'user',
+          role: UserType === 'Tutor' ? 'tutor' : 'learner',
         }),
       });
 
@@ -79,9 +79,9 @@ const Signup = () => {
             As a Tutor
           </button>
           <button 
-            onClick={() => setUserType("Student")} 
+            onClick={() => setUserType("Learner")} 
             type='button' 
-            className={`button-state ${UserType === "Student" ? "active" : ""}`}>
+            className={`button-state ${UserType === "Learner" ? "active" : ""}`}>
             As a Learner
           </button>
         </div>
