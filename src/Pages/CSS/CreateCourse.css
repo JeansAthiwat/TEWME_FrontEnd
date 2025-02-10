@@ -1,4 +1,3 @@
-
 .class-form-container {
   max-width: 800px;
   margin: 2rem auto;
@@ -27,6 +26,87 @@ h2 {
   margin-bottom: 0.5rem;
   color: #34495e;
   font-weight: 600;
+}
+
+/* 🔹 Video-Based Course Checkbox */
+.video-course-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  color: #34495e;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.video-course-checkbox input {
+  width: 18px;
+  height: 18px;
+  accent-color: #3498db;
+}
+
+/* 🔹 Date & Time Input Styling */
+.datetime-input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #dfe6e9;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, background 0.3s ease;
+  background: #fff;
+}
+
+/* 🔹 Focus Effect */
+.datetime-input:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+/* 🔹 Disabled State (When Video-Based Course is selected) */
+.datetime-input:disabled {
+  background: #f1f1f1;
+  cursor: not-allowed;
+  color: #a0a0a0;
+  border-color: #dcdcdc;
+}
+
+
+/* 🔹 Video-Based Course Checkbox */
+.video-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  color: #34495e;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* 🔹 Checkbox Input Styling */
+.video-checkbox-input {
+  width: 18px;
+  height: 18px;
+  accent-color: #3498db;
+}
+
+/* 🔹 Video Link Input */
+.video-link-input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #dfe6e9;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.video-link-input:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+/* 🔹 Error styling for Video Link */
+.error .video-link-input {
+  border-color: #e74c3c;
 }
 
 .form-row {

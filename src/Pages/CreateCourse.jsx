@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import './CSS/CreateCourse.css';
+import "./CSS/CreateCourse.css";
 import {
   FaClock,
   FaMapMarkerAlt,
   FaTag,
   FaCalendarAlt,
   FaBook,
+  FaVideo,
+  FaLink,
 } from "react-icons/fa";
 
 const LiveClassForm = () => {
@@ -16,6 +18,8 @@ const LiveClassForm = () => {
     location: "",
     duration: "60",
     tags: [],
+    isVideoCourse: false, // New State for Video Course Checkbox
+    videoLink: "", // New State for YouTube Video Link
   });
 
   const [errors, setErrors] = useState({});
@@ -32,26 +36,76 @@ const LiveClassForm = () => {
   const validateForm = () => {
     const newErrors = {};
     if (!formData.title.trim()) newErrors.title = "Title is required";
-    if (!formData.datetime) newErrors.datetime = "Date/time is required";
-    if (!formData.location.trim()) newErrors.location = "Location is required";
+
+    if (formData.isVideoCourse) {
+      if (!formData.videoLink.trim()) {
+        newErrors.videoLink = "Video link is required";
+      } else if (
+        !formData.videoLink.match(
+          /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/
+        )
+      ) {
+        newErrors.videoLink = "Invalid YouTube link";
+      }
+    } else {
+      if (!formData.datetime) newErrors.datetime = "Date/time is required";
+      if (!formData.location.trim())
+        newErrors.location = "Location is required";
+    }
+
     if (formData.tags.length === 0)
       newErrors.tags = "At least one tag is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("Form submitted:", formData);
-      // Add API call here
+      try {
+        console.log("Submitting form:", formData);
+        // Example API call
+        // const response = await fetch('/api/schedule-class', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify(formData),
+        // });
+        // const result = await response.json();
+        // console.log(result);
+
+        // Reset form after submission
+        setFormData({
+          title: "",
+          description: "",
+          datetime: "",
+          location: "",
+          duration: "60",
+          tags: [],
+          isVideoCourse: false,
+          videoLink: "",
+        });
+        setInputTag("");
+        setErrors({});
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
     }
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+
+    // Clear errors as user types
     setErrors((prev) => ({ ...prev, [name]: "" }));
+
+    // If user unchecks video course, clear video link
+    if (name === "isVideoCourse" && !checked) {
+      setFormData((prev) => ({ ...prev, videoLink: "" }));
+    }
   };
 
   const handleTagAdd = () => {
@@ -71,7 +125,7 @@ const LiveClassForm = () => {
   return (
     <div className="class-form-container">
       <h2>
-        Schedule a New Live Class <FaBook />
+        Schedule a New Course <FaBook />
       </h2>
       <form onSubmit={handleSubmit}>
         <div className={`form-group ${errors.title ? "error" : ""}`}>
@@ -103,54 +157,74 @@ const LiveClassForm = () => {
           />
         </div>
 
-        <div className="form-row">
-          <div className={`form-group ${errors.datetime ? "error" : ""}`}>
-            <label>
-              <FaCalendarAlt /> Date & Time
+        <div className="form-group">
+          <div className="form-group">
+            <label className="video-checkbox">
+              <input
+                type="checkbox"
+                name="isVideoCourse"
+                checked={formData.isVideoCourse}
+                onChange={handleChange}
+                className="video-checkbox-input"
+              />
+              <FaVideo /> Video-Based Course
             </label>
-            <input
-              type="datetime-local"
-              name="datetime"
-              value={formData.datetime}
-              onChange={handleChange}
-            />
-            {errors.datetime && (
-              <span className="error-message">{errors.datetime}</span>
-            )}
           </div>
+        </div>
 
-          <div className={`form-group ${errors.location ? "error" : ""}`}>
+        {formData.isVideoCourse ? (
+          <div className={`form-group ${errors.videoLink ? "error" : ""}`}>
             <label>
-              <FaMapMarkerAlt /> Location
+              <FaLink /> YouTube Video Link
             </label>
             <input
               type="text"
-              name="location"
-              value={formData.location}
+              name="videoLink"
+              value={formData.videoLink}
               onChange={handleChange}
-              placeholder="Physical or online location"
+              placeholder="Enter YouTube link"
             />
-            {errors.location && (
-              <span className="error-message">{errors.location}</span>
+            {errors.videoLink && (
+              <span className="error-message">{errors.videoLink}</span>
             )}
           </div>
+        ) : (
+          <>
+            <div className={`form-group ${errors.datetime ? "error" : ""}`}>
+              <label>
+                <FaCalendarAlt /> Date & Time
+              </label>
+              <input
+                type="datetime-local"
+                name="datetime"
+                value={formData.datetime}
+                onChange={handleChange}
+                disabled={formData.isVideoCourse}
+                className="datetime-input"
+              />
+              {errors.datetime && (
+                <span className="error-message">{errors.datetime}</span>
+              )}
+            </div>
 
-          <div className="form-group">
-            <label>
-              <FaClock /> Duration (minutes)
-            </label>
-            <select
-              name="duration"
-              value={formData.duration}
-              onChange={handleChange}
-            >
-              <option value="30">30 minutes</option>
-              <option value="60">60 minutes</option>
-              <option value="90">90 minutes</option>
-              <option value="120">120 minutes</option>
-            </select>
-          </div>
-        </div>
+            <div className={`form-group ${errors.location ? "error" : ""}`}>
+              <label>
+                <FaMapMarkerAlt /> Location
+              </label>
+              <input
+                type="text"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+                placeholder="Physical or online location"
+                disabled={formData.isVideoCourse}
+              />
+              {errors.location && (
+                <span className="error-message">{errors.location}</span>
+              )}
+            </div>
+          </>
+        )}
 
         <div className={`form-group ${errors.tags ? "error" : ""}`}>
           <label>
@@ -190,13 +264,11 @@ const LiveClassForm = () => {
         </div>
 
         <button type="submit" className="submit-btn">
-          Schedule Class
+          Schedule Course
         </button>
       </form>
     </div>
   );
 };
-
-// document.head.appendChild(document.createElement("style")).textContent = styles;
 
 export default LiveClassForm;
