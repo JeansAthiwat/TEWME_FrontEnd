@@ -97,9 +97,10 @@ const Signup = () => {
             <input type="text" name="contact_info" placeholder='Contact Info' value={formData.contact_info} onChange={handleChange} required />
           </div>
 
-          <div className="image-upload">
+          {/* not now */}
+          {/* <div className="image-upload">
             <ImageUpload />
-          </div>
+          </div> */}
 
           <div className="signup-agree">
             <input type="checkbox" checked={agree} onChange={() => setAgree(!agree)} />
