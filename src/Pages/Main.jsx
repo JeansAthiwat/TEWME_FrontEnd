@@ -3,17 +3,18 @@ import Course from '../Components/Course/Course';
 import data_course from '../Components/Assets/all_course';
 import './CSS/Main.css';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 
 const Main = ({ accountState }) => {
   const navigate = useNavigate();
 
-  // Redirect if the user is unregistered
-  useEffect(() => {
+  const handleCourseClick = () => {
     if (accountState === "unregistered") {
-      navigate('/login'); // Redirect to login page
+      alert("Please login to access course content");
+      // navigate('/login');
+      navigate('/');
+      return;
     }
-  }, [accountState, navigate]);
+  };
 
   return (
     <div className='main'>
@@ -21,6 +22,7 @@ const Main = ({ accountState }) => {
       <hr />
       <div className="course-container">
         {data_course.map((course, i) => (
+          <div onClick={handleCourseClick} key={i}>
           <Course
             key={i}
             course_id={course.course_id}
@@ -31,6 +33,7 @@ const Main = ({ accountState }) => {
             course_length={course.course_length}
             course_type={course.course_type}
           />
+          </div>
         ))}
       </div>
     </div>
