@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { handleLogin } from '../utils/authHandlers'; // ✅ Import the correct function
 import './CSS/Login.css';
 
 const Login = ({ accountState, setAccountState }) => {
@@ -8,44 +9,25 @@ const Login = ({ accountState, setAccountState }) => {
   const [error, setError] = useState('');
   const navigate = useNavigate(); // Hook for redirecting after login
 
-  // Handle form submission
+  // Handle form submission using authHandlers.js function
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
     try {
-      const response = await fetch(`http://localhost:39189/auth/login`, { // Replace with your backend URL
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      await handleLogin(email, password, setAccountState); // ✅ Call centralized login function
+      console.log("Logged in successfully");
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Login failed");
-      }
-
-      // Store token in local storage (if JWT is used)
-      localStorage.setItem('token', data.token);
-
-      // Update account state
-      // setAccountState('registered');
-      // not working right now
-      console.log("Logged in");
-
-      // Redirect to home page
+      // Redirect after login
       navigate('/');
     } catch (error) {
-      setError(error.message);
+      setError("Login failed! Check credentials.");
     }
   };
 
   // Redirect when login is successful
   useEffect(() => {
-    if (accountState === "logged_in") {
+    if (accountState !== "unregistered") {
       navigate('/');
     }
   }, [accountState, navigate]);
