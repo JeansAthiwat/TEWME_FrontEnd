@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './CSS/Signup.css';
-import ImageUpload from '../Components/ImageUpload/ImageUpload';
+// import ImageUpload from '../Components/ImageUpload/ImageUpload';
 
 const Signup = () => {
   const navigate = useNavigate();

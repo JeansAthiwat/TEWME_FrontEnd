@@ -119,3 +119,132 @@
       width: 100%;
   }
 }
+
+.profile-update {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-update input {
+  width: 80%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+
+
+/* 🔹 Improved Modal Styling */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px); /* 🔹 Soft Blur Background */
+}
+
+/* 🔹 Modal Content */
+.modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 12px; /* 🔹 Softer Corners */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 450px; /* 🔹 Slightly Wider */
+  text-align: center;
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* 🔹 Modal Title */
+.modal-content h3 {
+  margin-bottom: 15px;
+  font-size: 20px;
+  color: #333;
+}
+
+
+/* 🔹 Modal Input Field (Fixed Width) */
+.modal-content input {
+  width: 90%;  /* ✅ Keeps input within the modal */
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  transition: border 0.3s ease-in-out;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 🔹 Focus Effect on Input */
+.modal-content input:focus {
+  border: 2px solid #3498db;
+  outline: none;
+}
+
+
+/* 🔹 Fade-In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🔹 Modal Buttons (Smaller & Properly Aligned) */
+.modal-actions {
+  display: flex;
+  justify-content: center; /* ✅ Center Align Buttons */
+  gap: 12px; /* ✅ Adds some space between buttons */
+  margin-top: 15px;
+}
+
+/* 🔹 Button Styling */
+.update-btn, .cancel-btn {
+  width: 120px; /* ✅ Fix Button Width */
+  padding: 8px 12px; /* ✅ Reduce Padding */
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease-in-out;
+  text-align: center;
+}
+
+/* 🔹 Update Button */
+.update-btn {
+  background: #3498db;
+  color: white;
+}
+
+.update-btn:hover {
+  background: #2980b9;
+  transform: scale(1.05);
+}
+
+/* 🔹 Cancel Button */
+.cancel-btn {
+  background: #e74c3c;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background: #c0392b;
+  transform: scale(1.05);
+}
