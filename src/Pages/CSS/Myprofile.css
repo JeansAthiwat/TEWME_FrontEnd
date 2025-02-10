@@ -1,34 +1,56 @@
+/* 🔹 Profile Container */
 .profile-container {
   max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 40px auto;
+  padding: 25px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
+/* 🔹 Profile Header */
 .profile-header {
   text-align: center;
   margin-bottom: 20px;
 }
 
+/* 🔹 Profile Picture */
 .profile-picture {
   width: 150px;
   height: 150px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  border: 3px solid #3498db;
+  transition: transform 0.3s ease;
 }
 
+/* 🔹 Hover Effect on Profile Picture */
+.profile-picture:hover {
+  transform: scale(1.05);
+}
+
+/* 🔹 Bio Section */
 .profile-bio {
   font-size: 16px;
-  color: #666;
+  color: #444;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
 }
 
+/* 🔹 Profile Details Section */
 .profile-details {
   margin-bottom: 20px;
+  padding: 15px;
+  background-color: #fafafa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+/* 🔹 Subjects List */
 .subjects-list {
   list-style-type: none;
   padding: 0;
@@ -37,16 +59,63 @@
 .subjects-list li {
   background-color: #f9f9f9;
   margin: 5px 0;
-  padding: 10px;
-  border-radius: 4px;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #2c3e50;
 }
 
+/* 🔹 Contact Section */
 .profile-contact {
   background-color: #f1f1f1;
   padding: 15px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 .profile-contact h2 {
   margin-top: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+/* 🔹 Edit Profile & Contact Buttons */
+.profile-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.profile-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.profile-button:hover {
+  background-color: #2980b9;
+  transform: scale(1.05);
+}
+
+/* 🔹 Responsive Design */
+@media (max-width: 768px) {
+  .profile-container {
+      width: 90%;
+      padding: 20px;
+  }
+
+  .profile-buttons {
+      flex-direction: column;
+      gap: 10px;
+  }
+
+  .profile-button {
+      width: 100%;
+  }
 }
