@@ -1,20 +1,25 @@
+/* 🔹 Form Container */
 .class-form-container {
   max-width: 800px;
-  margin: 2rem auto;
+  margin: 3rem auto;
   padding: 2rem;
-  background: #fff;
+  background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
+/* 🔹 Title Styling */
+.class-form-container h2 {
   color: #2c3e50;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
   gap: 10px;
+  font-size: 1.8rem;
+  font-weight: bold;
 }
 
+/* 🔹 Form Group (Label + Input) */
 .form-group {
   margin-bottom: 1.5rem;
 }
@@ -28,134 +33,7 @@ h2 {
   font-weight: 600;
 }
 
-/* 🔹 Video-Based Course Checkbox */
-.video-course-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1rem;
-  color: #34495e;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.video-course-checkbox input {
-  width: 18px;
-  height: 18px;
-  accent-color: #3498db;
-}
-
-/* 🔹 Date & Time Input Styling */
-.datetime-input {
-  width: 100%;
-  padding: 0.8rem;
-  border: 2px solid #dfe6e9;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.3s ease, background 0.3s ease;
-  background: #fff;
-}
-/* 🔹 Price Input Field */
-.price-input {
-  width: 100%;
-  padding: 0.8rem;
-  border: 2px solid #dfe6e9;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
-}
-.go-to-mycourses {
-  text-align: left;
-  /* margin-top: 20px; */
-  margin-bottom: 20px;
-}
-
-.mycourses-link {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #3498db;
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  transition: background 0.3s ease;
-}
-
-.mycourses-link:hover {
-  background-color: #2980b9;
-}
-
-
-.price-input:focus {
-  border-color: #3498db;
-  outline: none;
-}
-
-/* 🔹 Error styling for price */
-.error .price-input {
-  border-color: #e74c3c;
-}
-
-
-/* 🔹 Focus Effect */
-.datetime-input:focus {
-  border-color: #3498db;
-  outline: none;
-}
-
-/* 🔹 Disabled State (When Video-Based Course is selected) */
-.datetime-input:disabled {
-  background: #f1f1f1;
-  cursor: not-allowed;
-  color: #a0a0a0;
-  border-color: #dcdcdc;
-}
-
-
-/* 🔹 Video-Based Course Checkbox */
-.video-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1rem;
-  color: #34495e;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-/* 🔹 Checkbox Input Styling */
-.video-checkbox-input {
-  width: 18px;
-  height: 18px;
-  accent-color: #3498db;
-}
-
-/* 🔹 Video Link Input */
-.video-link-input {
-  width: 100%;
-  padding: 0.8rem;
-  border: 2px solid #dfe6e9;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
-}
-
-.video-link-input:focus {
-  border-color: #3498db;
-  outline: none;
-}
-
-/* 🔹 Error styling for Video Link */
-.error .video-link-input {
-  border-color: #e74c3c;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
+/* 🔹 Inputs, Textareas, & Select Styling */
 input, textarea, select {
   width: 100%;
   padding: 0.8rem;
@@ -168,8 +46,45 @@ input, textarea, select {
 input:focus, textarea:focus, select:focus {
   border-color: #3498db;
   outline: none;
+  background: #f9f9f9;
 }
 
+/* 🔹 Form Grid (For Multi-Column Layout) */
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* 🔹 Video-Based Course Checkbox */
+.video-course-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  color: #34495e;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* 🔹 Checkbox Styling */
+.video-course-checkbox input,
+.video-checkbox-input {
+  width: 18px;
+  height: 18px;
+  accent-color: #3498db;
+}
+
+/* 🔹 Disabled State (When Video-Based Course is selected) */
+.datetime-input:disabled {
+  background: #f1f1f1;
+  cursor: not-allowed;
+  color: #a0a0a0;
+  border-color: #dcdcdc;
+}
+
+/* 🔹 Tags Section */
 .tag-input {
   display: flex;
   gap: 10px;
@@ -190,12 +105,14 @@ input:focus, textarea:focus, select:focus {
   background: #2980b9;
 }
 
+/* 🔹 Tags Container */
 .tags-container {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
+/* 🔹 Individual Tags */
 .tag {
   background: #3498db15;
   color: #3498db;
@@ -212,11 +129,11 @@ input:focus, textarea:focus, select:focus {
   border: none;
   color: #e74c3c;
   cursor: pointer;
-  padding: 0;
   font-size: 1.1rem;
   line-height: 1;
 }
 
+/* 🔹 Submit Button */
 .submit-btn {
   background: #27ae60;
   color: white;
@@ -233,13 +150,32 @@ input:focus, textarea:focus, select:focus {
   background: #219a52;
 }
 
+/* 🔹 Error Input Styling */
 .error input, .error select, .error textarea {
   border-color: #e74c3c;
 }
 
+/* 🔹 Error Message */
 .error-message {
   color: #e74c3c;
   font-size: 0.9rem;
   margin-top: 0.5rem;
   display: block;
+}
+
+/* 🔹 Responsive Design */
+@media (max-width: 768px) {
+  .class-form-container {
+      width: 90%;
+      padding: 1.5rem;
+  }
+
+  .form-row {
+      grid-template-columns: 1fr;
+  }
+
+  .submit-btn {
+      font-size: 1rem;
+      padding: 0.8rem;
+  }
 }
