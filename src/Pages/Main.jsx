@@ -1,5 +1,5 @@
 import React from 'react';
-import Course from '../Components/Course/Course';
+import CourseItem from '../Components/Course/Course';
 import data_course from '../Components/Assets/all_course';
 import './CSS/Main.css';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +23,7 @@ const Main = ({ accountState }) => {
       <div className="course-container">
         {data_course.map((course, i) => (
           <div onClick={handleCourseClick} key={i}>
-          <Course
+          <CourseItem
             key={i}
             course_id={course.course_id}
             course_name={course.course_name}

@@ -15,15 +15,15 @@ const Mycourse = () => {
 
   return (
     <div className="Mycourse">
-      <h1>Your Courses</h1>
+      <h1>YOUR COURSES</h1>
+      <hr />
       <div>
         <Link to="/createcourse">
-          <button className="CreateCourse-button">
-            Create Course.
+          <button className="CreateCourse-button decorated-button">
+            Create Course
           </button>
         </Link>
       </div>
-      <hr />
       <div className="course-container">
         {courses.map(course => (
           <TutorCourse
