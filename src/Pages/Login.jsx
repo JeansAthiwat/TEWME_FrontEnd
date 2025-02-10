@@ -2,25 +2,51 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './CSS/Login.css';
 
-const Login = ({ handleLogin, accountState }) => {
+const Login = ({ accountState, setAccountState }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate(); // Hook for redirecting after login
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+
     try {
-      await handleLogin(email, password); // Call the function from App.jsx
+      const response = await fetch(`http://localhost:39189/auth/login`, { // Replace with your backend URL
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Login failed");
+      }
+
+      // Store token in local storage (if JWT is used)
+      localStorage.setItem('token', data.token);
+
+      // Update account state
+      // setAccountState('registered');
+      // not working right now
+      console.log("Logged in");
+
+      // Redirect to home page
+      navigate('/');
     } catch (error) {
-      console.error("Login error:", error);
+      setError(error.message);
     }
   };
 
   // Redirect when login is successful
   useEffect(() => {
-    if (accountState !== "unregistered") {
-      navigate('/'); // Redirect to Main route
+    if (accountState === "logged_in") {
+      navigate('/');
     }
   }, [accountState, navigate]);
 
@@ -28,6 +54,7 @@ const Login = ({ handleLogin, accountState }) => {
     <div className='login'>
       <div className="login-container">
         <h1>Sign in</h1>
+        {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="login-fields">
             <input 
