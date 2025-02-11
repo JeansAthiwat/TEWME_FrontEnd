@@ -17,9 +17,10 @@ const Login = ({ accountState, setAccountState }) => {
     try {
       await handleLogin(email, password, setAccountState); // ✅ Call centralized login function
       console.log("Logged in successfully");
-
+      console.log(accountState)
       // Redirect after login
-      navigate('/');
+      if (accountState === 'admin') navigate('/admin')
+      else navigate('/');
     } catch (error) {
       setError("Login failed! Check credentials.");
     }

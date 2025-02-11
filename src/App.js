@@ -34,6 +34,7 @@ function AppContent({ accountState, setAccountState }) {
       {shouldShowNavbar && <Navbar accountState={accountState} onLogout={handleLogout} />}
       <Routes>
         <Route path="/" element={<Main accountState={accountState} />} />
+        <Route path="/main" element={<Main accountState={accountState} />} />
         <Route path="/mycourse" element={<Mycourse accountState={accountState} />} />
         <Route path="/chatbox" element={<Chatbox />} />
         <Route path="/notification" element={<Notification />} />
