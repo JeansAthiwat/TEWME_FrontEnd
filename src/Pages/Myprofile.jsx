@@ -52,6 +52,22 @@ const Myprofile = () => {
     setModalValue(e.target.value);
   };
 
+  // 🔹 Handle Modal File Input
+  const handleProfilePictureChoose = async (e) => {
+    console.log(e.target.files[0])
+    const file = e.target.files[0]
+    const reader = new FileReader()
+    let base64img = ''
+    reader.onload = () => {
+      base64img = reader.result
+      setModalValue(base64img)
+    }
+    reader.onerror = () => {
+      console.log('Error reading file')
+    }
+    reader.readAsDataURL(file)
+  }
+
   // 🔹 Handle Profile Picture or Bio Update
   const handleUpdate = async () => {
     try {
@@ -130,12 +146,19 @@ const Myprofile = () => {
         <div className="modal">
           <div className="modal-content">
             <h3>{modalType === 'profilePicture' ? 'Update Profile Picture' : 'Update Bio'}</h3>
-            <input
+            {modalType !== 'profilePicture' &&
+              <input
               type="text"
               value={modalValue}
               onChange={handleModalChange}
               placeholder={`Enter new ${modalType}`}
-            />
+            />}
+            {modalType === 'profilePicture' &&
+              <input
+                type="file"
+                onChange={handleProfilePictureChoose}
+              />
+            }
             <div className="modal-actions">
               
               <button onClick={() => setIsModalOpen(false)} className="cancel-btn">Cancel</button>
