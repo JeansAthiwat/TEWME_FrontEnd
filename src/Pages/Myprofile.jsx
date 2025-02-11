@@ -28,9 +28,9 @@ const Myprofile = ({profilePicture, setProfilePicture}) => {
 
         const data = await response.json();
         if (!response.ok) throw new Error(data.msg || 'Failed to fetch profile');
-        console.log(data)
+
         setUser(data);
-        
+        // setProfilePicture(user.profilePicture)
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -39,6 +39,7 @@ const Myprofile = ({profilePicture, setProfilePicture}) => {
     };
 
     getUserProfile();
+    
   }, []);
 
   // 🔹 Open Modal for Editing
@@ -93,12 +94,14 @@ const Myprofile = ({profilePicture, setProfilePicture}) => {
       if (!response.ok) throw new Error(data.msg || `Failed to update ${modalType}`);
 
       setUser(data.user);
-      setProfilePicture(user.profilePicture)
+      setProfile()
       showCustomAlert(`${modalType === 'profilePicture' ? 'Profile picture' : 'Bio'} updated successfully!`, 'success');
       setIsModalOpen(false);
     } catch (error) {
       showCustomAlert(error.message, 'error');
     }
+
+    
   };
 
   // 🔹 Custom Alert Box
@@ -121,7 +124,14 @@ const Myprofile = ({profilePicture, setProfilePicture}) => {
   if (error) {
     return <div className="profile-container"><h2>Error: {error}</h2></div>;
   }
-  setProfilePicture(user.profilePicture)
+
+  const setProfile = () => {
+    setProfilePicture(user.profilePicture)
+    localStorage.setItem("profilePicture", user.profilePicture);
+  }
+  
+  setProfile()
+
   return (
     <div className="profile-container">
       <div className="profile-header">

@@ -115,7 +115,7 @@ const AdminPage = () => {
               <td>{tutor.verified ? 'Verified' : 'Unverified'}</td>
               <td>
                 {!tutor.verified && (
-                  <>
+                  <div className='action-buttons'>
                     <button
                       className="verify-btn"
                       onClick={() => handleVerify(tutor)}
@@ -128,7 +128,7 @@ const AdminPage = () => {
                     >
                       Reject
                     </button>
-                  </>
+                  </div>
                 )}
               </td>
             </tr>

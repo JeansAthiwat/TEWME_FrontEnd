@@ -21,7 +21,7 @@ export const handleLogin = async (email, password, setAccountState, setProfilePi
     // setProfilePicture(data.user.profilePicture)
     setAccountState(data.user.role); // Role should be 'user' or 'admin'
     console.log(data.user.role)
-    localStorage.setItem("profilePicture", data.user.profilePicture);
+    // localStorage.setItem("profilePicture", data.user.profilePicture);
     return data;
   } catch (error) {
     console.error("Login error:", error);
