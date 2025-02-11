@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { handleLogin } from '../utils/authHandlers'; // ✅ Import the correct function
 import './CSS/Login.css';
 
-const Login = ({ accountState, setAccountState }) => {
+const Login = ({ accountState, setAccountState , setProfilePicture}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -15,12 +15,10 @@ const Login = ({ accountState, setAccountState }) => {
     setError('');
 
     try {
-      await handleLogin(email, password, setAccountState); // ✅ Call centralized login function
+      await handleLogin(email, password, setAccountState, setProfilePicture); // ✅ Call centralized login function
       console.log("Logged in successfully");
-      console.log(accountState)
-      // Redirect after login
-      if (accountState === 'admin') navigate('/admin')
-      else navigate('/');
+
+      navigate('/profile');
     } catch (error) {
       setError("Login failed! Check credentials.");
     }
