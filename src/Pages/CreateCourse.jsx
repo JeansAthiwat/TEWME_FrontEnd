@@ -73,7 +73,7 @@ const LiveClassForm = () => {
         subject: formData.tags.join(", "), // Joining tags into a string
         price: parseFloat(formData.price),
         course_length: formData.isVideoCourse ? parseFloat(formData.courseLength) : parseFloat(formData.duration),
-        course_capacity: formData.isVideoCourse ? 0 : parseInt(formData.maxStudents, 10),
+        course_capacity: formData.isVideoCourse ? 999 : parseInt(formData.maxStudents, 10),
         session_status: "Schedule",
         is_publish: true,
         course_type: formData.isVideoCourse ? "Video" : "Live",
@@ -338,7 +338,7 @@ const LiveClassForm = () => {
               value={formData.maxStudents}
               onChange={handleChange}
               placeholder="Enter max students"
-              min="1"
+        
               className="max-students-input"
             />
             {errors.maxStudents && (
