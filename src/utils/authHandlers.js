@@ -17,8 +17,7 @@ export const handleLogin = async (email, password, setAccountState) => {
     localStorage.setItem('token', data.token);
 
     // ✅ Set account state based on user role
-    setAccountState(data.role); // Role should be 'user' or 'admin'
-
+    setAccountState(data.user.role); // Role should be 'user' or 'admin'
     return data;
   } catch (error) {
     console.error("Login error:", error);

@@ -6,6 +6,27 @@ import { Link, useNavigate } from 'react-router-dom'
 const Navbar = ({ accountState, onLogout }) => {
   const [menu,setMenu] = useState("main")
   const navigate = useNavigate();
+  const navObjects = [
+    { "name": "Main",
+      "path": "main",
+      "permission" : "all"
+    },
+    {"name":"My Courses",
+      "path": "mycourse",
+      "permission" : "tutor"
+    },
+    {"name":"Verify Tutors",
+      "path": "admin",
+      "permission" : "admin"
+    },
+    {"name": "Chat Box",
+      "path": "chatbox",
+      "permission" : "all"
+    },
+    {"name": "Notifications",
+      "path": "notification",
+      "permission" : "all"
+    },]
 
   const handleLogoutClick = () => {
     onLogout();
@@ -16,13 +37,24 @@ const Navbar = ({ accountState, onLogout }) => {
     if (accountState === "unregistered" && path !== '/') {
       alert("Please login to access this feature");
       // navigate('/login');
+      
       navigate('/');
       return;
     }
+  
     setMenu(menuItem);
     navigate(path);
   };
 
+  const displayNav = (obj) => {
+    const path = '/'+obj.path
+    return (obj.permission === "all" || accountState === obj.permission) && <li 
+    onClick={()=>handleNavClick(path, obj.path)}>
+      <Link style={{textDecoration : 'none'}} to={path}>{obj.name}</Link>
+      {menu===obj.path?<hr/>:<></>}
+      </li>
+  }
+  
   return (
     <div className='navbar'>
         <div className='nav-logo'>
@@ -30,10 +62,7 @@ const Navbar = ({ accountState, onLogout }) => {
             <p>TewMe</p>
         </div>
         <ul className='nav-menu'>
-          <li onClick={()=>handleNavClick('/', 'main')}><Link style={{textDecoration : 'none'}} to='/'>Main</Link>{menu==="main"?<hr/>:<></>}</li>
-          <li onClick={()=>handleNavClick('/mycourse', 'mycourse')}><Link style={{textDecoration : 'none'}} to='/mycourse'>My Courses</Link>{menu==="mycourse"?<hr/>:<></>}</li>
-          <li onClick={()=>handleNavClick('/chatbox', 'chatbox')}><Link style={{textDecoration : 'none'}} to='/chatbox'>Chat Box</Link>{menu==="chatbox"?<hr/>:<></>}</li>
-          <li onClick={()=>handleNavClick('/notification', 'notification')}><Link style={{textDecoration : 'none'}} to='/notification'>Notifications</Link>{menu==="notification"?<hr/>:<></>}</li>
+          {navObjects.map(displayNav)}
         </ul>
         <div className="nav-login-profile">
           {accountState === "unregistered" ? (
