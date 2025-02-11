@@ -61,6 +61,7 @@
 .action-buttons {
   display: flex;
   gap: 8px;
+  margin:0 10px 0 0;
 }
 
 /* Verify Button */
@@ -68,6 +69,7 @@
   background-color: #4caf50;
   color: white;
   border: none;
+
   padding: 8px 14px;
   font-size: 14px;
   border-radius: 6px;

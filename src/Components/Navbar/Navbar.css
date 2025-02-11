@@ -1,17 +1,18 @@
-.navbar{
+.navbar {
     display: flex;
     justify-content: space-between;
     padding: 16px 30px;
     box-shadow: 0 1px 3px -2px black;
 }
 
-.nav-logo p{
+.nav-logo p {
     color: #171717;
-    font-size: 38px;
-    font-weight: 600;
+    font-size: 3.5em;
+    font-weight: 800;
+    font-family: 'Agu Display', sans-serif;
 }
 
-.nav-menu{
+.nav-menu {
     display: flex;
     align-items: center;
     list-style: none;
@@ -21,7 +22,7 @@
     font-weight: 500;
 }
 
-.nav-menu li{
+.nav-menu li {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -30,7 +31,7 @@
     cursor: pointer;
 }
 
-.nav-menu hr{
+.nav-menu hr {
     border: none;
     width: 80%;
     height: 3px;
@@ -38,13 +39,8 @@
     background: #ff4141;
 }
 
-.nav-login-profile{
-    display: flex;
-    align-items: center;
-    gap: 30px;
-}
 
-.nav-login-profile button{
+.nav-login-profile button {
     width: 157px;
     height: 58px;
     outline: none;
@@ -57,17 +53,57 @@
     cursor: pointer;
 }
 
-.nav-login-profile button:active{
+.nav-login-profile button:active {
     background: #f3f3f3;
 }
 
-.nav-login-profile img{
-    width: 50px;
-    height: 50px;
+
+
+
+
+.nav-login-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* ✅ Adds proper spacing between logout button & profile picture */
 }
 
+/* 🔹 Fix Logout Button */
 .nav-login-profile .logout-btn {
-    background: #ff4141;
+    background: linear-gradient(135deg, #ff4b4b, #ff1414);
     color: white;
     border: none;
-  }
+    padding: 8px 18px; /* ✅ Reduced padding */
+    font-size: 16px; /* ✅ Slightly smaller font */
+    font-weight: 600;
+    border-radius: 25px; /* ✅ Slightly more rounded */
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 2px 5px rgba(255, 65, 65, 0.3);
+}
+
+/* 🔹 Hover & Click Effects */
+.nav-login-profile .logout-btn:hover {
+    background: linear-gradient(135deg, #ff2d2d, #d60000);
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(255, 65, 65, 0.5);
+}
+
+.nav-login-profile .logout-btn:active {
+    transform: scale(0.97);
+}
+
+/* 🔹 Fix Profile Picture Alignment */
+.nav-login-profile img {
+    width: 45px; /* ✅ Slightly smaller */
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* 🔹 Hover Effect for Profile Picture */
+.nav-login-profile img:hover {
+    transform: scale(1.05);
+}
+

@@ -24,9 +24,11 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
   const hideNavbarPaths = ['/login', '/signup', '/resetpassword'];
   const shouldShowNavbar = !hideNavbarPaths.includes(location.pathname);
 
+  setProfilePicture(localStorage.getItem('profilePicture'));
   const handleLoginWrapper = (email, password) => handleLogin(email, password, setAccountState);
 
   const handleLogout = () => {
+    localStorage.removeItem('profilePicture');
     localStorage.removeItem('token'); // ✅ Remove token on logout
     localStorage.removeItem('accountState'); // ✅ Remove saved user role
     setAccountState("unregistered");
