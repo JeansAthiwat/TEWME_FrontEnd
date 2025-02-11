@@ -28,9 +28,9 @@ const Myprofile = ({profilePicture, setProfilePicture}) => {
 
         const data = await response.json();
         if (!response.ok) throw new Error(data.msg || 'Failed to fetch profile');
-
+        console.log(data)
         setUser(data);
-        // setProfilePicture(user.profilePicture)
+        
         setLoading(false);
       } catch (error) {
         setError(error.message);
