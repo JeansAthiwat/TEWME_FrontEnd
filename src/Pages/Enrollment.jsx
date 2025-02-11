@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import CourseItem from '../Components/Course/Course'
+import { Link } from 'react-router-dom'
 
 const Enrollment = () => {
     const [courses, setCourses] = useState([])
@@ -44,10 +45,9 @@ const Enrollment = () => {
           <hr />
           <div className="course-container">
             {courses.map((course, i) => (
-              <div onClick={console.log("clicko!")} key={i}>
               <CourseItem
                 key={i}
-                course_id={course.course_id}
+                course_id={course._id}
                 course_name={course.course_name}
                 image={course.image}
                 price={course.price}
@@ -55,7 +55,6 @@ const Enrollment = () => {
                 course_length={course.course_length}
                 course_type={course.course_type}
               />
-              </div>
             ))}
           </div>
         </div>
