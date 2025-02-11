@@ -1,16 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./CSS/Mycourse.css";
-import data_course from "../Components/Assets/tutor_course_list.js";
 import TutorCourse from "../Components/Tutor_Course/TutorCourse.jsx";
 
 const Mycourse = () => {
-  // Use state to manage the list of courses
-  const [courses, setCourses] = React.useState(data_course);
+  const [courses, setCourses] = useState([]);
 
-  // Function to delete a course by its course_id
-  const deleteCourse = (courseId) => {
-    setCourses(courses.filter(course => course.course_id !== courseId));
+  // Fetch courses from backend
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch("http://localhost:39189/course"); // Adjust URL as needed
+        if (!response.ok) throw new Error("Failed to fetch courses");
+        const data = await response.json();
+        setCourses(data);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+  // Function to delete a course
+  const deleteCourse = async (courseId) => {
+    try {
+      const response = await fetch(`http://localhost:39189/course/${courseId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) throw new Error("Failed to delete course");
+
+      // Remove the deleted course from state
+      setCourses(courses.filter((course) => course._id !== courseId));
+    } catch (error) {
+      console.error("Error deleting course:", error);
+    }
   };
 
   return (
@@ -25,12 +50,12 @@ const Mycourse = () => {
         </Link>
       </div>
       <div className="course-container">
-        {courses.map(course => (
+        {courses.map((course) => (
           <TutorCourse
-            key={course.course_id}
-            course_id={course.course_id}
+            key={course._id}
+            course_id={course._id}
             course_name={course.course_name}
-            image={course.image}
+            image={course.image || "default-image-url.jpg"} // Handle missing images
             price={course.price}
             subject={course.subject}
             course_length={course.course_length}
