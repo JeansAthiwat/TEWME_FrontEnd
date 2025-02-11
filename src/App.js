@@ -15,6 +15,7 @@ import Footer from './Components/Footer/Footer';
 import Resetpassword from './Pages/Resetpassword';
 import LiveClassForm from './Pages/CreateCourse';
 import AdminPage from './Pages/AdminPage';
+import VideoPage from './Pages/VideoPage'
 
 function AppContent({ accountState, setAccountState }) {
   const location = useLocation();
@@ -38,6 +39,7 @@ function AppContent({ accountState, setAccountState }) {
         <Route path="/mycourse" element={<Mycourse accountState={accountState} />} />
         <Route path="/chatbox" element={<Chatbox />} />
         <Route path="/notification" element={<Notification />} />
+        <Route path='/course/:courseId/video/:videoNumber' element={<VideoPage />} />
         <Route path="/course/:courseId" element={<Course />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login handleLogin={handleLoginWrapper} accountState={accountState} setAccountState={setAccountState} />} />
