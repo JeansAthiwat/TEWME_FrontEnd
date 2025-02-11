@@ -34,6 +34,7 @@ const Myprofile = ({profilePicture, setProfilePicture}) => {
         setLoading(false);
       } catch (error) {
         setError(error.message);
+        // setProfilePicture(localStorage.getItem('profilePicture'));
         setLoading(false);
       }
     };

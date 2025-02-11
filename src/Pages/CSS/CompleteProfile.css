@@ -1,0 +1,147 @@
+/* 🔹 Centering the form */
+.complete-profile {
+    max-width: 500px;
+    margin: 80px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+  
+  /* 🔹 Page Title */
+  .complete-profile h1 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+  
+  /* 🔹 Input Fields */
+  .complete-profile input,
+  .complete-profile select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #d1d1d1;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border 0.3s ease;
+  }
+  
+  /* 🔹 Focus Effect */
+  .complete-profile input:focus,
+  .complete-profile select:focus {
+    border-color: #3498db;
+    outline: none;
+  }
+  
+  /* 🔹 Date Input Styling */
+  .complete-profile input[type="date"] {
+    cursor: pointer;
+  }
+  
+  /* 🔹 Label Styling */
+  .complete-profile label {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    color: #2c3e50;
+    text-align: left;
+    margin-bottom: 6px;
+  }
+  
+  /* 🔹 Save Button */
+  .complete-profile button {
+    background: #3498db;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    width: 100%;
+    transition: background 0.3s ease, transform 0.2s;
+  }
+  
+  /* 🔹 Hover Effect */
+  .complete-profile button:hover {
+    background: #2980b9;
+    transform: scale(0.98);
+  }
+  
+  /* 🔹 Error Message */
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+  
+  /* 🔹 Responsive Design */
+  @media (max-width: 600px) {
+    .complete-profile {
+      width: 90%;
+      padding: 20px;
+    }
+  
+    .complete-profile h1 {
+      font-size: 22px;
+    }
+  }
+  
+  .complete-profile-container {
+    max-width: 500px;  /* ✅ Adjust width */
+    margin: 40px auto;  /* ✅ Center align */
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.complete-profile-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.complete-profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.complete-profile-form input,
+.complete-profile-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    outline: none;
+}
+
+.complete-profile-form button {
+    width: 100%;
+    padding: 12px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.complete-profile-form button:hover {
+    background: #2980b9;
+}
+
+@media (max-width: 768px) {
+    .complete-profile-container {
+        width: 90%;
+        padding: 20px;
+    }
+}
