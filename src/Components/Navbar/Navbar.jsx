@@ -1,29 +1,33 @@
 import React, { useState } from 'react'
 import "./Navbar.css"
-import profile_icon from '../Assets/profile_icon.png'
 import { Link, useNavigate } from 'react-router-dom'
 
-const Navbar = ({ accountState, onLogout }) => {
+const Navbar = ({ accountState, onLogout , profilePicture}) => {
   const [menu,setMenu] = useState("main")
   const navigate = useNavigate();
   const navObjects = [
-    { "name": "Main",
+    { "id": 1,
+      "name": "Main",
       "path": "main",
       "permission" : "all"
     },
-    {"name":"My Courses",
+    {"id": 2,
+      "name":"My Courses",
       "path": "mycourse",
       "permission" : "tutor"
     },
-    {"name":"Verify Tutors",
+    {"id": 3,
+      "name":"Verify Tutors",
       "path": "admin",
       "permission" : "admin"
     },
-    {"name": "Chat Box",
+    {"id": 4,
+      "name": "Chat Box",
       "path": "chatbox",
       "permission" : "all"
     },
-    {"name": "Notifications",
+    {"id": 5,
+      "name": "Notifications",
       "path": "notification",
       "permission" : "all"
     },]
@@ -41,20 +45,20 @@ const Navbar = ({ accountState, onLogout }) => {
       navigate('/');
       return;
     }
-  
+    
     setMenu(menuItem);
     navigate(path);
   };
 
   const displayNav = (obj) => {
     const path = '/'+obj.path
-    return (obj.permission === "all" || accountState === obj.permission) && <li 
-    onClick={()=>handleNavClick(path, obj.path)}>
+    return (obj.permission === "all" || accountState === obj.permission) && 
+    <li key={obj.id} onClick={()=>handleNavClick(path, obj.path)}>
       <Link style={{textDecoration : 'none'}} to={path}>{obj.name}</Link>
       {menu===obj.path?<hr/>:<></>}
-      </li>
+    </li>
   }
-  
+
   return (
     <div className='navbar'>
         <div className='nav-logo'>
@@ -72,7 +76,8 @@ const Navbar = ({ accountState, onLogout }) => {
             Logout
           </button>
         )}
-          <Link to='/myprofile'><img src={profile_icon} alt="" /></Link>
+          {/* {console.log(profilePicture)} */}
+          <Link to='/myprofile'><img src={profilePicture} alt="" /></Link>
         </div>
     </div>
   )

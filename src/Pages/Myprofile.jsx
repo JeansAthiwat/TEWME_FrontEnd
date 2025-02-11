@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './CSS/Myprofile.css';
 
-const Myprofile = () => {
+const Myprofile = ({profilePicture, setProfilePicture}) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -30,6 +30,7 @@ const Myprofile = () => {
         if (!response.ok) throw new Error(data.msg || 'Failed to fetch profile');
 
         setUser(data);
+        // setProfilePicture(user.profilePicture)
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -92,6 +93,7 @@ const Myprofile = () => {
       if (!response.ok) throw new Error(data.msg || `Failed to update ${modalType}`);
 
       setUser(data.user);
+      setProfilePicture(user.profilePicture)
       showCustomAlert(`${modalType === 'profilePicture' ? 'Profile picture' : 'Bio'} updated successfully!`, 'success');
       setIsModalOpen(false);
     } catch (error) {
@@ -119,12 +121,13 @@ const Myprofile = () => {
   if (error) {
     return <div className="profile-container"><h2>Error: {error}</h2></div>;
   }
-
+  setProfilePicture(user.profilePicture)
   return (
     <div className="profile-container">
       <div className="profile-header">
+        
         <img
-          src={user.profilePicture || 'https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg'}
+          src={profilePicture || 'https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg'}
           alt={`${user.firstname}'s profile`}
           className="profile-picture"
           onClick={() => openModal('profilePicture')} // 🔹 Click to open modal
