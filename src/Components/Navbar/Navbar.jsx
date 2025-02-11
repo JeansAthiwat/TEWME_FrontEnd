@@ -52,7 +52,7 @@ const Navbar = ({ accountState, onLogout , profilePicture}) => {
 
   const displayNav = (obj) => {
     const path = '/'+obj.path
-    return (obj.permission === "all" || accountState === obj.permission) && 
+    return accountState !== 'unregistered' && (obj.permission === "all" || accountState === obj.permission) && 
     <li key={obj.id} onClick={()=>handleNavClick(path, obj.path)}>
       <Link style={{textDecoration : 'none'}} to={path}>{obj.name}</Link>
       {menu===obj.path?<hr/>:<></>}
@@ -75,9 +75,9 @@ const Navbar = ({ accountState, onLogout , profilePicture}) => {
           <button className="logout-btn" onClick={handleLogoutClick}>
             Logout
           </button>
+          
         )}
-          {/* {console.log(profilePicture)} */}
-          <Link to='/myprofile'><img src={profilePicture} alt="" /></Link>
+         {accountState !== "unregistered" && <Link to='/myprofile'><img src={profilePicture} alt="" /></Link>}
         </div>
     </div>
   )

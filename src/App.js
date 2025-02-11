@@ -30,6 +30,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
     localStorage.removeItem('token'); // ✅ Remove token on logout
     localStorage.removeItem('accountState'); // ✅ Remove saved user role
     setAccountState("unregistered");
+    setProfilePicture(profile_icon)
   };
 
   useEffect(() => {
