@@ -30,10 +30,11 @@ const Myprofile = ({profilePicture, setProfilePicture}) => {
         if (!response.ok) throw new Error(data.msg || 'Failed to fetch profile');
 
         setUser(data);
-        // setProfilePicture(user.profilePicture)
+        console.dir(data)
         setLoading(false);
       } catch (error) {
         setError(error.message);
+        // setProfilePicture(localStorage.getItem('profilePicture'));
         setLoading(false);
       }
     };
@@ -127,10 +128,11 @@ const Myprofile = ({profilePicture, setProfilePicture}) => {
 
   const setProfile = () => {
     setProfilePicture(user.profilePicture)
-    localStorage.setItem("profilePicture", user.profilePicture);
+
   }
   
   setProfile()
+  
 
   return (
     <div className="profile-container">
