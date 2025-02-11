@@ -9,6 +9,7 @@ import Chatbox from './Pages/Chatbox';
 import Notification from './Pages/Notification';
 import Course from './Pages/Course';
 import Myprofile from './Pages/Myprofile';
+import Enrollment from './Pages/Enrollment';
 import Cart from './Pages/Cart';
 import Signup from './Pages/Signup';
 import Footer from './Components/Footer/Footer';
@@ -38,6 +39,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
         <Route path="/" element={<Main accountState={accountState} />} />
         <Route path="/main" element={<Main accountState={accountState} />} />
         <Route path="/mycourse" element={<Mycourse accountState={accountState} />} />
+        <Route path="/enrollment" element={<Enrollment/>} />
         <Route path="/chatbox" element={<Chatbox />} />
         <Route path="/notification" element={<Notification />} />
         <Route path='/course/:courseId/video/:videoNumber' element={<VideoPage />} />
