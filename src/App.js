@@ -18,7 +18,6 @@ import AdminPage from './Pages/AdminPage';
 import VideoPage from './Pages/VideoPage'
 import profile_icon from './Components/Assets/profile_icon.png'
 
-import profile_icon from './Components/Assets/profile_icon.png'
 function AppContent({ accountState, setAccountState, profilePicture, setProfilePicture}) {
   const location = useLocation();
   const hideNavbarPaths = ['/login', '/signup', '/resetpassword'];
