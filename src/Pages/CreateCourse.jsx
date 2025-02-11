@@ -64,20 +64,50 @@ const LiveClassForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      try {
-        console.log("Submitting form:", formData);
-        // Example API call
-        // const response = await fetch('/api/schedule-class', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify(formData),
-        // });
-        // const result = await response.json();
-        // console.log(result);
+  e.preventDefault();
+  if (validateForm()) {
+    try {
+      const courseData = {
+        course_name: formData.title,
+        course_description: formData.description,
+        subject: formData.tags.join(", "), // Joining tags into a string
+        price: parseFloat(formData.price),
+        course_length: formData.isVideoCourse ? parseFloat(formData.courseLength) : parseFloat(formData.duration),
+        course_capacity: formData.isVideoCourse ? 0 : parseInt(formData.maxStudents, 10),
+        session_status: "Schedule",
+        is_publish: true,
+        course_type: formData.isVideoCourse ? "Video" : "Live",
+        t_email: "tutor@example.com", // Replace with authenticated tutor email
+        tags: formData.tags,
+        live_detail: formData.isVideoCourse
+          ? null
+          : {
+              location: formData.location,
+              start_time: formData.datetime,
+            },
+        videos: formData.isVideoCourse
+          ? [
+              {
+                video_id: formData.videoLink,
+                video_title: formData.title,
+                video_urls: formData.videoLink,
+              },
+            ]
+          : [],
+      };
 
-        // Reset form after submission
+      const response = await fetch("http://localhost:39189/course", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(courseData),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        alert("Course Created Successfully!");
+        console.log("Created Course:", data);
         setFormData({
           title: "",
           description: "",
@@ -87,18 +117,21 @@ const LiveClassForm = () => {
           tags: [],
           isVideoCourse: false,
           videoLink: "",
-          courseLength: "", // 🆕 Add course length
-          maxStudents: "", // 🆕 Add max students
+          courseLength: "",
+          maxStudents: "",
+          price: "",
         });
-        setInputTag("");
-        setErrors({});
-
         navigate("/mycourse");
-      } catch (error) {
-        console.error("Error submitting form:", error);
+      } else {
+        alert(`Failed to create course: ${data.message}`);
       }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Error creating course");
     }
-  };
+  }
+};
+
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
