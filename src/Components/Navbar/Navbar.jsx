@@ -60,6 +60,7 @@ const Navbar = ({ accountState, onLogout , profilePicture}) => {
   }
 
   return (
+    <>
     <div className='navbar'>
         <div className='nav-logo'>
             {/* <img src={profile_icon} alt=""/> */}
@@ -80,6 +81,8 @@ const Navbar = ({ accountState, onLogout , profilePicture}) => {
           <Link to='/myprofile'><img src={profilePicture} alt="" /></Link>
         </div>
     </div>
+    <div className="dummy-elem"></div> {/* If delete this element navbar will be on top of the page elements */}
+    </>
   )
 }
 
