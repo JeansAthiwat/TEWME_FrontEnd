@@ -1,21 +1,37 @@
-* {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Universal Reset */
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Global Body Styles */
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Sarabun', sans-serif;
+  background-color: theme('colors.background');
+  color: theme('colors.textPrimary');
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
 }
 
+/* Link Styling for Consistency */
+a {
+  color: theme('colors.primary');
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Code Element Styling */
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'Source Code Pro', Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
