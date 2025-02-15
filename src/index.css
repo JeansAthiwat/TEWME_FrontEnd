@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 /* Universal Reset */
 *,
@@ -13,7 +11,7 @@
 
 /* Global Body Styles */
 body {
-  font-family: 'Sarabun', sans-serif;
+  font-family: 'Inter', sans-serif;
   background-color: theme('colors.background');
   color: theme('colors.textPrimary');
   -webkit-font-smoothing: antialiased;
