@@ -17,8 +17,8 @@ export const handleLogin = async (email, password, setAccountState, setProfilePi
     localStorage.setItem('token', data.token);
 
     // ✅ Set account state based on user role
-    console.log(data.user)
-    // setProfilePicture(data.user.profilePicture)
+    // console.dir(data)
+    setProfilePicture(data.user.profilePicture)
     setAccountState(data.user.role); // Role should be 'user' or 'admin'
     console.log(data.user.role)
     // localStorage.setItem("profilePicture", data.user.profilePicture);

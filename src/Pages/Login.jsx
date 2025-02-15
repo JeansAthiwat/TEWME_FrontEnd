@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { handleLogin } from '../utils/authHandlers'; // ✅ Import the correct function
+import GoogleLogin from '../Components/GoogleLogin/GoogleLogin'; // ✅ Import Google Login component
 import './CSS/Login.css';
 
-const Login = ({ accountState, setAccountState , setProfilePicture}) => {
+const Login = ({ accountState, setAccountState , setProfilePicture }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -15,10 +16,10 @@ const Login = ({ accountState, setAccountState , setProfilePicture}) => {
     setError('');
 
     try {
-      await handleLogin(email, password, setAccountState, setProfilePicture); // ✅ Call centralized login function
+      await handleLogin(email, password, setAccountState, setProfilePicture) // ✅ Call centralized login function
       console.log("Logged in successfully");
-
       
+
     } catch (error) {
       setError("Login failed! Check credentials.");
     }
@@ -27,8 +28,9 @@ const Login = ({ accountState, setAccountState , setProfilePicture}) => {
   // Redirect when login is successful
   useEffect(() => {
     if (accountState !== "unregistered") {
-      navigate('/myprofile');
-      navigate('/');
+      // navigate('/myprofile');
+      // navigate('/myprofile')
+      navigate('/')
     }
   }, [accountState, navigate]);
 
@@ -67,6 +69,12 @@ const Login = ({ accountState, setAccountState , setProfilePicture}) => {
           </div>
           <button type="submit">Sign in</button>
         </form>
+
+        {/* 🔹 Google Login Button */}
+        <div className="google-login-container">
+          <GoogleLogin />
+        </div>
+
         <p className="login-signup">
           Don't have an account?
           <Link to='/signup' style={{ textDecoration: 'none' }} className='link'>Sign Up<hr /></Link>
