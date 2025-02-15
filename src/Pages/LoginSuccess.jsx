@@ -31,8 +31,11 @@ const LoginSuccess = ({ setAccountState, setProfilePicture }) => {
         setProfilePicture(data.profilePicture || '');
 
         if (!data.firstname || !data.lastname || !data.phone || !data.birthdate || data.role === 'google_user') {
+          console.log("🔴 Incomplete profile detected, redirecting to complete-profile");
+          console.log(data);
           navigate('/complete-profile');
         } else {
+          console.log("✅ Profile is complete, redirecting to home");
           navigate('/');
         }
       })

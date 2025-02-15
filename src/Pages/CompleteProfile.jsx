@@ -28,6 +28,8 @@ const CompleteProfile = ({ setAccountState, setProfilePicture }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
+        console.log("🚀 Sending Profile Data:", formData);
+        console.log("Json Data:", JSON.stringify(formData));
 
         try {
             const response = await fetch('http://localhost:39189/api/profile/complete-profile', {
