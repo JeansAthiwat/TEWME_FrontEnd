@@ -16,10 +16,11 @@ import Footer from './Components/Footer/Footer';
 import Resetpassword from './Pages/Resetpassword';
 import LiveClassForm from './Pages/CreateCourse';
 import AdminPage from './Pages/AdminPage';
-import VideoPage from './Pages/VideoPage'
-import profile_icon from './Components/Assets/profile_icon.png'
+import VideoPage from './Pages/VideoPage';
+import profile_icon from './Components/Assets/profile_icon.png';
 import CompleteProfile from './Pages/CompleteProfile';
 import LoginSuccess from './Pages/LoginSuccess';
+import FileUploader from './Components/ImageUpload/FileUploader'; // Import the uploader component
 
 function AppContent({ accountState, setAccountState, profilePicture, setProfilePicture }) {
   const location = useLocation();
@@ -33,7 +34,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
     localStorage.removeItem('token'); // ✅ Remove token on logout
     localStorage.removeItem('accountState'); // ✅ Remove saved user role
     setAccountState("unregistered");
-    setProfilePicture(profile_icon)
+    setProfilePicture(profile_icon);
   };
 
   useEffect(() => {
@@ -50,20 +51,22 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
         <Route path="/" element={<Main accountState={accountState} />} />
         <Route path="/main" element={<Main accountState={accountState} />} />
         <Route path="/mycourse" element={<Mycourse accountState={accountState} />} />
-        <Route path="/enrollment" element={<Enrollment/>} />
+        <Route path="/enrollment" element={<Enrollment />} />
         <Route path="/chatbox" element={<Chatbox />} />
         <Route path="/notification" element={<Notification />} />
-        <Route path='/course/:courseId/video/:videoNumber' element={<VideoPage />} />
+        <Route path="/course/:courseId/video/:videoNumber" element={<VideoPage />} />
         <Route path="/course/:courseId" element={<Course />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login handleLogin={handleLoginWrapper} accountState={accountState} setAccountState={setAccountState} setProfilePicture={setProfilePicture} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/myprofile" element={<Myprofile profilePicture={profilePicture} setProfilePicture={setProfilePicture} />} />
         <Route path="/resetpassword" element={<Resetpassword />} />
-        <Route path='/createcourse' element={<LiveClassForm />} />
-        <Route path='/admin' element={<AdminPage />} />
+        <Route path="/createcourse" element={<LiveClassForm />} />
+        <Route path="/admin" element={<AdminPage />} />
         <Route path="/login-success" element={<LoginSuccess setAccountState={setAccountState} setProfilePicture={setProfilePicture} />} />
         <Route path="/complete-profile" element={<CompleteProfile setAccountState={setAccountState} setProfilePicture={setProfilePicture} />} />
+        {/* New route for the Image Uploader */}
+        <Route path="/upload" element={<FileUploader />} />
       </Routes>
       <Footer />
     </>
