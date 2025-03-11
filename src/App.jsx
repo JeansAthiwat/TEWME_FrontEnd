@@ -20,6 +20,7 @@ import VideoPage from './Pages/VideoPage'
 import profile_icon from './Components/Assets/profile_icon.png'
 import CompleteProfile from './Pages/CompleteProfile';
 import LoginSuccess from './Pages/LoginSuccess';
+import TutorProfile from './Pages/TutorProfile';
 
 function AppContent({ accountState, setAccountState, profilePicture, setProfilePicture }) {
   const location = useLocation();
@@ -64,6 +65,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
         <Route path='/admin' element={<AdminPage />} />
         <Route path="/login-success" element={<LoginSuccess setAccountState={setAccountState} setProfilePicture={setProfilePicture} />} />
         <Route path="/complete-profile" element={<CompleteProfile setAccountState={setAccountState} setProfilePicture={setProfilePicture} />} />
+        <Route path='/tutor/:email' element={<TutorProfile />} />
       </Routes>
       <Footer />
     </>

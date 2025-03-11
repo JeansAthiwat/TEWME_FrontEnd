@@ -51,12 +51,15 @@ const Main = ({ accountState }) => {
     fetchItems();
   }, [inputSearch, sortBy, category, subject, courseType]);
 
-  const handleItemClick = (course_id) => {
+  const handleItemClick = (item) => {
     if (accountState === "unregistered") {
       alert("Please login to access content");
       navigate('/');
     } else {
-      navigate(`/${category}/${id}`); // ✅ รองรับทั้ง course และ tutor
+      const itemIden = category === "course" ? item.course_name : item.email; // ✅ ใช้ id ให้ถูกต้อง
+      const newUrl = `/${category}/${itemIden}`;
+      console.log("🔗 Navigating to:", newUrl); // ✅ Debug URL ก่อนเปลี่ยนหน้า
+      navigate(newUrl);
     }
   };
 
@@ -134,34 +137,34 @@ const Main = ({ accountState }) => {
         <p className="text-center text-red-500">{error}</p>
       ) : (
         <div className="grid grid-cols-3 gap-4">
-          {items.length > 0 ? (
-            items.map((item, i) => (
-              <div onClick={() => handleItemClick(category === "course" ? item.course_id : item.tutor_id)} key={i}>
-                {category === "course" ? (
-                  <CourseItem
-                    course_id={item.course_id}
-                    course_name={item.course_name}
-                    image={item.image}
-                    price={item.price}
-                    subject={item.subject}
-                    course_length={item.course_length}
-                    course_type={item.course_type}
-                  />
-                ) : (
-                  <TutorItem
-                    tutor_id={item.tutor_id}
-                    firstname={item.firstname}
-                    lastname={item.lastname}
-                    profile_picture={item.profile_picture}
-                    specialization={item.specialization}
-                  />
-                )}
-              </div>
-            ))
+    {items.length > 0 ? (
+      items.map((item, i) => (
+        <div onClick={() => handleItemClick(item)} key={i}>
+          {category === "course" ? (
+            <CourseItem
+              // course_id={item.course_id}
+              course_name={item.course_name}
+              image={item.image}
+              price={item.price}
+              subject={item.subject}
+              course_length={item.course_length}
+              course_type={item.course_type}
+            />
           ) : (
-            <p className="text-center text-gray-500 w-full">No {category} found.</p>
+            <TutorItem
+              // tutor_id={item.tutor_id}
+              firstname={item.firstname}
+              lastname={item.lastname}
+              profile_picture={item.profile_picture}
+              specialization={item.specialization}
+            />
           )}
         </div>
+      ))
+    ) : (
+      <p className="text-center text-gray-500 w-full">No {category} found.</p>
+    )}
+  </div>
       )}
     </div>
   );
