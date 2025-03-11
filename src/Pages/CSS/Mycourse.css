@@ -36,6 +36,35 @@
     display: inline-block;
 }
 
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow: auto; /* Allows scrolling if the modal exceeds viewport height */
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  width: 100% !important;          /* Increase the modal width */
+  max-width: 1200px !important;   /* Set a higher maximum width */
+  max-height: 90vh;    /* Prevent the modal from becoming too tall */
+  overflow-y: auto;    /* Enable vertical scrolling within the modal */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+
+
 /* 🔹 Button Hover Effect */
 .decorated-button:hover {
     background-color: #2980b9;
