@@ -20,8 +20,15 @@ import VideoPage from './Pages/VideoPage'
 import profile_icon from './Components/Assets/profile_icon.png'
 import CompleteProfile from './Pages/CompleteProfile';
 import LoginSuccess from './Pages/LoginSuccess';
+<<<<<<< HEAD
 import TutorProfile from './Pages/TutorProfile';
 import Reservation from './Pages/Reservation';
+=======
+
+import TutorProfile from './Pages/TutorProfile';
+import Reservation from './Pages/Reservation';
+
+>>>>>>> d8cd568d6e944893d031d8d2e868f9c00edc2091
 
 function AppContent({ accountState, setAccountState, profilePicture, setProfilePicture }) {
   const location = useLocation();
