@@ -24,9 +24,11 @@ const Course = () => {
   const handleDownload = () => {
     window.open(`http://localhost:39189/course/${courseId}/supplementary`, '_blank')
   }
-
+  
   return (
-    (course && videos.length) ? (
+    
+    (course) ? (
+      
       <div className='course'>
         <div className="course-title">{course.course_name}</div>
         {/* Render download button only if supplementary_file exists */}
@@ -46,7 +48,7 @@ const Course = () => {
           </button>
         )}
         <ul>
-          {course.videos.map((vid, index) => (
+          {course.videos && course.videos.map((vid, index) => (
             <li key={index}>
               <Link to={`video/${index}`}>
                 <button className="video-link">{vid.video_title}</button>

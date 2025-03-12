@@ -154,7 +154,7 @@ const MultiStepForm = ({setCourses, email, onClose }) => {
     if (formData.supplementaryFile) {
       courseData.append("supplementaryFile", formData.supplementaryFile);
     }
-    // console.log(courseData)
+    console.log(formData.supplementaryFile)
     try {
       const response = await fetch("http://localhost:39189/course", {
         method: "POST",
