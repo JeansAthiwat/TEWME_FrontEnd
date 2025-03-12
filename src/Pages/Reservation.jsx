@@ -7,7 +7,7 @@ const getSubjectColor = (subject) => {
     'Science': '#4ECDC4',    // Teal
     'Programming': '#45B7D1', // Blue
     'Art': '#96CEB4',        // Sage Green
-    'Language': '#FFEEAD',   // Light Yellow
+    'Language': '#ebd249',   // Light Yellow
     'Music': '#D4A5A5'       // Dusty Rose
   };
   return colorMap[subject] || '#666666'; // Default gray if subject not found
@@ -115,8 +115,11 @@ const Reservation = () => {
               <span className="value">{reservation.course.price} THB</span>
             </div>
             <div className="detail-row">
-              <span className="label">Reservation Date</span>
-              <span className="value">{new Date(reservation.createAt).toLocaleDateString()}</span>
+            <span className="label">Location / Time</span>
+                <span className="value">
+                    {reservation.course.live_detail.location} (
+                    {new Date(reservation.course.live_detail.start_time).toLocaleString()})
+                </span>
             </div>
           </div>
         </div>
