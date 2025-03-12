@@ -122,9 +122,9 @@ const TutorProfile = () => {
                     className="h-32 w-32 rounded-full object-cover border-4 border-background shadow-sm"
                   />
                   {tutor.verification_status && (
-                    <div className="absolute bottom-0 right-0 rounded-full bg-primary p-1 text-white">
-                      <CheckCircle size={18} />
-                    </div>
+                    <div className="absolute bottom-0 right-0 rounded-full bg-primary p-1 text-green">
+                    <CheckCircle size={18} />
+                  </div>
                   )}
                 </div>
                 
@@ -153,6 +153,10 @@ const TutorProfile = () => {
                   <div className="flex items-center justify-center text-sm">
                     <Mail size={16} className="mr-2 text-muted-foreground" />
                     <span>{tutor.email}</span>
+                  </div>
+                  <div className="flex items-center justify-center text-sm">
+                      <Phone size={16} className="mr-2 text-muted-foreground"/>
+                    <span>{tutor.phone}</span>
                   </div>
                 </div>
               </div>
@@ -195,8 +199,9 @@ const TutorProfile = () => {
             <div className="profile-section rounded-xl border bg-white p-6 shadow-sm">
               <h2 className="font-medium text-lg mb-4 flex items-center">
                 <Users size={20} className="mr-2 text-primary" />
-                About Me
+                Bio
                 </h2>
+                {tutor.bio}
               {/* <p className="text-md leading-relaxed">{tutor.bio}</p> */}
             </div>
             

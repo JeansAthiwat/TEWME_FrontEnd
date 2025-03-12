@@ -4,6 +4,8 @@ import "./CSS/Mycourse.css";
 //import TutorCourse from "../Components/Tutor_Course/TutorCourse.jsx";
 import MultiStepForm from "./MultiStepForm";
 import { FaCalculator, FaFlask, FaCode, FaPaintBrush, FaLanguage, FaMusic } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import defaultCourseIcon from "../Components/Assets/book.avif"
 
 const Mycourse = ({email}) => {
   const [courses, setCourses] = useState([]);
@@ -16,12 +18,14 @@ const Mycourse = ({email}) => {
         if (!response.ok) throw new Error("Failed to fetch courses");
         const data = await response.json();
         setCourses(data);
+        // console.log(data)
       } catch (error) {
         console.error("Error fetching courses:", error);
       }
     };
   
     fetchCourses();
+    console.log(courses)
   }, [email]); // Added `email` as a dependency
   
 
@@ -100,12 +104,15 @@ const Mycourse = ({email}) => {
               </button>
             </div>
             <div className="mycourse-title-section">
-              <div className="mycourse-image-wrapper">
+              <div className="mycourse-image-wrapper">        
+                <Link to={`/course/${course.id}`}>
                 <img 
-                  src={course.image || 'https://via.placeholder.com/150'} // Fallback image if none provided
+                  src={course.image || defaultCourseIcon} // Fallback image if none provided
                   alt={course.course_name}
                   className="mycourse-image"
                 />
+                </Link>
+
               </div>
               <div className="title-badge-wrapper">
                 <h2>{course.course_name}</h2>

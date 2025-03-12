@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Tutors.css';
+import './TutorItem.css';
 
 const TutorItem = (props) => {
   // console.log(props.profilePicture)
