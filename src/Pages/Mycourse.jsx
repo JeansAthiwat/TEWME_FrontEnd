@@ -42,14 +42,14 @@ const Mycourse = ({email}) => {
 
   const getSubjectColor = (subject) => {
     const colorMap = {
-      'Math': '#FF6B6B',
-      'Science': '#4ECDC4',
-      'Programming': '#45B7D1',
-      'Art': '#96CEB4',
-      'Language': '#FFEEAD',
-      'Music': '#D4A5A5'
+      'Math': '#3b82f6',      // Blue
+      'Science': '#10b981',   // Green
+      'Programming': '#6366f1', // Indigo
+      'Art': '#ec4899',       // Pink
+      'Language': '#f59e0b',  // Amber
+      'Music': '#8b5cf6'      // Purple
     };
-    return colorMap[subject] || '#666666';
+    return colorMap[subject] || '#64748b'; // Default gray
   };
 
   const getSubjectIcon = (subject) => {
@@ -65,26 +65,23 @@ const Mycourse = ({email}) => {
   };
 
   return (
-    <div className="reservation-container">
-      <div className="reservation-header">
+    <div className="mycourse-container">
+      <div className="mycourse-header">
         <h1>Your Courses</h1>
-        <div className="view-controls">
-          <button 
-            className="decorated-button"
-            onClick={openModal}
-          >
+        <div className="mycourse-view-controls">
+          <button className="decorated-button" onClick={openModal}>
             Create Course
           </button>
-          <div className="reservation-count">
-            <span className="count-number">{courses.length}</span>
-            <span className="count-text">Courses</span>
+          <div className="mycourse-count">
+            <span className="mycourse-count-number">{courses.length}</span>
+            <span className="mycourse-count-text">Courses</span>
           </div>
         </div>
       </div>
 
       {showModal && (
-        <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-overlay" onClick={closeModal} style={{ zIndex: 1000 }}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ zIndex: 1001 }}>
             <button className="close-button" onClick={closeModal}>X</button>
             <MultiStepForm setCourses={setCourses} email={email} onClose={closeModal} />
           </div>
@@ -93,48 +90,45 @@ const Mycourse = ({email}) => {
 
       <div className="courses-list">
         {courses.map((course) => (
-          <div key={course._id} className="course-header">
-            <div className="course-title-section">
-              <div className="course-image-wrapper">
+          <div key={course._id} className="mycourse-card">
+            <div className="delete-btn-wrapper">
+              <button 
+                className="delete-btn"
+                onClick={() => deleteCourse(course._id)}
+              >
+                Delete
+              </button>
+            </div>
+            <div className="mycourse-title-section">
+              <div className="mycourse-image-wrapper">
                 <img 
                   src={course.image || 'https://via.placeholder.com/150'} // Fallback image if none provided
                   alt={course.course_name}
-                  className="course-image"
+                  className="mycourse-image"
                 />
               </div>
               <div className="title-badge-wrapper">
                 <h2>{course.course_name}</h2>
                 <span 
-                  className="status-badge"
+                  className="mycourse-status-badge"
                   style={{ backgroundColor: getSubjectColor(course.subject) }}
                 >
                   {course.subject}
                 </span>
               </div>
             </div>
-            <div className="course-details">
-              <div className="detail-row">
-                <span className="label">Course Type</span>
-                <span className="value status-green">{course.course_type}</span>
+            <div className="mycourse-details">
+              <div className="mycourse-detail-row">
+                <span className="mycourse-label">Course Type</span>
+                <span className="mycourse-value mycourse-status-green">{course.course_type}</span>
               </div>
-              <div className="detail-row">
-                <span className="label">Course Length</span>
-                <span className="value">{course.course_length} hours</span>
+              <div className="mycourse-detail-row">
+                <span className="mycourse-label">Course Length</span>
+                <span className="mycourse-value">{course.course_length} hours</span>
               </div>
-              <div className="detail-row">
-                <span className="label">Price</span>
-                <span className="value">{course.price} THB</span>
-              </div>
-              <div className="detail-row">
-                <span className="label">Actions</span>
-                <span className="value">
-                  <button 
-                    className="delete-btn"
-                    onClick={() => deleteCourse(course._id)}
-                  >
-                    Delete
-                  </button>
-                </span>
+              <div className="mycourse-detail-row">
+                <span className="mycourse-label">Price</span>
+                <span className="mycourse-value">{course.price} THB</span>
               </div>
             </div>
           </div>
