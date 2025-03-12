@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { handleLogin } from './utils/authHandlers';
 import Navbar from './Components/Navbar/Navbar';
+import GoBack from './Components/Navbar/GoBack';
 import Login from './Pages/Login';
 import Main from './Pages/Main';
 import Mycourse from './Pages/Mycourse';
@@ -51,6 +52,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
   return (
     <>
       {shouldShowNavbar && <Navbar accountState={accountState} onLogout={handleLogout} profilePicture={profilePicture} />}
+      <GoBack/>
       <Routes>
         <Route path="/" element={<Main accountState={accountState} />} />
         <Route path="/main" element={<Main accountState={accountState} />} />

@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
 import "./Navbar.css"
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const Navbar = ({ accountState, onLogout , profilePicture}) => {
-  const [menu,setMenu] = useState("main")
   const navigate = useNavigate();
+  const location = useLocation().pathname.split('/')[1]
+  console.log("menu is "+location)
   const navObjects = [
     { "id": 1,
       "name": "Main",
@@ -37,12 +38,17 @@ const Navbar = ({ accountState, onLogout , profilePicture}) => {
       "permission" : "tutor"
     },]
 
+  useEffect(() => {
+      // Force rerender or perform actions based on location change
+      console.log("Location changed to:", location);
+    }, [location]);
+
   const handleLogoutClick = () => {
     onLogout();
     navigate('/login');
   };
 
-  const handleNavClick = (path, menuItem) => {
+  const handleNavClick = (path) => {
     if (accountState === "unregistered" && path !== '/') {
       alert("Please login to access this feature");
       // navigate('/login');
@@ -50,8 +56,6 @@ const Navbar = ({ accountState, onLogout , profilePicture}) => {
       navigate('/');
       return;
     }
-    
-    setMenu(menuItem);
     navigate(path);
   };
 
@@ -60,7 +64,7 @@ const Navbar = ({ accountState, onLogout , profilePicture}) => {
     return accountState !== 'unregistered' && (obj.permission === "all" || accountState === obj.permission) && 
     <li key={obj.id} onClick={()=>handleNavClick(path, obj.path)}>
       <Link style={{textDecoration : 'none'}} to={path}>{obj.name}</Link>
-      {menu===obj.path?<hr/>:<></>}
+      {location===obj.path?<hr/>:<></>}
     </li>
   }
 
