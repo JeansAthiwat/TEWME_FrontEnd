@@ -51,7 +51,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
 
   return (
     <>
-      {shouldShowNavbar && <><Navbar accountState={accountState} onLogout={handleLogout} profilePicture={profilePicture} /><GoBack/></>}
+      {shouldShowNavbar && <><Navbar accountState={accountState} onLogout={handleLogout} profilePicture={profilePicture} /></>}
       <Routes>
         <Route path="/" element={<Main accountState={accountState} />} />
         <Route path="/main" element={<Main accountState={accountState} />} />
@@ -75,6 +75,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
         <Route path="/complete-profile" element={<CompleteProfile setAccountState={setAccountState} setProfilePicture={setProfilePicture} />} />
         <Route path='/tutor/:email' element={<TutorProfile />} />
       </Routes>
+      {shouldShowNavbar && <GoBack/>}
       <Footer />
     </>
   );
