@@ -53,8 +53,8 @@ const Main = ({ accountState }) => {
 
   const handleItemClick = (item) => {
     if (accountState === "unregistered") {
-      alert("Please login to access content");
-      navigate('/');
+      // alert("Please login to access content");
+      navigate('/login');
     } else {
       const itemIden = category === "course" ? item.course_name : item.email; // ✅ ใช้ id ให้ถูกต้อง
       const newUrl = `/${category}/${itemIden}`;
@@ -137,6 +137,7 @@ const Main = ({ accountState }) => {
         <p className="text-center text-red-500">{error}</p>
       ) : (
         <div className="grid grid-cols-3 gap-4">
+
     {items.length > 0 ? (
       items.map((item, i) => (
         <div onClick={() => handleItemClick(item)} key={i}>

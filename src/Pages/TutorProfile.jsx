@@ -10,7 +10,12 @@ import {
   Phone, 
   Mail, 
   ArrowLeft,
-  BookText
+  BookText,
+  Star,
+  Award,
+  Globe,
+  Clock,
+  Users
 } from "lucide-react";
 
 const TutorProfile = () => {
@@ -59,11 +64,11 @@ const TutorProfile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-page">
         <div className="animate-pulse flex flex-col items-center">
-          <div className="w-24 h-24 rounded-full bg-muted mb-4"></div>
-          <div className="h-8 w-48 bg-muted rounded mb-4"></div>
-          <div className="h-4 w-64 bg-muted rounded"></div>
+          <div className="w-24 h-24 rounded-full bg-tutor-light-purple mb-4"></div>
+          <div className="h-8 w-48 bg-tutor-light-purple rounded mb-4"></div>
+          <div className="h-4 w-64 bg-tutor-light-purple rounded"></div>
         </div>
       </div>
     );
@@ -78,7 +83,7 @@ const TutorProfile = () => {
             We couldn't find the tutor you're looking for.
           </p>
           <Link
-            to="/"
+            to="/main"
             className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
           >
             Back to Home
@@ -89,12 +94,12 @@ const TutorProfile = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-accent/10">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-white to-blue-50">
       
-      <main className="flex-1 page-container py-8 md:py-12">
+      <main className="flex-1 container mx-auto px-4 md:px-8 py-8 md:py-12">
         <button 
-          onClick={() => navigate(-1)}
-          className="inline-flex items-center text-sm font-medium hover-transition hover:text-primary mb-8"
+          onClick={() => navigate("/")}
+          className="inline-flex items-center text-sm font-medium transition-all duration-300 ease-out hover:text-primary mb-8"
         >
           <ArrowLeft size={16} className="mr-2" />
           Back to tutors
@@ -103,7 +108,7 @@ const TutorProfile = () => {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {/* Left Column - Profile Info */}
           <div className="md:col-span-1 space-y-6">
-            <div className="profile-section rounded-xl border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border bg-card p-6 shadow-sm animate-fade-up" style={{ animationDelay: "0.05s", animationFillMode: "both" }}>
               <div className="flex flex-col items-center text-center">
                 <div className="relative mb-4">
                   <img
@@ -148,7 +153,7 @@ const TutorProfile = () => {
               </div>
             </div>
             
-            <div className="profile-section rounded-xl border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border bg-card p-6 shadow-sm animate-fade-up" style={{ animationDelay: "0.1s", animationFillMode: "both" }}>
               <h2 className="font-medium text-lg mb-4 flex items-center">
                 <GraduationCap size={20} className="mr-2 text-primary" />
                 Education
@@ -162,16 +167,16 @@ const TutorProfile = () => {
               </ul>
             </div>
             
-            <div className="profile-section rounded-xl border bg-card p-6 shadow-sm">
+            <div className="profile-section rounded-xl border bg-white p-6 shadow-sm">
               <h2 className="font-medium text-lg mb-4 flex items-center">
                 <BookOpen size={20} className="mr-2 text-primary" />
                 Specializations
               </h2>
               <div className="flex flex-wrap gap-2">
-                {tutor.specialization.map((spec, index) => (
+                {tutor.specialization.slice(0,3).map((spec, index) => (
                   <span
                     key={index}
-                    className="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground"
+                    className="inline-flex items-center rounded-full border bg-blue-300 px-3 py-1 text-xs font-medium text-secondary-foreground"
                   >
                     {spec}
                   </span>
@@ -182,12 +187,15 @@ const TutorProfile = () => {
           
           {/* Right Column - Bio and Teaching Style */}
           <div className="md:col-span-2 space-y-6">
-            <div className="profile-section rounded-xl border bg-card p-6 shadow-sm">
-              <h2 className="font-medium text-lg mb-4">About Me</h2>
+            <div className="profile-section rounded-xl border bg-white p-6 shadow-sm">
+              <h2 className="font-medium text-lg mb-4 flex items-center">
+                <Users size={20} className="mr-2 text-primary" />
+                About Me
+                </h2>
               {/* <p className="text-md leading-relaxed">{tutor.bio}</p> */}
             </div>
             
-            <div className="profile-section rounded-xl border bg-card p-6 shadow-sm">
+            <div className="profile-section rounded-xl border bg-white p-6 shadow-sm">
               <h2 className="font-medium text-lg mb-4 flex items-center">
                 <Lightbulb size={20} className="mr-2 text-primary" />
                 Teaching Style
@@ -245,14 +253,17 @@ const TutorProfile = () => {
                 </p>
               )}
             </div> */}
+        <div className="md:col-span-2 space-y-6">
+            <div className="profile-section rounded-xl border bg-white p-6 shadow-sm">
         <h2 className="font-medium text-lg mb-4 flex items-center">
                 <BookText size={20} className="mr-2 text-primary" />
                 Courses Offered
-              </h2>
+        </h2>
+    
         {courses.length > 0 ? (
                 <div className="space-y-4">
                   {courses.map((course, index) => (
-                    <div key={index} className="p-4 border rounded-lg hover:border-primary/50 transition-colors">
+                    <div key={index} className="p-4 border bg-white rounded-lg hover:border-primary/50 transition-colors">
                       <div className="flex justify-between items-start">
                         <div>
                           <h3 className="font-medium">{course.course_name}</h3>
@@ -263,19 +274,19 @@ const TutorProfile = () => {
                             {course.course_type}
                           </span>
                           <span className="text-xs text-muted-foreground mt-1">
-                            {course.price} บาท
+                            {course.price} Baht
                           </span>
                         </div>
                       </div>
                       {/* ✅ ปุ่ม View Details */}
-                    <div className="mt-4 flex justify-end">
-                    <button 
-                        className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                        onClick={() => navigate(`/course/${course.course_name}`)} // ✅ นำทางไปหน้าคอร์ส
-                    >
-                        View Details
-                    </button>
-                    </div>
+                <div className="mt-4 flex justify-start">
+                <button 
+                    className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                    onClick={() => navigate(`/course/${course.course_name}`)} // ✅ นำทางไปหน้าคอร์ส
+                >
+                    View Details
+                </button>
+                </div>
                     </div>
                   ))}
                 </div>
@@ -286,6 +297,8 @@ const TutorProfile = () => {
               )}
             
           </div>
+        </div>
+        </div>
         </div>
       </main>
       
