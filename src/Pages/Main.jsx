@@ -65,7 +65,7 @@ const Main = ({ accountState }) => {
 
   return (
     <div className='main'>
-      <h1 className="text-3xl text-center text-gray-800 mb-5">{category === "course" ? "ALL COURSES" : "ALL TUTORS"}</h1>
+      <h1 className="page-title">{category === "course" ? "ALL COURSES" : "ALL TUTORS"}</h1>
 
       {/* Category Filter */}
       <div className="w-full flex justify-center items-center gap-4">
