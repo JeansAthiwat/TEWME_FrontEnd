@@ -168,9 +168,11 @@ const MultiStepForm = ({ setCourses, email, onClose }) => {
       case 1:
         return (
           <div>
-            <h3 className="mb-4 text-lg font-medium text-gray-900 ">General Information</h3>
+            <h3 className="mb-4 text-lg font-medium text-gray-900 text-left">
+              General Information
+            </h3>
             <div className="mb-4">
-              <label className="block mb-2 text-sm font-medium text-gray-900">Class Title</label>
+              <label className="block mb-2 text-sm font-medium text-gray-900 ">Class Title</label>
               <input
                 type="text"
                 name="title"
@@ -236,25 +238,46 @@ const MultiStepForm = ({ setCourses, email, onClose }) => {
       case 2:
         return (
           <div>
-            <h3 className="mb-4 text-lg font-medium text-gray-900">
-              {formData.isVideoCourse ? "Video Course Details" : "Schedule Details"}
+            <h3 className="mb-4 text-lg font-medium text-gray-900 text-left">
+                Course Type : 
+              {formData.isVideoCourse ? " Video Course Details" : " Schedule Details"}
             </h3>
-            <div className="mb-4 flex items-center">
-              <input
-                type="checkbox"
-                name="isVideoCourse"
-                checked={formData.isVideoCourse}
-                onChange={handleChange}
-                id="isVideoCourse"
-                className="mr-2"
-              />
-              <label htmlFor="isVideoCourse" className="text-sm font-medium text-gray-900">
+            {/* Button Group for Course Type */}
+            <div className="inline-flex rounded-md shadow-xs mb-4" role="group">
+              <button
+                type="button"
+                onClick={() =>
+                  setFormData(prev => ({ ...prev, isVideoCourse: true }))
+                }
+                className={`inline-flex items-center px-4 py-2 text-sm font-medium ${
+                  formData.isVideoCourse
+                    ? "bg-blue-700 text-white"
+                    : "bg-white text-blue-700"
+                } border border-blue-700 rounded-l-lg hover:bg-blue-800 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500`}
+              >
                 Video-Based Course
-              </label>
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  setFormData(prev => ({ ...prev, isVideoCourse: false }))
+                }
+                className={`inline-flex items-center px-4 py-2 text-sm font-medium ${
+                  !formData.isVideoCourse
+                    ? "bg-blue-700 text-white"
+                    : "bg-white text-blue-700"
+                } border border-blue-700 rounded-r-lg hover:bg-blue-800 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500`}
+              >
+                Live Course
+              </button>
             </div>
+
+            {/* Conditionally Render Form Fields */}
             {formData.isVideoCourse ? (
               <div className="mb-4">
-                <label className="block mb-2 text-sm font-medium text-gray-900">Video Link</label>
+                <label className="block mb-2 text-sm font-medium text-gray-900">
+                  Video Link
+                </label>
                 <input
                   type="text"
                   name="videoLink"
@@ -263,12 +286,16 @@ const MultiStepForm = ({ setCourses, email, onClose }) => {
                   placeholder="Enter YouTube link"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                 />
-                {errors.videoLink && <p className="text-red-500 text-sm mt-1">{errors.videoLink}</p>}
+                {errors.videoLink && (
+                  <p className="text-red-500 text-sm mt-1">{errors.videoLink}</p>
+                )}
               </div>
             ) : (
               <>
                 <div className="mb-4">
-                  <label className="block mb-2 text-sm font-medium text-gray-900">Date & Time</label>
+                  <label className="block mb-2 text-sm font-medium text-gray-900">
+                    Date & Time
+                  </label>
                   <input
                     type="datetime-local"
                     name="datetime"
@@ -276,10 +303,14 @@ const MultiStepForm = ({ setCourses, email, onClose }) => {
                     onChange={handleChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   />
-                  {errors.datetime && <p className="text-red-500 text-sm mt-1">{errors.datetime}</p>}
+                  {errors.datetime && (
+                    <p className="text-red-500 text-sm mt-1">{errors.datetime}</p>
+                  )}
                 </div>
                 <div className="mb-4">
-                  <label className="block mb-2 text-sm font-medium text-gray-900">Location</label>
+                  <label className="block mb-2 text-sm font-medium text-gray-900">
+                    Location
+                  </label>
                   <input
                     type="text"
                     name="location"
@@ -288,7 +319,9 @@ const MultiStepForm = ({ setCourses, email, onClose }) => {
                     placeholder="Enter location"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   />
-                  {errors.location && <p className="text-red-500 text-sm mt-1">{errors.location}</p>}
+                  {errors.location && (
+                    <p className="text-red-500 text-sm mt-1">{errors.location}</p>
+                  )}
                 </div>
               </>
             )}
@@ -297,7 +330,9 @@ const MultiStepForm = ({ setCourses, email, onClose }) => {
       case 3:
         return (
           <div>
-            <h3 className="mb-4 text-lg font-medium text-gray-900">Additional Course Information</h3>
+            <h3 className="mb-4 text-lg font-medium text-gray-900 text-left">
+              Additional Course Information
+            </h3>
             <div className="mb-4">
               <label className="block mb-2 text-sm font-medium text-gray-900">Supplementary File</label>
               <input
@@ -354,7 +389,9 @@ const MultiStepForm = ({ setCourses, email, onClose }) => {
       case 4:
         return (
           <div>
-            <h3 className="mb-4 text-lg font-medium text-gray-900">Review & Confirm</h3>
+            <h3 className="mb-4 text-lg font-medium text-gray-900 text-left">
+              Review & Confirm
+            </h3>
             <div className="bg-gray-50 p-4 rounded-lg">
               <p>
                 <strong>Class Title:</strong> {formData.title}
@@ -408,9 +445,9 @@ const MultiStepForm = ({ setCourses, email, onClose }) => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="w-full p-6 bg-white">
       {/* Multi-Step Progress Indicator */}
-      <ol className="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
+      <ol className="flex items-center w-full text-sm font-medium text-left text-gray-500 dark:text-gray-400 sm:text-base">
         <li className={`flex md:w-full items-center ${currentStep >= 1 ? "text-blue-600 dark:text-blue-500" : "text-gray-500"} sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}>
           <span className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
             {currentStep > 1 ? (
