@@ -30,7 +30,12 @@ const Navbar = ({ accountState, onLogout , profilePicture}) => {
       "name": "Notifications",
       "path": "notification",
       "permission" : "all"
-    },]
+    },
+    {"id": 6,
+      "name": "My course",
+      "path": "Reservation",
+      "permission" : "learner"
+    }]
 
   const handleLogoutClick = () => {
     onLogout();
