@@ -56,7 +56,7 @@ const Main = ({ accountState }) => {
       // alert("Please login to access content");
       navigate('/login');
     } else {
-      const itemIden = category === "course" ? item.course_name : item.email; // ✅ ใช้ id ให้ถูกต้อง
+      const itemIden = category === "course" ? item._id : item.email; // ✅ ใช้ id ให้ถูกต้อง
       const newUrl = `/${category}/${itemIden}`;
       console.log("🔗 Navigating to:", newUrl); // ✅ Debug URL ก่อนเปลี่ยนหน้า
       navigate(newUrl);
