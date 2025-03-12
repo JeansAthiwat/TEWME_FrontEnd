@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./CSS/MultiStepForm.css";
 
 const MultiStepForm = ({ onClose }) => {
   const navigate = useNavigate();
@@ -25,7 +24,6 @@ const MultiStepForm = ({ onClose }) => {
   const [inputTag, setInputTag] = useState("");
   const availableTags = ["Math", "Science", "Programming", "Art", "Language", "Music"];
 
-  // Add a tag if one is selected and not already added
   const handleTagAdd = () => {
     if (inputTag && !formData.tags.includes(inputTag)) {
       setFormData((prev) => ({ ...prev, tags: [...prev.tags, inputTag] }));
@@ -40,7 +38,6 @@ const MultiStepForm = ({ onClose }) => {
     }));
   };
 
-  // Generic change handler
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -49,7 +46,6 @@ const MultiStepForm = ({ onClose }) => {
     }));
   };
 
-  // File input change handler
   const handleFileChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -57,7 +53,6 @@ const MultiStepForm = ({ onClose }) => {
     }));
   };
 
-  // Validate current step required fields
   const validateCurrentStep = () => {
     let newErrors = {};
 
@@ -104,7 +99,6 @@ const MultiStepForm = ({ onClose }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Navigation handlers
   const handleNext = () => {
     if (validateCurrentStep()) {
       setCurrentStep((prev) => Math.min(prev + 1, 4));
@@ -115,10 +109,8 @@ const MultiStepForm = ({ onClose }) => {
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Final validation for steps 1-3
     if (!validateCurrentStep()) {
       return;
     }
@@ -139,7 +131,6 @@ const MultiStepForm = ({ onClose }) => {
     courseData.append("is_publish", true);
     courseData.append("course_type", formData.isVideoCourse ? "Video" : "Live");
     courseData.append("t_email", "tutor@example.com");
-    // Append tags as a JSON string (or adjust as needed)
     courseData.append("tags", JSON.stringify(formData.tags));
 
     if (!formData.isVideoCourse) {
@@ -163,7 +154,6 @@ const MultiStepForm = ({ onClose }) => {
       const data = await response.json();
       if (response.ok) {
         alert("Course Created Successfully!");
-        // Optionally reset the form:
         setFormData({
           title: "",
           description: "",
@@ -178,7 +168,7 @@ const MultiStepForm = ({ onClose }) => {
           duration: "60",
           courseLength: "",
         });
-        onClose(); // Close the modal after successful submission
+        onClose();
         navigate("/mycourse");
       } else {
         alert(`Failed to create course: ${data.message}`);
@@ -189,40 +179,43 @@ const MultiStepForm = ({ onClose }) => {
     }
   };
 
-  // Render the content for each step
+  // Render content for each step
   const renderStep = () => {
     switch (currentStep) {
       case 1:
         return (
           <div className="step-content">
-            <h2>General Information</h2>
-            <div className="form-group">
-              <label>Class Title:</label>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">General Information</h2>
+            <div className="form-group mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Class Title:</label>
               <input
                 type="text"
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
                 placeholder="Enter class title"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
               />
-              {errors.title && <span className="error-message">{errors.title}</span>}
+              {errors.title && <span className="text-red-500 text-sm mt-1 block">{errors.title}</span>}
             </div>
-            <div className="form-group">
-              <label>Class Description:</label>
+            <div className="form-group mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Class Description:</label>
               <textarea
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
                 placeholder="Enter class description"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300 resize-vertical"
               />
-              {errors.description && <span className="error-message">{errors.description}</span>}
+              {errors.description && <span className="text-red-500 text-sm mt-1 block">{errors.description}</span>}
             </div>
-            <div className={`form-group ${errors.tags ? "error" : ""}`}>
-              <label>Tags:</label>
-              <div className="tag-input">
+            <div className={`form-group mb-4 ${errors.tags ? "border border-red-500 p-2 rounded" : ""}`}>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Tags:</label>
+              <div className="flex items-center gap-2">
                 <select
                   value={inputTag}
                   onChange={(e) => setInputTag(e.target.value)}
+                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                 >
                   <option value="">Select a tag</option>
                   {availableTags.map((tag) => (
@@ -231,73 +224,83 @@ const MultiStepForm = ({ onClose }) => {
                     </option>
                   ))}
                 </select>
-                <button type="button" onClick={handleTagAdd} className="add-tag-btn">
+                <button
+                  type="button"
+                  onClick={handleTagAdd}
+                  className="px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+                >
                   Add Tag
                 </button>
               </div>
-              <div className="tags-container">
+              <div className="mt-2 flex flex-wrap gap-2">
                 {formData.tags.map((tag) => (
-                  <span key={tag} className="tag">
+                  <span key={tag} className="inline-flex items-center px-2 py-1 bg-gray-200 rounded-full text-sm">
                     {tag}
-                    <button type="button" onClick={() => handleTagRemove(tag)}>
-                      ×
+                    <button type="button" onClick={() => handleTagRemove(tag)} className="ml-1 text-red-500">
+                      &times;
                     </button>
                   </span>
                 ))}
               </div>
-              {errors.tags && <span className="error-message">{errors.tags}</span>}
+              {errors.tags && <span className="text-red-500 text-sm mt-1 block">{errors.tags}</span>}
             </div>
           </div>
         );
       case 2:
         return (
           <div className="step-content">
-            <h2>{formData.isVideoCourse ? "Video Course Details" : "Schedule Details"}</h2>
-            <div className="form-group">
-              <label>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+              {formData.isVideoCourse ? "Video Course Details" : "Schedule Details"}
+            </h2>
+            <div className="form-group mb-4">
+              <label className="inline-flex items-center">
                 <input
                   type="checkbox"
                   name="isVideoCourse"
                   checked={formData.isVideoCourse}
                   onChange={handleChange}
+                  className="form-checkbox h-5 w-5 text-blue-600"
                 />
-                Video-Based Course
+                <span className="ml-2 text-gray-700">Video-Based Course</span>
               </label>
             </div>
             {formData.isVideoCourse ? (
-              <div className="form-group">
-                <label>Video Link:</label>
+              <div className="form-group mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Video Link:</label>
                 <input
                   type="text"
                   name="videoLink"
                   value={formData.videoLink}
                   onChange={handleChange}
                   placeholder="Enter YouTube link"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                 />
-                {errors.videoLink && <span className="error-message">{errors.videoLink}</span>}
+                {errors.videoLink && <span className="text-red-500 text-sm mt-1 block">{errors.videoLink}</span>}
               </div>
             ) : (
               <>
-                <div className="form-group">
-                  <label>Date & Time:</label>
+                <div className="form-group mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Date & Time:</label>
                   <input
                     type="datetime-local"
                     name="datetime"
                     value={formData.datetime}
                     onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                   />
-                  {errors.datetime && <span className="error-message">{errors.datetime}</span>}
+                  {errors.datetime && <span className="text-red-500 text-sm mt-1 block">{errors.datetime}</span>}
                 </div>
-                <div className="form-group">
-                  <label>Location:</label>
+                <div className="form-group mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Location:</label>
                   <input
                     type="text"
                     name="location"
                     value={formData.location}
                     onChange={handleChange}
                     placeholder="Enter location"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                   />
-                  {errors.location && <span className="error-message">{errors.location}</span>}
+                  {errors.location && <span className="text-red-500 text-sm mt-1 block">{errors.location}</span>}
                 </div>
               </>
             )}
@@ -306,44 +309,47 @@ const MultiStepForm = ({ onClose }) => {
       case 3:
         return (
           <div className="step-content">
-            <h2>Additional Course Information</h2>
-            <div className="form-group">
-              <label>Supplementary File:</label>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Additional Course Information</h2>
+            <div className="form-group mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Supplementary File:</label>
               <input
                 type="file"
                 name="supplementaryFile"
                 onChange={handleFileChange}
                 accept=".pdf,.doc,.docx,.ppt,.pptx,.zip"
+                className="w-full text-sm text-gray-700"
               />
             </div>
             {!formData.isVideoCourse && (
-              <div className="form-group">
-                <label>Max Students:</label>
+              <div className="form-group mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Max Students:</label>
                 <input
                   type="number"
                   name="maxStudents"
                   value={formData.maxStudents}
                   onChange={handleChange}
                   placeholder="Enter max number of students"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                 />
-                {errors.maxStudents && <span className="error-message">{errors.maxStudents}</span>}
+                {errors.maxStudents && <span className="text-red-500 text-sm mt-1 block">{errors.maxStudents}</span>}
               </div>
             )}
             {formData.isVideoCourse && (
-              <div className="form-group">
-                <label>Course Length (minutes):</label>
+              <div className="form-group mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Course Length (minutes):</label>
                 <input
                   type="number"
                   name="courseLength"
                   value={formData.courseLength}
                   onChange={handleChange}
                   placeholder="Enter video length in minutes"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                 />
-                {errors.courseLength && <span className="error-message">{errors.courseLength}</span>}
+                {errors.courseLength && <span className="text-red-500 text-sm mt-1 block">{errors.courseLength}</span>}
               </div>
             )}
-            <div className="form-group">
-              <label>Price (USD):</label>
+            <div className="form-group mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Price (USD):</label>
               <input
                 type="number"
                 name="price"
@@ -351,40 +357,37 @@ const MultiStepForm = ({ onClose }) => {
                 onChange={handleChange}
                 placeholder="Enter course price"
                 min="0"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
               />
-              {errors.price && <span className="error-message">{errors.price}</span>}
+              {errors.price && <span className="text-red-500 text-sm mt-1 block">{errors.price}</span>}
             </div>
           </div>
         );
       case 4:
         return (
           <div className="step-content">
-            <h2>Review & Confirm</h2>
-            <div className="review">
-              <p><strong>Class Title:</strong> {formData.title}</p>
-              <p><strong>Class Description:</strong> {formData.description}</p>
-              <p>
-                <strong>Tags:</strong> {formData.tags.join(", ")}
-              </p>
-              <p>
-                <strong>Course Type:</strong> {formData.isVideoCourse ? "Video" : "Live"}
-              </p>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Review & Confirm</h2>
+            <div className="review text-gray-700">
+              <p className="mb-2"><strong>Class Title:</strong> {formData.title}</p>
+              <p className="mb-2"><strong>Class Description:</strong> {formData.description}</p>
+              <p className="mb-2"><strong>Tags:</strong> {formData.tags.join(", ")}</p>
+              <p className="mb-2"><strong>Course Type:</strong> {formData.isVideoCourse ? "Video" : "Live"}</p>
               {formData.isVideoCourse ? (
-                <p><strong>Video Link:</strong> {formData.videoLink}</p>
+                <p className="mb-2"><strong>Video Link:</strong> {formData.videoLink}</p>
               ) : (
                 <>
-                  <p><strong>Date & Time:</strong> {formData.datetime}</p>
-                  <p><strong>Location:</strong> {formData.location}</p>
+                  <p className="mb-2"><strong>Date & Time:</strong> {formData.datetime}</p>
+                  <p className="mb-2"><strong>Location:</strong> {formData.location}</p>
                 </>
               )}
               {!formData.isVideoCourse && (
-                <p><strong>Max Students:</strong> {formData.maxStudents || "N/A"}</p>
+                <p className="mb-2"><strong>Max Students:</strong> {formData.maxStudents || "N/A"}</p>
               )}
               {formData.isVideoCourse && (
-                <p><strong>Course Length:</strong> {formData.courseLength || "N/A"}</p>
+                <p className="mb-2"><strong>Course Length:</strong> {formData.courseLength || "N/A"}</p>
               )}
-              <p><strong>Price:</strong> {formData.price}</p>
-              <p>
+              <p className="mb-2"><strong>Price:</strong> {formData.price}</p>
+              <p className="mb-2">
                 <strong>Supplementary File:</strong>{" "}
                 {formData.supplementaryFile ? formData.supplementaryFile.name : "None"}
               </p>
@@ -397,29 +400,44 @@ const MultiStepForm = ({ onClose }) => {
   };
 
   return (
-    <div className="multi-step-form-container">
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
       {/* Progress Bar */}
-      <div className="progress-bar">
-        <div className={`step ${currentStep >= 1 ? "active" : ""}`}>1</div>
-        <div className={`step ${currentStep >= 2 ? "active" : ""}`}>2</div>
-        <div className={`step ${currentStep >= 3 ? "active" : ""}`}>3</div>
-        <div className={`step ${currentStep >= 4 ? "active" : ""}`}>4</div>
+      <div className="flex justify-between mb-6">
+        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${currentStep >= 1 ? "bg-blue-500 text-white" : "bg-gray-300 text-gray-700"}`}>1</div>
+        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${currentStep >= 2 ? "bg-blue-500 text-white" : "bg-gray-300 text-gray-700"}`}>2</div>
+        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${currentStep >= 3 ? "bg-blue-500 text-white" : "bg-gray-300 text-gray-700"}`}>3</div>
+        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${currentStep >= 4 ? "bg-blue-500 text-white" : "bg-gray-300 text-gray-700"}`}>4</div>
       </div>
 
       <form onSubmit={handleSubmit}>
         {renderStep()}
-        <div className="button-group">
+        <div className="flex justify-between mt-6">
           {currentStep > 1 && (
-            <button type="button" onClick={handleBack}>
+            <button
+              type="button"
+              onClick={handleBack}
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+            >
               Back
             </button>
           )}
           {currentStep < 4 && (
-            <button type="button" onClick={handleNext}>
+            <button
+              type="button"
+              onClick={handleNext}
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+            >
               Next
             </button>
           )}
-          {currentStep === 4 && <button type="submit">Submit</button>}
+          {currentStep === 4 && (
+            <button
+              type="submit"
+              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+            >
+              Submit
+            </button>
+          )}
         </div>
       </form>
     </div>
