@@ -55,16 +55,33 @@ const Mycourse = ({email}) => {
       {showModal && (
   <div className="modal-overlay" onClick={closeModal}>
     <div
-      className="modal-content w-full"
+      className="modal-content w-full relative"
       onClick={(e) => e.stopPropagation()}
     >
-      <button className="close-button" onClick={closeModal}>
-        X
+      <button
+        className="close-button absolute top-2 right-2 hover:text-gray-900"
+        onClick={closeModal}
+      >
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
       </button>
       <MultiStepForm setCourses={setCourses} email={email} onClose={closeModal} />
     </div>
   </div>
 )}
+
 
       {/* {console.log(email)} */}
       <div className="course-container">
