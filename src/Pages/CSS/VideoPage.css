@@ -35,7 +35,7 @@
 
 .progress-bar {
     position: absolute;
-    bottom:0px;
+    bottom:-24px;
     left:0px;
     @apply h-1 bg-blue-400
 }
