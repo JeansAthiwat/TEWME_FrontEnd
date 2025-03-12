@@ -35,10 +35,10 @@ const Main = ({ accountState }) => {
         const queryString = new URLSearchParams(params).toString();
         const fullURL = `${API_URL}?${queryString}`;
 
-        console.log("📡 Fetching from API:", fullURL); // ✅ Log request
+        // console.log("📡 Fetching from API:", fullURL); // ✅ Log request
         const response = await axios.get(fullURL);
 
-        console.log("✅ API Response:", response.data); // ✅ Log response data
+        // console.log("✅ API Response:", response.data); // ✅ Log response data
         setItems(response.data || []);
       } catch (err) {
         console.error("❌ API Error:", err); // ✅ Log error

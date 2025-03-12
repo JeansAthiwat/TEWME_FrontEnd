@@ -23,14 +23,15 @@ import LoginSuccess from './Pages/LoginSuccess';
 
 import TutorProfile from './Pages/TutorProfile';
 import Reservation from './Pages/Reservation';
+import CreateCourse from './Pages/CreateCourse';
 
 
-function AppContent({ accountState, setAccountState, profilePicture, setProfilePicture }) {
+function AppContent({ accountState, setAccountState, profilePicture, setProfilePicture ,email, setEmail}) {
   const location = useLocation();
   const hideNavbarPaths = ['/login', '/signup', '/resetpassword'];
   const shouldShowNavbar = !hideNavbarPaths.includes(location.pathname);
 
-  const handleLoginWrapper = (email, password) => handleLogin(email, password, setAccountState);
+  const handleLoginWrapper = (email, password) => handleLogin(email, password, setAccountState, setEmail);
 
   const handleLogout = () => {
     localStorage.removeItem('profilePicture');
@@ -53,7 +54,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
       <Routes>
         <Route path="/" element={<Main accountState={accountState} />} />
         <Route path="/main" element={<Main accountState={accountState} />} />
-        <Route path="/mycourse" element={<Mycourse accountState={accountState} />} />
+        <Route path="/mycourse" element={<Mycourse email={email}/>} />
         <Route path="/enrollment" element={<Enrollment/>} />
         <Route path="/chatbox" element={<Chatbox />} />
         <Route path="/reservation" element={<Reservation />} />
@@ -61,11 +62,13 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
         <Route path='/course/:courseId/video/:videoNumber' element={<VideoPage />} />
         <Route path="/course/:courseId" element={<Course />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/login" element={<Login handleLogin={handleLoginWrapper} accountState={accountState} setAccountState={setAccountState} setProfilePicture={setProfilePicture} />} />
+        <Route path="/login" element={<Login handleLogin={handleLoginWrapper} accountState={accountState} 
+          setAccountState={setAccountState} setProfilePicture={setProfilePicture}
+          email={email} setEmail={setEmail} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/myprofile" element={<Myprofile profilePicture={profilePicture} setProfilePicture={setProfilePicture} />} />
         <Route path="/resetpassword" element={<Resetpassword />} />
-        <Route path='/createcourse' element={<LiveClassForm />} />
+        {/* <Route path='/createcourse' element={<LiveClassForm email={email} />} /> */}
         <Route path='/admin' element={<AdminPage />} />
         <Route path="/login-success" element={<LoginSuccess setAccountState={setAccountState} setProfilePicture={setProfilePicture} />} />
         <Route path="/complete-profile" element={<CompleteProfile setAccountState={setAccountState} setProfilePicture={setProfilePicture} />} />
@@ -83,17 +86,25 @@ function App() {
   const [profilePicture, setProfilePicture] = useState(() => {
     return localStorage.getItem("profilePicture") || profile_icon; // Load from localStorage
   });
+  const [email, setEmail] = useState(() => {
+    return localStorage.getItem("email") || ""; // Load from localStorage
+  });
   useEffect(() => {
     localStorage.setItem('accountState', accountState); // ✅ Save state when changed
   }, [accountState]);
   useEffect(() => {
     localStorage.setItem('profilePicture', profilePicture); // ✅ Save state when changed
   }, [profilePicture]);
+  useEffect(() => {
+    localStorage.setItem('email', email); // ✅ Save state when changed
+  }, [email]);
 
   return (
     <div>
       <BrowserRouter>
-        <AppContent accountState={accountState} setAccountState={setAccountState} profilePicture={profilePicture} setProfilePicture={setProfilePicture} />
+        <AppContent accountState={accountState} setAccountState={setAccountState} 
+        profilePicture={profilePicture} setProfilePicture={setProfilePicture} 
+        email={email} setEmail={setEmail}/>
       </BrowserRouter>
     </div>
   );

@@ -1,4 +1,6 @@
-export const handleLogin = async (email, password, setAccountState, setProfilePicture) => {
+import { SquareTerminalIcon } from "lucide-react";
+
+export const handleLogin = async (email, password, setAccountState, setProfilePicture, setEmail) => {
   try {
     const response = await fetch(`http://localhost:39189/auth/login`, { // ✅ Calls backend
       method: 'POST',
@@ -15,9 +17,9 @@ export const handleLogin = async (email, password, setAccountState, setProfilePi
 
     // Store JWT token in local storage
     localStorage.setItem('token', data.token);
-
     // ✅ Set account state based on user role
     // console.dir(data)
+    setEmail(data.user.email)
     setProfilePicture(data.user.profilePicture)
     setAccountState(data.user.role); // Role should be 'user' or 'admin'
     console.log(data.user.role)

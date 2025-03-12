@@ -4,14 +4,14 @@ import "./CSS/Mycourse.css";
 import TutorCourse from "../Components/Tutor_Course/TutorCourse.jsx";
 import MultiStepForm from "./MultiStepForm";
 
-const Mycourse = () => {
+const Mycourse = ({email}) => {
   const [courses, setCourses] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch("http://localhost:39189/course");
+        const response = await fetch(`http://localhost:39189/course/tutor/${email}`);
         if (!response.ok) throw new Error("Failed to fetch courses");
         const data = await response.json();
         setCourses(data);
@@ -19,9 +19,10 @@ const Mycourse = () => {
         console.error("Error fetching courses:", error);
       }
     };
-
+  
     fetchCourses();
-  }, []);
+  }, [email]); // Added `email` as a dependency
+  
 
   const deleteCourse = async (courseId) => {
     try {
@@ -57,15 +58,17 @@ const Mycourse = () => {
             <button className="close-button" onClick={closeModal}>
               X
             </button>
-            <MultiStepForm onClose={closeModal} />
+            <MultiStepForm setCourses={setCourses} email={email} onClose={closeModal} />
           </div>
         </div>
       )}
-
+      {/* {console.log(email)} */}
       <div className="course-container">
+        {/* {console.dir(courses.filter((course)=> course.t_email===email))} */}
         {courses.map((course) => (
           <TutorCourse
             key={course._id}
+            t_email={course.t_email}
             course_id={course._id}
             course_name={course.course_name}
             image={course.image || "default-image-url.jpg"}

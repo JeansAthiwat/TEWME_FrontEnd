@@ -12,7 +12,7 @@ import {
   FaLink,
 } from "react-icons/fa";
 
-const LiveClassForm = () => {
+const LiveClassForm = ({email}) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
@@ -90,7 +90,7 @@ const LiveClassForm = () => {
           "course_type",
           formData.isVideoCourse ? "Video" : "Live"
         );
-        courseData.append("t_email", "tutor@example.com");
+        courseData.append("t_email", email);
         courseData.append("tags", JSON.stringify(formData.tags));
         if (!formData.isVideoCourse) {
           courseData.append("live_detail[location]", formData.location);
@@ -110,10 +110,10 @@ const LiveClassForm = () => {
           method: "POST",
           body: courseData,
         });
-
+        console.log(courseData)
         const data = await response.json();
         if (response.ok) {
-          alert("Course Created Successfully!");
+          // alert("Course Created Successfully!");
           console.log("Created Course:", data);
           setFormData({
             title: "",

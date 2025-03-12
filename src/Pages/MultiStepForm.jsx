@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CSS/MultiStepForm.css";
 
-const MultiStepForm = ({ onClose }) => {
+const MultiStepForm = ({setCourses, email, onClose }) => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -138,7 +138,7 @@ const MultiStepForm = ({ onClose }) => {
     courseData.append("session_status", "Schedule");
     courseData.append("is_publish", true);
     courseData.append("course_type", formData.isVideoCourse ? "Video" : "Live");
-    courseData.append("t_email", "tutor@example.com");
+    courseData.append("t_email", email);
     // Append tags as a JSON string (or adjust as needed)
     courseData.append("tags", JSON.stringify(formData.tags));
 
@@ -154,7 +154,7 @@ const MultiStepForm = ({ onClose }) => {
     if (formData.supplementaryFile) {
       courseData.append("supplementaryFile", formData.supplementaryFile);
     }
-
+    // console.log(courseData)
     try {
       const response = await fetch("http://localhost:39189/course", {
         method: "POST",
@@ -162,8 +162,7 @@ const MultiStepForm = ({ onClose }) => {
       });
       const data = await response.json();
       if (response.ok) {
-        alert("Course Created Successfully!");
-        // Optionally reset the form:
+        // console.log(data)
         setFormData({
           title: "",
           description: "",
@@ -179,7 +178,8 @@ const MultiStepForm = ({ onClose }) => {
           courseLength: "",
         });
         onClose(); // Close the modal after successful submission
-        navigate("/mycourse");
+        setCourses((courses) => [...courses, data])
+        // navigate("/mycourse");
       } else {
         alert(`Failed to create course: ${data.message}`);
       }
