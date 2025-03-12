@@ -53,15 +53,19 @@ const Mycourse = ({email}) => {
       </div>
 
       {showModal && (
-        <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-button" onClick={closeModal}>
-              X
-            </button>
-            <MultiStepForm setCourses={setCourses} email={email} onClose={closeModal} />
-          </div>
-        </div>
-      )}
+  <div className="modal-overlay" onClick={closeModal}>
+    <div
+      className="modal-content w-full"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <button className="close-button" onClick={closeModal}>
+        X
+      </button>
+      <MultiStepForm setCourses={setCourses} email={email} onClose={closeModal} />
+    </div>
+  </div>
+)}
+
       {/* {console.log(email)} */}
       <div className="course-container">
         {/* {console.dir(courses.filter((course)=> course.t_email===email))} */}
