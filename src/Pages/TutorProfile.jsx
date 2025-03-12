@@ -32,24 +32,29 @@ const TutorProfile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+      
         // เรียก API ดึงคอร์สทั้งหมด
-        const courseRes = await axios.get("http://localhost:39189/search?category=course");
-        console.log("📌 Course Data:", courseRes.data);
+        
+        // console.log("📌 Course Data:", courseRes.data);
         // เรียก API ดึงข้อมูลติวเตอร์ทั้งหมด
-        const tutorRes = await axios.get("http://localhost:39189/search?category=tutor");
-        console.log("📌 Tutor Data:", tutorRes.data);
-        // 🔹 กรองเฉพาะคอร์สที่มี t_email ตรงกับ email บน URL
-        const tutorCourses = courseRes.data.filter(course => course.t_email === email);
-        console.log("🎯 Filtered Tutor Courses:", tutorCourses);
-        // 🔹 หาข้อมูลของติวเตอร์จาก API
-        const tutorData = tutorRes.data.find(user => user.email === email);
-        console.log("🎯 Found Tutor Data:", tutorData);
+        const tutorData = await axios.get(`http://localhost:39189/user/${email}`);
+        // console.log("📌 Tutor Data:", tutorRes.data);
+        // // 🔹 กรองเฉพาะคอร์สที่มี t_email ตรงกับ email บน URL
+        // const tutorCourses = courseRes.data.filter(course => course.t_email === email);
+        // console.log("🎯 Found Tutor Data:", tutorData);
+
+        const tutorCourses = await axios.get(`http://localhost:39189/course/tutor/${email}`);
+        // console.log("🎯 Filtered Tutor Courses:", tutorCourses);
+        // // // 🔹 หาข้อมูลของติวเตอร์จาก API
+        // // const tutorData = tutorRes.data.find(user => user.email === email);
+        
 
         setCourses(tutorCourses);
-        setTutor(tutorData);
+        setTutor(tutorData.data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
+
         setLoading(false);
       }
     };
@@ -112,7 +117,7 @@ const TutorProfile = () => {
               <div className="flex flex-col items-center text-center">
                 <div className="relative mb-4">
                   <img
-                    // src={tutor.profilePicture}
+                    src={tutor.profilePicture}
                     alt={`${tutor.firstname} ${tutor.lastname}`}
                     className="h-32 w-32 rounded-full object-cover border-4 border-background shadow-sm"
                   />

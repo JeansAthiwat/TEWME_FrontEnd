@@ -58,7 +58,7 @@ const Main = ({ accountState }) => {
     } else {
       const itemIden = category === "course" ? item._id : item.email; // ✅ ใช้ id ให้ถูกต้อง
       const newUrl = `/${category}/${itemIden}`;
-      console.log("🔗 Navigating to:", newUrl); // ✅ Debug URL ก่อนเปลี่ยนหน้า
+      // console.log("🔗 Navigating to:", newUrl); // ✅ Debug URL ก่อนเปลี่ยนหน้า
       navigate(newUrl);
     }
   };
@@ -156,8 +156,9 @@ const Main = ({ accountState }) => {
               // tutor_id={item.tutor_id}
               firstname={item.firstname}
               lastname={item.lastname}
-              profile_picture={item.profile_picture}
+              profilePicture={item.profilePicture}
               specialization={item.specialization}
+              email={item.email}
             />
           )}
         </div>
