@@ -36,6 +36,36 @@
     display: inline-block;
 }
 
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+}
+
+.delete-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.delete-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.3);
+}
 
 .modal-overlay {
   position: fixed;
@@ -62,8 +92,6 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   position: relative;
 }
-
-
 
 /* 🔹 Button Hover Effect */
 .decorated-button:hover {
@@ -106,6 +134,11 @@
         font-size: 1rem;
         padding: 8px 16px;
     }
+
+    .delete-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -118,4 +151,63 @@
         font-size: 1rem;
         padding: 10px;
     }
+}
+
+/* Add these new styles */
+.course-title-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.subject-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+  transition: all 0.3s ease;
+}
+
+.subject-icon-wrapper:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.title-badge-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.title-badge-wrapper h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #2c3e50;
+}
+
+/* Update responsive styles */
+@media (max-width: 768px) {
+  .course-title-section {
+    gap: 12px;
+  }
+
+  .subject-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .subject-icon-wrapper {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
 }

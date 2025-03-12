@@ -1,8 +1,9 @@
 // Mycourse.jsx
 import React, { useEffect, useState } from "react";
 import "./CSS/Mycourse.css";
-import TutorCourse from "../Components/Tutor_Course/TutorCourse.jsx";
+//import TutorCourse from "../Components/Tutor_Course/TutorCourse.jsx";
 import MultiStepForm from "./MultiStepForm";
+import { FaCalculator, FaFlask, FaCode, FaPaintBrush, FaLanguage, FaMusic } from 'react-icons/fa';
 
 const Mycourse = ({email}) => {
   const [courses, setCourses] = useState([]);
@@ -39,49 +40,108 @@ const Mycourse = ({email}) => {
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
 
+  const getSubjectColor = (subject) => {
+    const colorMap = {
+      'Math': '#FF6B6B',
+      'Science': '#4ECDC4',
+      'Programming': '#45B7D1',
+      'Art': '#96CEB4',
+      'Language': '#FFEEAD',
+      'Music': '#D4A5A5'
+    };
+    return colorMap[subject] || '#666666';
+  };
+
+  const getSubjectIcon = (subject) => {
+    const iconMap = {
+      'Math': <FaCalculator />,
+      'Science': <FaFlask />,
+      'Programming': <FaCode />,
+      'Art': <FaPaintBrush />,
+      'Language': <FaLanguage />,
+      'Music': <FaMusic />
+    };
+    return iconMap[subject] || <FaCalculator />;
+  };
+
   return (
-    <div className="Mycourse">
-      <h1>YOUR COURSES</h1>
-      <hr />
-      <div>
-        <button
-          className="CreateCourse-button decorated-button"
-          onClick={openModal}
-        >
-          Create Course
-        </button>
+    <div className="reservation-container">
+      <div className="reservation-header">
+        <h1>Your Courses</h1>
+        <div className="view-controls">
+          <button 
+            className="decorated-button"
+            onClick={openModal}
+          >
+            Create Course
+          </button>
+          <div className="reservation-count">
+            <span className="count-number">{courses.length}</span>
+            <span className="count-text">Courses</span>
+          </div>
+        </div>
       </div>
 
       {showModal && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-button" onClick={closeModal}>
-              X
-            </button>
+            <button className="close-button" onClick={closeModal}>X</button>
             <MultiStepForm setCourses={setCourses} email={email} onClose={closeModal} />
           </div>
         </div>
       )}
-      {/* {console.log(email)} */}
-      <div className="course-container">
-        {/* {console.dir(courses.filter((course)=> course.t_email===email))} */}
+
+      <div className="courses-list">
         {courses.map((course) => (
-          <TutorCourse
-            key={course._id}
-            t_email={course.t_email}
-            course_id={course._id}
-            course_name={course.course_name}
-            image={course.image || "default-image-url.jpg"}
-            price={course.price}
-            subject={course.subject}
-            course_length={course.course_length}
-            course_type={course.course_type}
-            onDelete={deleteCourse}
-          />
+          <div key={course._id} className="course-header">
+            <div className="course-title-section">
+              <div className="course-image-wrapper">
+                <img 
+                  src={course.image || 'https://via.placeholder.com/150'} // Fallback image if none provided
+                  alt={course.course_name}
+                  className="course-image"
+                />
+              </div>
+              <div className="title-badge-wrapper">
+                <h2>{course.course_name}</h2>
+                <span 
+                  className="status-badge"
+                  style={{ backgroundColor: getSubjectColor(course.subject) }}
+                >
+                  {course.subject}
+                </span>
+              </div>
+            </div>
+            <div className="course-details">
+              <div className="detail-row">
+                <span className="label">Course Type</span>
+                <span className="value status-green">{course.course_type}</span>
+              </div>
+              <div className="detail-row">
+                <span className="label">Course Length</span>
+                <span className="value">{course.course_length} hours</span>
+              </div>
+              <div className="detail-row">
+                <span className="label">Price</span>
+                <span className="value">{course.price} THB</span>
+              </div>
+              <div className="detail-row">
+                <span className="label">Actions</span>
+                <span className="value">
+                  <button 
+                    className="delete-btn"
+                    onClick={() => deleteCourse(course._id)}
+                  >
+                    Delete
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
         ))}
       </div>
     </div>
   );
 };
 
-export default Mycourse;
+export default Mycourse
