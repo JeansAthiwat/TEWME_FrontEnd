@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import "./CSS/Reservation.css";
 
+const getSubjectColor = (subject) => {
+  const colorMap = {
+    'Math': '#FF6B6B',       // Red
+    'Science': '#4ECDC4',    // Teal
+    'Programming': '#45B7D1', // Blue
+    'Art': '#96CEB4',        // Sage Green
+    'Language': '#FFEEAD',   // Light Yellow
+    'Music': '#D4A5A5'       // Dusty Rose
+  };
+  return colorMap[subject] || '#666666'; // Default gray if subject not found
+};
+
 const Reservation = () => {
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -56,7 +68,7 @@ const Reservation = () => {
   return (
     <div className="reservation-container">
       <div className="reservation-header">
-        <h1>My Course Reservations</h1>
+        <h1>Course Reservations</h1>
         <div className="view-controls">
           <div className="toggle-buttons">
             <button 
@@ -82,7 +94,12 @@ const Reservation = () => {
         <div key={reservation._id} className="course-header">
           <div className="course-title-section">
             <h2>{reservation.course.course_name}</h2>
-            <span className="status-badge">{reservation.course.subject}</span>
+            <span 
+              className="status-badge" 
+              style={{ backgroundColor: getSubjectColor(reservation.course.subject) }}
+            >
+              {reservation.course.subject}
+            </span>
           </div>
           <div className="course-details">
             <div className="detail-row">
