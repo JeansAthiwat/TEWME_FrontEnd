@@ -116,7 +116,8 @@ const Main = ({ accountState }) => {
               <option value="Math">Math</option>
               <option value="Language">Language</option>
               <option value="Social">Social</option>
-              <option value="Music & Arts">Music & Arts</option>
+              <option value="Music">Music</option>
+              <option value="Arts">Arts</option>
             </select>
 
             <select onChange={(e) => setCourseType(e.target.value)} value={courseType || ""} className='p-3 border-2 border-blue-500 rounded-lg focus:border-blue-700'>

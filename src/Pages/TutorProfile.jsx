@@ -49,7 +49,7 @@ const TutorProfile = () => {
         // // const tutorData = tutorRes.data.find(user => user.email === email);
         
 
-        setCourses(tutorCourses);
+        setCourses(tutorCourses.data);
         setTutor(tutorData.data);
         setLoading(false);
       } catch (error) {
