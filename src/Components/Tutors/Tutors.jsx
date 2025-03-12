@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import './Tutors.css';
 
 const TutorItem = (props) => {
+  // console.log(props.profilePicture)
   return (
     <div className='tutor-item'>
       <div className="tutor-head">
-        <Link to={`/tutor/${props.tutor_id}`}>
-          <img onClick={window.scrollTo(0, 0)} src={props.profile_picture} alt="Tutor" />
+        <Link to={`/tutor/${props.email}`}>
+          <img onClick={window.scrollTo(0, 0)} src={props.profilePicture} alt="Tutor" />
         </Link>
       </div>
       <Link to={`/tutor/${props.tutor_id}`} style={{ textDecoration: "none", color: "inherit" }}>
