@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect } from "react";
+import "./Navbar.css"
 
 const GoBack = () => {
   const navigate = useNavigate();
