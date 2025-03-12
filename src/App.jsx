@@ -21,6 +21,7 @@ import profile_icon from './Components/Assets/profile_icon.png'
 import CompleteProfile from './Pages/CompleteProfile';
 import LoginSuccess from './Pages/LoginSuccess';
 import TutorProfile from './Pages/TutorProfile';
+import Reservation from './Pages/Reservation';
 
 function AppContent({ accountState, setAccountState, profilePicture, setProfilePicture }) {
   const location = useLocation();
@@ -53,6 +54,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
         <Route path="/mycourse" element={<Mycourse accountState={accountState} />} />
         <Route path="/enrollment" element={<Enrollment/>} />
         <Route path="/chatbox" element={<Chatbox />} />
+        <Route path="/reservation" element={<Reservation />} />
         <Route path="/notification" element={<Notification />} />
         <Route path='/course/:courseId/video/:videoNumber' element={<VideoPage />} />
         <Route path="/course/:courseId" element={<Course />} />

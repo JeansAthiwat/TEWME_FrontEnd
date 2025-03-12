@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./CSS/CreateCourse.css";
@@ -21,9 +21,12 @@ const LiveClassForm = () => {
     location: "",
     duration: "60",
     tags: [],
-    isVideoCourse: false, // New State for Video Course Checkbox
-    videoLink: "", // New State for YouTube Video Link
+    isVideoCourse: false,
+    videoLink: "",
     price: "",
+    courseLength: "",
+    maxStudents: "",
+    supplementaryFile: null, // New field for file upload
   });
 
   const [errors, setErrors] = useState({});
@@ -64,74 +67,78 @@ const LiveClassForm = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (validateForm()) {
-    try {
-      const courseData = {
-        course_name: formData.title,
-        course_description: formData.description,
-        subject: formData.tags.join(", "), // Joining tags into a string
-        price: parseFloat(formData.price),
-        course_length: formData.isVideoCourse ? parseFloat(formData.courseLength) : parseFloat(formData.duration),
-        course_capacity: formData.isVideoCourse ? 999 : parseInt(formData.maxStudents, 10),
-        session_status: "Schedule",
-        is_publish: true,
-        course_type: formData.isVideoCourse ? "Video" : "Live",
-        t_email: "tutor@example.com", // Replace with authenticated tutor email
-        tags: formData.tags,
-        live_detail: formData.isVideoCourse
-          ? null
-          : {
-              location: formData.location,
-              start_time: formData.datetime,
-            },
-        videos: formData.isVideoCourse
-          ? [
-              {
-                video_id: formData.videoLink,
-                video_title: formData.title,
-                video_urls: formData.videoLink,
-              },
-            ]
-          : [],
-      };
+    e.preventDefault();
+    if (validateForm()) {
+      try {
+        // Use FormData to include file uploads
+        const courseData = new FormData();
+        courseData.append("course_name", formData.title);
+        courseData.append("course_description", formData.description);
+        courseData.append("subject", formData.tags.join(", "));
+        courseData.append("price", formData.price);
+        courseData.append(
+          "course_length",
+          formData.isVideoCourse ? formData.courseLength : formData.duration
+        );
+        courseData.append(
+          "course_capacity",
+          formData.isVideoCourse ? 999 : formData.maxStudents
+        );
+        courseData.append("session_status", "Schedule");
+        courseData.append("is_publish", true);
+        courseData.append(
+          "course_type",
+          formData.isVideoCourse ? "Video" : "Live"
+        );
+        courseData.append("t_email", "tutor@example.com");
+        courseData.append("tags", JSON.stringify(formData.tags));
+        if (!formData.isVideoCourse) {
+          courseData.append("live_detail[location]", formData.location);
+          courseData.append("live_detail[start_time]", formData.datetime);
+        }
+        if (formData.isVideoCourse) {
+          courseData.append("videos[0][video_id]", formData.videoLink);
+          courseData.append("videos[0][video_title]", formData.title);
+          courseData.append("videos[0][video_urls]", formData.videoLink);
+        }
+        // Append the supplementary file if one was selected
+        if (formData.supplementaryFile) {
+          courseData.append("supplementaryFile", formData.supplementaryFile);
+        }
 
-      const response = await fetch("http://localhost:39189/course", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(courseData),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        alert("Course Created Successfully!");
-        console.log("Created Course:", data);
-        setFormData({
-          title: "",
-          description: "",
-          datetime: "",
-          location: "",
-          duration: "60",
-          tags: [],
-          isVideoCourse: false,
-          videoLink: "",
-          courseLength: "",
-          maxStudents: "",
-          price: "",
+        const response = await fetch("http://localhost:39189/course", {
+          method: "POST",
+          body: courseData,
         });
-        navigate("/mycourse");
-      } else {
-        alert(`Failed to create course: ${data.message}`);
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      alert("Error creating course");
-    }
-  }
-};
 
+        const data = await response.json();
+        if (response.ok) {
+          alert("Course Created Successfully!");
+          console.log("Created Course:", data);
+          setFormData({
+            title: "",
+            description: "",
+            datetime: "",
+            location: "",
+            duration: "60",
+            tags: [],
+            isVideoCourse: false,
+            videoLink: "",
+            courseLength: "",
+            maxStudents: "",
+            price: "",
+            supplementaryFile: null,
+          });
+          navigate("/mycourse");
+        } else {
+          alert(`Failed to create course: ${data.message}`);
+        }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        alert("Error creating course");
+      }
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -147,6 +154,14 @@ const LiveClassForm = () => {
     if (name === "isVideoCourse" && !checked) {
       setFormData((prev) => ({ ...prev, videoLink: "" }));
     }
+  };
+
+  // Handle file input changes separately
+  const handleFileChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      supplementaryFile: e.target.files[0],
+    }));
   };
 
   const handleTagAdd = () => {
@@ -174,7 +189,7 @@ const LiveClassForm = () => {
         </Link>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className={`form-group ${errors.title ? "error" : ""}`}>
           <label>
             <FaBook /> Class Title
@@ -309,6 +324,20 @@ const LiveClassForm = () => {
           </div>
           {errors.tags && <span className="error-message">{errors.tags}</span>}
         </div>
+
+        {/* Supplementary File Upload Field */}
+        <div className="form-group">
+          <label>
+            Supplementary File (PDF, DOC, DOCX, PPT, PPTX, ZIP)
+          </label>
+          <input
+            type="file"
+            name="supplementaryFile"
+            accept=".pdf,.doc,.docx,.ppt,.pptx,.zip"
+            onChange={handleFileChange}
+          />
+        </div>
+
         {/* Course Length (Only for Video-Based Courses) */}
         {formData.isVideoCourse && (
           <div className={`form-group ${errors.courseLength ? "error" : ""}`}>
@@ -338,7 +367,6 @@ const LiveClassForm = () => {
               value={formData.maxStudents}
               onChange={handleChange}
               placeholder="Enter max students"
-        
               className="max-students-input"
             />
             {errors.maxStudents && (
