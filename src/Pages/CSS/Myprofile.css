@@ -175,7 +175,7 @@
 
 /* 🔹 Modal Input Field (Fixed Width) */
 .modal-content input {
-  width: 90%;  /* ✅ Keeps input within the modal */
+ /* width: 90%; */ /* ✅ Keeps input within the modal */
   padding: 10px;
   border: 2px solid #ccc;
   border-radius: 8px;
