@@ -12,30 +12,30 @@ const Navbar = ({ accountState, onLogout , profilePicture}) => {
       "permission" : "all"
     },
     {"id": 2,
-      "name":"My Courses",
-      "path": "mycourse",
-      "permission" : "tutor"
-    },
-    {"id": 3,
       "name":"Verify Tutors",
       "path": "admin",
       "permission" : "admin"
     },
-    {"id": 4,
+    {"id": 3,
       "name": "Chat Box",
       "path": "chatbox",
       "permission" : "all"
     },
-    {"id": 5,
+    {"id": 4,
       "name": "Notifications",
       "path": "notification",
       "permission" : "all"
     },
-    {"id": 6,
+    {"id": 5,
       "name": "My course",
       "path": "Reservation",
       "permission" : "learner"
-    }]
+    },
+    {"id": 6,
+      "name":"My Courses",
+      "path": "mycourse",
+      "permission" : "tutor"
+    },]
 
   const handleLogoutClick = () => {
     onLogout();
