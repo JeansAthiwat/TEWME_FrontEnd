@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import "./CSS/Reservation.css";
 
 const getSubjectColor = (subject) => {
@@ -62,6 +62,32 @@ const Reservation = () => {
     setViewType(type);
   };
 
+  const handleCheckboxChange = async (id, currentFinish) => {
+    try {
+      const token = localStorage.getItem('token');
+      const updatedReservations = reservations.map((reservation) =>
+        reservation._id === id ? { ...reservation, finish: !currentFinish } : reservation
+      );
+      setReservations(updatedReservations); // Update local state
+
+      const response = await fetch(`http://localhost:39189/reservation/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ finish: !currentFinish })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update reservation');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error updating reservation status');
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -115,17 +141,26 @@ const Reservation = () => {
               <span className="value">{reservation.course.price} THB</span>
             </div>
             <div className="detail-row">
-            <span className="label">Location / Time</span>
-                <span className="value">
-                    {reservation.course.live_detail.location} (
-                    {new Date(reservation.course.live_detail.start_time).toLocaleString()})
-                </span>
+              <span className="label">Location / Time</span>
+              <span className="value">
+                {reservation.course.live_detail.location} (
+                {new Date(reservation.course.live_detail.start_time).toLocaleString()})
+              </span>
+            </div>
+            <div className="detail-row">
+              <span className="label">Mark as Finished</span>
+              <input
+                type="checkbox"
+                className="large-checkbox"
+                checked={reservation.finish}
+                onChange={() => handleCheckboxChange(reservation._id, reservation.finish)}
+              />
             </div>
           </div>
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default Reservation
+export default Reservation;

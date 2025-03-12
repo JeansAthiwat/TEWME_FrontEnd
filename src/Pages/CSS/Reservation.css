@@ -202,3 +202,12 @@
     text-align: center;
   }
 }
+
+.large-checkbox {
+    width: 20px;  /* Adjust size as needed */
+    height: 20px;
+    cursor: pointer;
+    transform: scale(1.5); /* Makes it even larger */
+    margin-left: 10px;
+  }
+  
