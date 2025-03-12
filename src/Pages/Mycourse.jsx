@@ -59,7 +59,7 @@ const Mycourse = ({email}) => {
       onClick={(e) => e.stopPropagation()}
     >
       <button
-        className="close-button absolute top-2 right-2 hover:text-gray-900"
+        className="close-button absolute top-2 right-2 text-gray-700 hover:text-gray-900"
         onClick={closeModal}
       >
         <svg
