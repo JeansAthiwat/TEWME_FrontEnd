@@ -51,8 +51,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
 
   return (
     <>
-      {shouldShowNavbar && <Navbar accountState={accountState} onLogout={handleLogout} profilePicture={profilePicture} />}
-      <GoBack/>
+      {shouldShowNavbar && <><Navbar accountState={accountState} onLogout={handleLogout} profilePicture={profilePicture} /><GoBack/></>}
       <Routes>
         <Route path="/" element={<Main accountState={accountState} />} />
         <Route path="/main" element={<Main accountState={accountState} />} />

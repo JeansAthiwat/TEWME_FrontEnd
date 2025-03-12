@@ -1,13 +1,11 @@
-// Mycourse.jsx
 import React, { useEffect, useState } from "react";
 import "./CSS/Mycourse.css";
-//import TutorCourse from "../Components/Tutor_Course/TutorCourse.jsx";
 import MultiStepForm from "./MultiStepForm";
-import { FaCalculator, FaFlask, FaCode, FaPaintBrush, FaLanguage, FaMusic } from 'react-icons/fa';
+import { FaCalculator, FaFlask, FaCode, FaPaintBrush, FaLanguage, FaMusic, FaTimes } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import defaultCourseIcon from "../Components/Assets/book.avif"
 
-const Mycourse = ({email}) => {
+const Mycourse = ({ email }) => {
   const [courses, setCourses] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
@@ -25,7 +23,7 @@ const Mycourse = ({email}) => {
     };
   
     fetchCourses();
-    console.log(courses)
+    
   }, [email]); // Added `email` as a dependency
   
 
@@ -85,8 +83,13 @@ const Mycourse = ({email}) => {
 
       {showModal && (
         <div className="modal-overlay" onClick={closeModal} style={{ zIndex: 1000 }}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ zIndex: 1001 }}>
-            <button className="close-button" onClick={closeModal}>X</button>
+          <div className="modal-content relative" onClick={(e) => e.stopPropagation()} style={{ zIndex: 1001 }}>
+            <button 
+              className="close-button absolute top-2 right-2 text-gray-700 hover:text-gray-900 transition duration-200"
+              onClick={closeModal}
+            >
+              <FaTimes className="w-6 h-6" />
+            </button>
             <MultiStepForm setCourses={setCourses} email={email} onClose={closeModal} />
           </div>
         </div>
@@ -145,4 +148,4 @@ const Mycourse = ({email}) => {
   );
 };
 
-export default Mycourse
+export default Mycourse;
