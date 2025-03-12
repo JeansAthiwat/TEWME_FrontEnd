@@ -233,67 +233,99 @@ const MultiStepForm = ({ setCourses, email, onClose }) => {
             </div>
           </div>
         );
-      case 2:
-        return (
-          <div>
-            <h3 className="mb-4 text-lg font-medium text-gray-900">
-              {formData.isVideoCourse ? "Video Course Details" : "Schedule Details"}
-            </h3>
-            <div className="mb-4 flex items-center">
-              <input
-                type="checkbox"
-                name="isVideoCourse"
-                checked={formData.isVideoCourse}
-                onChange={handleChange}
-                id="isVideoCourse"
-                className="mr-2"
-              />
-              <label htmlFor="isVideoCourse" className="text-sm font-medium text-gray-900">
-                Video-Based Course
-              </label>
-            </div>
-            {formData.isVideoCourse ? (
-              <div className="mb-4">
-                <label className="block mb-2 text-sm font-medium text-gray-900">Video Link</label>
-                <input
-                  type="text"
-                  name="videoLink"
-                  value={formData.videoLink}
-                  onChange={handleChange}
-                  placeholder="Enter YouTube link"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                />
-                {errors.videoLink && <p className="text-red-500 text-sm mt-1">{errors.videoLink}</p>}
-              </div>
-            ) : (
-              <>
-                <div className="mb-4">
-                  <label className="block mb-2 text-sm font-medium text-gray-900">Date & Time</label>
-                  <input
-                    type="datetime-local"
-                    name="datetime"
-                    value={formData.datetime}
-                    onChange={handleChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                  />
-                  {errors.datetime && <p className="text-red-500 text-sm mt-1">{errors.datetime}</p>}
-                </div>
-                <div className="mb-4">
-                  <label className="block mb-2 text-sm font-medium text-gray-900">Location</label>
-                  <input
-                    type="text"
-                    name="location"
-                    value={formData.location}
-                    onChange={handleChange}
-                    placeholder="Enter location"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                  />
-                  {errors.location && <p className="text-red-500 text-sm mt-1">{errors.location}</p>}
-                </div>
-              </>
+// Inside your renderStepContent() for case 2:
+case 2:
+  return (
+    <div>
+      <h3 className="mb-4 text-lg font-medium text-gray-900">
+        {formData.isVideoCourse ? "Video Course Details" : "Schedule Details"}
+      </h3>
+      {/* Button Group for Course Type */}
+      <div className="inline-flex rounded-md shadow-xs mb-4" role="group">
+        <button
+          type="button"
+          onClick={() =>
+            setFormData(prev => ({ ...prev, isVideoCourse: true }))
+          }
+          className={`inline-flex items-center px-4 py-2 text-sm font-medium ${
+            formData.isVideoCourse
+              ? "bg-blue-700 text-white"
+              : "bg-white text-blue-700"
+          } border border-blue-700 rounded-l-lg hover:bg-blue-800 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500`}
+        >
+          Video-Based Course
+        </button>
+        <button
+          type="button"
+          onClick={() =>
+            setFormData(prev => ({ ...prev, isVideoCourse: false }))
+          }
+          className={`inline-flex items-center px-4 py-2 text-sm font-medium ${
+            !formData.isVideoCourse
+              ? "bg-blue-700 text-white"
+              : "bg-white text-blue-700"
+          } border border-blue-700 rounded-r-lg hover:bg-blue-800 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500`}
+        >
+          Live Course
+        </button>
+      </div>
+
+      {/* Conditionally Render Form Fields */}
+      {formData.isVideoCourse ? (
+        <div className="mb-4">
+          <label className="block mb-2 text-sm font-medium text-gray-900">
+            Video Link
+          </label>
+          <input
+            type="text"
+            name="videoLink"
+            value={formData.videoLink}
+            onChange={handleChange}
+            placeholder="Enter YouTube link"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+          />
+          {errors.videoLink && (
+            <p className="text-red-500 text-sm mt-1">{errors.videoLink}</p>
+          )}
+        </div>
+      ) : (
+        <>
+          <div className="mb-4">
+            <label className="block mb-2 text-sm font-medium text-gray-900">
+              Date & Time
+            </label>
+            <input
+              type="datetime-local"
+              name="datetime"
+              value={formData.datetime}
+              onChange={handleChange}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+            />
+            {errors.datetime && (
+              <p className="text-red-500 text-sm mt-1">{errors.datetime}</p>
             )}
           </div>
-        );
+          <div className="mb-4">
+            <label className="block mb-2 text-sm font-medium text-gray-900">
+              Location
+            </label>
+            <input
+              type="text"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+              placeholder="Enter location"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+            />
+            {errors.location && (
+              <p className="text-red-500 text-sm mt-1">{errors.location}</p>
+            )}
+          </div>
+        </>
+      )}
+    </div>
+  );
+
       case 3:
         return (
           <div>
