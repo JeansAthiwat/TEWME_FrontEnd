@@ -292,7 +292,7 @@ const TutorProfile = () => {
                 <div className="mt-4 flex justify-start">
                 <button 
                     className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                    onClick={() => navigate(`/course/${course.course_name}`)} // ✅ นำทางไปหน้าคอร์ส
+                    onClick={() => navigate(`/course/${course.id}`)} // ✅ นำทางไปหน้าคอร์ส
                 >
                     View Details
                 </button>
