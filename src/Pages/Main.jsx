@@ -54,7 +54,7 @@ const Main = ({ accountState }) => {
   const handleItemClick = (item) => {
     if (accountState === "unregistered") {
       // alert("Please login to access content");
-      navigate('/login');
+      navigate('/login', { replace: true }); // ✅ ใช้ replace แทน push
     } else {
       const itemIden = category === "course" ? item._id : item.email; // ✅ ใช้ id ให้ถูกต้อง
       const newUrl = `/${category}/${itemIden}`;
