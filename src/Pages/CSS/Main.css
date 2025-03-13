@@ -1,6 +1,18 @@
 /* Main Page Layout */
 @import "tailwindcss";
 
+body {
+    overflow-x: hidden; /* ป้องกันการเลื่อนไปทางข้าง */
+  }
+  
+  .sticky-sidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    height: 100vh; /* ให้สูงเต็มจอ */
+    overflow-y: auto; /* ให้ sidebar scroll ได้ ถ้าสูงเกินจอ */
+  }
+  
 .main {
     padding: 20px 10%;
     background-color: #f9f9f9;

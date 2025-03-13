@@ -69,6 +69,10 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
         <Route path="/complete-profile" element={<CompleteProfile setAccountState={setAccountState} setProfilePicture={setProfilePicture} />} />
         <Route path='/tutor/:email' element={<TutorProfile />} />
       </Routes>
+<<<<<<< Updated upstream
+=======
+      {shouldShowNavbar}
+>>>>>>> Stashed changes
       <Footer />
     </>
   );

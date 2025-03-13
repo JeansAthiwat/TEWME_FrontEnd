@@ -13,6 +13,14 @@
     z-index: 1000;
 }
 
+/* ปรับตำแหน่ง Arrow Left ให้อยู่ใกล้ TewMe มากขึ้น */
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-left: -35px;
+  }
+
 .dummy-elem {
     min-height: 13vh;
 }
@@ -126,3 +134,51 @@
     transform: scale(1.05);
 }
 
+<<<<<<< Updated upstream
+=======
+.goback {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: white;
+    @apply fixed left-24 top-36 w-20 h-20 rounded-full flex items-center justify-center text-3xl active:scale-110
+}
+
+.goback:hover {
+    color: #4f46e5;
+    background: white;
+}
+  
+.arrow-icon {
+    cursor: pointer;
+    font-size: 42px;
+    color: #333;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 14px;
+    border-radius: 50%;
+    transition: transform 0.2s ease, color 0.2s ease;
+    margin-left: 10px; /* ชิดซ้าย */
+    margin-top: 10px; /* เลื่อนลงมาหน่อย */
+  }
+  
+  .arrow-icon:hover {
+    transform: scale(1.2);
+    color: #000;
+    background: rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Responsive สำหรับแท็บเล็ต */
+  @media (max-width: 768px) {
+    .arrow-icon {
+      font-size: 38px;
+      padding: 12px;
+    }
+  }
+  
+  /* Responsive สำหรับมือถือ */
+  @media (max-width: 480px) {
+    .arrow-icon {
+      font-size: 34px;
+      padding: 10px;
+    }
+  }
+  
+>>>>>>> Stashed changes
