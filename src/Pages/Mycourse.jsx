@@ -31,6 +31,10 @@ const Mycourse = ({ email }) => {
     try {
       const response = await fetch(`http://localhost:39189/course/${courseId}`, {
         method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`, // Ensure token is included
+          "Content-Type": "application/json"
+        }
       });
       if (!response.ok) throw new Error("Failed to delete course");
       setCourses(courses.filter((course) => course._id !== courseId));

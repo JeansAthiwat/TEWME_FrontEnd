@@ -133,6 +133,10 @@ const MultiStepForm = ({ setCourses, email, onClose }) => {
     try {
       const response = await fetch("http://localhost:39189/course", {
         method: "POST",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`, // Ensure token is included
+          
+        },
         body: courseData,
       });
       const data = await response.json();

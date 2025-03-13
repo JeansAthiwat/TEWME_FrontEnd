@@ -223,14 +223,17 @@ const TutorProfile = () => {
                           </span>
                         </div>
                       </div>
-                      <div className="mt-4 flex justify-start">
-                        <button 
-                          className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
-                          onClick={() => navigate(`/course/${course.course_name}`)}
-                        >
-                          View Details
-                        </button>
-                      </div>
+
+                      {/* ✅ ปุ่ม View Details */}
+                <div className="mt-4 flex justify-start">
+                <button 
+                    className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                    onClick={() => navigate(`/course/${course.id}`)} // ✅ นำทางไปหน้าคอร์ส
+                >
+                    View Details
+                </button>
+                </div>
+
                     </div>
                   ))}
                 </div>
