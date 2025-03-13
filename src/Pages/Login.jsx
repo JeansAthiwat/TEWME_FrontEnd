@@ -4,8 +4,8 @@ import { handleLogin } from '../utils/authHandlers'; // ✅ Import the correct f
 import GoogleLogin from '../Components/GoogleLogin/GoogleLogin'; // ✅ Import Google Login component
 import './CSS/Login.css';
 
-const Login = ({ accountState, setAccountState , setProfilePicture }) => {
-  const [email, setEmail] = useState('');
+const Login = ({ accountState, setAccountState , setProfilePicture, email, setEmail}) => {
+  // const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate(); // Hook for redirecting after login
@@ -16,7 +16,7 @@ const Login = ({ accountState, setAccountState , setProfilePicture }) => {
     setError('');
 
     try {
-      await handleLogin(email, password, setAccountState, setProfilePicture) // ✅ Call centralized login function
+      await handleLogin(email, password, setAccountState, setProfilePicture, setEmail) // ✅ Call centralized login function
       console.log("Logged in successfully");
       
 

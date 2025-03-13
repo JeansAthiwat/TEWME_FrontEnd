@@ -1,5 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import "./CSS/Reservation.css";
+
+const getSubjectColor = (subject) => {
+  const colorMap = {
+    'Math': '#FF6B6B',       // Red
+    'Science': '#4ECDC4',    // Teal
+    'Programming': '#45B7D1', // Blue
+    'Art': '#96CEB4',        // Sage Green
+    'Language': '#ebd249',   // Light Yellow
+    'Music': '#D4A5A5'       // Dusty Rose
+  };
+  return colorMap[subject] || '#666666'; // Default gray if subject not found
+};
 
 const Reservation = () => {
   const [reservations, setReservations] = useState([]);
@@ -50,13 +62,39 @@ const Reservation = () => {
     setViewType(type);
   };
 
+  const handleCheckboxChange = async (id, currentFinish) => {
+    try {
+      const token = localStorage.getItem('token');
+      const updatedReservations = reservations.map((reservation) =>
+        reservation._id === id ? { ...reservation, finish: !currentFinish } : reservation
+      );
+      setReservations(updatedReservations); // Update local state
+
+      const response = await fetch(`http://localhost:39189/reservation/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ finish: !currentFinish })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update reservation');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error updating reservation status');
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="reservation-container">
       <div className="reservation-header">
-        <h1>My Course Reservations</h1>
+        <h1>Course Reservations</h1>
         <div className="view-controls">
           <div className="toggle-buttons">
             <button 
@@ -82,7 +120,12 @@ const Reservation = () => {
         <div key={reservation._id} className="course-header">
           <div className="course-title-section">
             <h2>{reservation.course.course_name}</h2>
-            <span className="status-badge">{reservation.course.subject}</span>
+            <span 
+              className="status-badge" 
+              style={{ backgroundColor: getSubjectColor(reservation.course.subject) }}
+            >
+              {reservation.course.subject}
+            </span>
           </div>
           <div className="course-details">
             <div className="detail-row">
@@ -98,14 +141,26 @@ const Reservation = () => {
               <span className="value">{reservation.course.price} THB</span>
             </div>
             <div className="detail-row">
-              <span className="label">Reservation Date</span>
-              <span className="value">{new Date(reservation.createAt).toLocaleDateString()}</span>
+              <span className="label">Location / Time</span>
+              <span className="value">
+                {reservation.course.live_detail.location} (
+                {new Date(reservation.course.live_detail.start_time).toLocaleString()})
+              </span>
+            </div>
+            <div className="detail-row">
+              <span className="label">Mark as Finished</span>
+              <input
+                type="checkbox"
+                className="large-checkbox"
+                checked={reservation.finish}
+                onChange={() => handleCheckboxChange(reservation._id, reservation.finish)}
+              />
             </div>
           </div>
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default Reservation
+export default Reservation;

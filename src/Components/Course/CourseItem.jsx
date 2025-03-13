@@ -1,13 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Course.css';
+import './CourseItem.css';
+import course_pic from '../Assets/course_id1.png';
+
 
 const CourseItem = (props) => {
   return (
     <div className='course-item'>
       <div className="course-head">
         <Link to={`/course/${props.course_id}`}>
-          <img onClick={window.scrollTo(0, 0)} src={props.image} alt="" />
+          <img onClick={window.scrollTo(0, 0)} src={ course_pic ||props.img} alt="" />
         </Link>
       </div>
       <Link to={`/course/${props.course_id}`} style={{ textDecoration: "none", color: "inherit" }}>

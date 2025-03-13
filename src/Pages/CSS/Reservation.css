@@ -7,9 +7,10 @@
 .course-header {
   background: white;
   border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .course-title-section {
@@ -40,25 +41,29 @@
 .course-details {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-top: 16px;
+  gap: 16px;
+  margin-top: 20px;
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 12px;
 }
 
 .detail-row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 
 .label {
-  color: #666;
-  min-width: 120px;
-  font-size: 0.9rem;
+  color: #64748b;
+  min-width: 130px;
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
 .value {
-  font-weight: 500;
-  color: #333;
+  font-weight: 600;
+  color: #334155;
 }
 
 .status-green {
@@ -91,41 +96,45 @@
 
 /* Add these new styles */
 .reservation-header {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
   color: white;
-  padding: 24px 32px;
-  border-radius: 12px;
-  margin-bottom: 24px;
+  padding: 28px 36px;
+  border-radius: 16px;
+  margin-bottom: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 20px rgba(124, 58, 237, 0.15);
 }
 
 .reservation-header h1 {
   margin: 0;
-  font-size: 1.8rem;
-  font-weight: 600;
+  font-size: 2rem;
+  font-weight: 700;
   color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .reservation-count {
-  background: rgba(255, 255, 255, 0.2);
-  padding: 8px 16px;
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 10px 20px;
+  border-radius: 24px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .count-number {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
+  color: #ffffff;
 }
 
 .count-text {
-  font-size: 1rem;
-  opacity: 0.9;
+  font-size: 1.1rem;
+  opacity: 0.95;
 }
 
 /* Responsive design */
@@ -193,3 +202,12 @@
     text-align: center;
   }
 }
+
+.large-checkbox {
+    width: 20px;  /* Adjust size as needed */
+    height: 20px;
+    cursor: pointer;
+    transform: scale(1.5); /* Makes it even larger */
+    margin-left: 10px;
+  }
+  
