@@ -133,6 +133,7 @@
 .nav-login-profile img:hover {
     transform: scale(1.05);
 }
+<<<<<<< Updated upstream
 
 <<<<<<< Updated upstream
 =======
@@ -146,6 +147,8 @@
     color: #4f46e5;
     background: white;
 }
+=======
+>>>>>>> Stashed changes
   
 .arrow-icon {
     cursor: pointer;
@@ -181,4 +184,7 @@
     }
   }
   
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes

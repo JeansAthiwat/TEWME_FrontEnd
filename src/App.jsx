@@ -70,6 +70,10 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
         <Route path='/tutor/:email' element={<TutorProfile />} />
       </Routes>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+      {shouldShowNavbar}
+>>>>>>> Stashed changes
 =======
       {shouldShowNavbar}
 >>>>>>> Stashed changes

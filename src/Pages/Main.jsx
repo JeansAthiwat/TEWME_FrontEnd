@@ -5,6 +5,9 @@ import TutorItem from '../Components/Tutors/Tutors'; // ✅ Import TutorItem
 =======
 import CourseItem from '../Components/Course/CourseItem';
 import TutorItem from '../Components/Tutors/TutorItem';
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -36,12 +39,15 @@ const Main = ({ accountState }) => {
           : [`${API_URL}?category=${category}&query=${inputSearch}&sortBy=${sortBy}&courseType=${courseType}`];
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         console.log("📡 Fetching from API:", fullURL); // ✅ Log request
         const response = await axios.get(fullURL);
 
         console.log("✅ API Response:", response.data); // ✅ Log response data
         setItems(response.data || []);
 =======
+=======
+>>>>>>> Stashed changes
         console.log("📡 Fetching from API:", queries);
         
         const responses = await Promise.all(queries.map(url => axios.get(url)));
@@ -49,6 +55,9 @@ const Main = ({ accountState }) => {
         
         const allData = responses.flatMap(res => res.data || []);
         setItems(allData);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
       } catch (err) {
         console.error("❌ API Error:", err);
@@ -60,6 +69,7 @@ const Main = ({ accountState }) => {
     fetchItems();
   }, [inputSearch, sortBy, category, subjects, courseType]);
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const handleItemClick = (item) => {
     if (accountState === "unregistered") {
@@ -101,6 +111,13 @@ const Main = ({ accountState }) => {
   };
 
   return (
+=======
+  const handleSubjectChange = (subject) => {
+    setSubjects(prev => prev.includes(subject) ? prev.filter(s => s !== subject) : [...prev, subject]);
+  };
+
+  return (
+>>>>>>> Stashed changes
     <div className="flex w-full p-5 gap-5">
       <div className="w-1/4 p-4 bg-gray-100 rounded-lg shadow-md sticky top-[115px] h-[calc(100vh-80px)] overflow-auto">
         <h2 className="font-bold text-lg mb-4">Filters</h2>
@@ -120,6 +137,9 @@ const Main = ({ accountState }) => {
           </button>
         </div>
         
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         <input 
           type="text" 
@@ -164,6 +184,7 @@ const Main = ({ accountState }) => {
         {category === "course" && (
           <>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             <select onChange={(e) => setSubject(e.target.value)} value={subject || ""} className='p-3 border-2 border-blue-500 rounded-lg focus:border-blue-700'>
               <option value="">All Subjects</option>
               <option value="Science">Science</option>
@@ -175,12 +196,17 @@ const Main = ({ accountState }) => {
 
             <select onChange={(e) => setCourseType(e.target.value)} value={courseType || ""} className='p-3 border-2 border-blue-500 rounded-lg focus:border-blue-700'>
 =======
+=======
+>>>>>>> Stashed changes
             <h3 className="font-semibold mb-2">Course Type</h3>
             <select 
               onChange={(e) => setCourseType(e.target.value)} 
               value={courseType || ""} 
               className='w-full p-2 border rounded-md mb-4'
             >
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
               <option value="">All Course Types</option>
               <option value="Live">Live</option>
@@ -190,6 +216,7 @@ const Main = ({ accountState }) => {
         )}
       </div>
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
       <hr className="my-10 border-gray-300" />
 
@@ -229,6 +256,8 @@ const Main = ({ accountState }) => {
       <p className="text-center text-gray-500 w-full">No {category} found.</p>
     )}
 =======
+=======
+>>>>>>> Stashed changes
       <div className="w-3/4">
       {/* แสดง Subjects ที่เลือก */}
 {subjects.length > 0 && (
@@ -253,6 +282,9 @@ const Main = ({ accountState }) => {
     >
       Clear all
     </button>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   </div>
 )}
