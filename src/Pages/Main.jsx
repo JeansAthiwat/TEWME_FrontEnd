@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import CourseItem from '../Components/Course/Course';
-import TutorItem from '../Components/Tutors/Tutors';
+import CourseItem from '../Components/Course/CourseItem';
+import TutorItem from '../Components/Tutors/TutorItem';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './CSS/Main.css';
