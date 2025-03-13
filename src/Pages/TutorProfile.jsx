@@ -117,15 +117,7 @@ const TutorProfile = () => {
                     className="h-32 w-32 rounded-full object-cover border-4 border-blue-200 shadow-sm"
                   />
                   {tutor.verification_status && (
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                    <div className="absolute bottom-0 right-0 rounded-full bg-primary p-1 text-white">
-=======
                     <div className="absolute bottom-0 right-0 rounded-full bg-green-500 p-1 text-white">
->>>>>>> Stashed changes
-=======
-                    <div className="absolute bottom-0 right-0 rounded-full bg-green-500 p-1 text-white">
->>>>>>> Stashed changes
                       <CheckCircle size={18} />
                     </div>
                   )}
@@ -151,16 +143,10 @@ const TutorProfile = () => {
                     <Mail size={16} className="mr-2" />
                     <span>{tutor.email}</span>
                   </div>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
                   <div className="flex items-center justify-center text-sm text-gray-600">
                     <Phone size={16} className="mr-2" />
                     <span>{tutor.phone}</span>
                   </div>
->>>>>>> Stashed changes
                 </div>
               </div>
             </div>
@@ -195,27 +181,12 @@ const TutorProfile = () => {
           
           {/* Right Column - Bio and Teaching Style */}
           <div className="md:col-span-2 space-y-6">
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-            <div className="profile-section rounded-xl border bg-white p-6 shadow-sm">
-              <h2 className="font-medium text-lg mb-4 flex items-center">
-                <Users size={20} className="mr-2 text-primary" />
-                About Me
-                </h2>
-              {/* <p className="text-md leading-relaxed">{tutor.bio}</p> */}
-=======
-=======
->>>>>>> Stashed changes
             <div className="profile-section rounded-xl border bg-white p-6 shadow-md hover:shadow-lg transition-shadow duration-300">
               <h2 className="font-medium text-lg mb-4 flex items-center text-gray-800">
                 <Users size={20} className="mr-2 text-blue-600" />
                 Bio
               </h2>
               <p className="text-md leading-relaxed text-gray-700">{tutor.bio}</p>
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
             </div>
             
             <div className="profile-section rounded-xl border bg-white p-6 shadow-md hover:shadow-lg transition-shadow duration-300">

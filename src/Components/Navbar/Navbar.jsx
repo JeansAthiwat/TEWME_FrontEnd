@@ -1,44 +1,3 @@
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-import React, { useState } from 'react'
-import "./Navbar.css"
-import { Link, useNavigate } from 'react-router-dom'
-
-const Navbar = ({ accountState, onLogout , profilePicture}) => {
-  const [menu,setMenu] = useState("main")
-  const navigate = useNavigate();
-  const navObjects = [
-    { "id": 1,
-      "name": "Main",
-      "path": "main",
-      "permission" : "all"
-    },
-    {"id": 2,
-      "name":"My Courses",
-      "path": "mycourse",
-      "permission" : "tutor"
-    },
-    {"id": 3,
-      "name":"Verify Tutors",
-      "path": "admin",
-      "permission" : "admin"
-    },
-    {"id": 4,
-      "name": "Chat Box",
-      "path": "chatbox",
-      "permission" : "all"
-    },
-    {"id": 5,
-      "name": "Notifications",
-      "path": "notification",
-      "permission" : "all"
-    },
-    {"id": 6,
-      "name": "My course",
-      "path": "Reservation",
-      "permission" : "learner"
-    }]
-=======
 import "./Navbar.css";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
@@ -49,18 +8,6 @@ const Navbar = ({ accountState, onLogout, profilePicture }) => {
   const location = useLocation().pathname.split("/")[1];
 
   const navObjects = [
-=======
-import "./Navbar.css";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useEffect } from "react";
-import { ArrowLeft } from "lucide-react";
-
-const Navbar = ({ accountState, onLogout, profilePicture }) => {
-  const navigate = useNavigate();
-  const location = useLocation().pathname.split("/")[1];
-
-  const navObjects = [
->>>>>>> Stashed changes
     { id: 1, name: "Main", path: "main", permission: "all" },
     { id: 2, name: "Verify Tutors", path: "admin", permission: "admin" },
     { id: 3, name: "Chat Box", path: "chatbox", permission: "all" },
@@ -72,28 +19,14 @@ const Navbar = ({ accountState, onLogout, profilePicture }) => {
   useEffect(() => {
     console.log("Location changed to:", location);
   }, [location]);
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 
   const handleLogoutClick = () => {
     onLogout();
     navigate("/login");
   };
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  const handleNavClick = (path, menuItem) => {
-    if (accountState === "unregistered" && path !== '/') {
-=======
   const handleNavClick = (path) => {
     if (accountState === "unregistered" && path !== "/") {
->>>>>>> Stashed changes
-=======
-  const handleNavClick = (path) => {
-    if (accountState === "unregistered" && path !== "/") {
->>>>>>> Stashed changes
       alert("Please login to access this feature");
       navigate("/");
       return;
@@ -112,18 +45,6 @@ const Navbar = ({ accountState, onLogout, profilePicture }) => {
   };
 
   const displayNav = (obj) => {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    const path = '/'+obj.path
-    return accountState !== 'unregistered' && (obj.permission === "all" || accountState === obj.permission) && 
-    <li key={obj.id} onClick={()=>handleNavClick(path, obj.path)}>
-      <Link style={{textDecoration : 'none'}} to={path}>{obj.name}</Link>
-      {menu===obj.path?<hr/>:<></>}
-    </li>
-  }
-=======
-=======
->>>>>>> Stashed changes
     const path = "/" + obj.path;
     return (
       accountState !== "unregistered" &&
@@ -137,10 +58,6 @@ const Navbar = ({ accountState, onLogout, profilePicture }) => {
       )
     );
   };
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 
   return (
     <>
@@ -179,8 +96,4 @@ const Navbar = ({ accountState, onLogout, profilePicture }) => {
   );
 };
 
-<<<<<<< Updated upstream
 export default Navbar;
-=======
-export default Navbar;
->>>>>>> Stashed changes

@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from 'react';
-<<<<<<< Updated upstream
 import CourseItem from '../Components/Course/Course';
-import TutorItem from '../Components/Tutors/Tutors'; // ✅ Import TutorItem
-=======
-import CourseItem from '../Components/Course/CourseItem';
-import TutorItem from '../Components/Tutors/TutorItem';
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+import TutorItem from '../Components/Tutors/Tutors';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './CSS/Main.css';
@@ -38,16 +30,6 @@ const Main = ({ accountState }) => {
           ? subjects.map(sub => `${API_URL}?category=${category}&subject=${sub}&query=${inputSearch}&sortBy=${sortBy}&courseType=${courseType}`)
           : [`${API_URL}?category=${category}&query=${inputSearch}&sortBy=${sortBy}&courseType=${courseType}`];
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        console.log("📡 Fetching from API:", fullURL); // ✅ Log request
-        const response = await axios.get(fullURL);
-
-        console.log("✅ API Response:", response.data); // ✅ Log response data
-        setItems(response.data || []);
-=======
-=======
->>>>>>> Stashed changes
         console.log("📡 Fetching from API:", queries);
         
         const responses = await Promise.all(queries.map(url => axios.get(url)));
@@ -55,10 +37,6 @@ const Main = ({ accountState }) => {
         
         const allData = responses.flatMap(res => res.data || []);
         setItems(allData);
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
       } catch (err) {
         console.error("❌ API Error:", err);
         setError("Failed to fetch data. Please try again.");
@@ -69,55 +47,11 @@ const Main = ({ accountState }) => {
     fetchItems();
   }, [inputSearch, sortBy, category, subjects, courseType]);
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  const handleItemClick = (item) => {
-    if (accountState === "unregistered") {
-      // alert("Please login to access content");
-      navigate('/login');
-    } else {
-      const itemIden = category === "course" ? item.course_name : item.email; // ✅ ใช้ id ให้ถูกต้อง
-      const newUrl = `/${category}/${itemIden}`;
-      console.log("🔗 Navigating to:", newUrl); // ✅ Debug URL ก่อนเปลี่ยนหน้า
-      navigate(newUrl);
-    }
-  };
-
-  return (
-    <div className='main'>
-      <h1 className="text-3xl text-center text-gray-800 mb-5">{category === "course" ? "ALL COURSES" : "ALL TUTORS"}</h1>
-
-      {/* Category Filter */}
-      <div className="w-full flex justify-center items-center gap-4">
-        <button 
-          className={`p-2 rounded-lg ${category === "course" ? "bg-blue-500 text-white" : "bg-gray-200"}`} 
-          onClick={() => setCategory("course")}
-        >
-          Courses
-        </button>
-        <button 
-          className={`p-2 rounded-lg ${category === "tutor" ? "bg-blue-500 text-white" : "bg-gray-200"}`} 
-          onClick={() => setCategory("tutor")}
-        >
-          Tutors
-        </button>
-      </div>
-
-      {/* Search Bar */}
-      <div className="w-full mt-5">
-=======
   const handleSubjectChange = (subject) => {
     setSubjects(prev => prev.includes(subject) ? prev.filter(s => s !== subject) : [...prev, subject]);
   };
 
   return (
-=======
-  const handleSubjectChange = (subject) => {
-    setSubjects(prev => prev.includes(subject) ? prev.filter(s => s !== subject) : [...prev, subject]);
-  };
-
-  return (
->>>>>>> Stashed changes
     <div className="flex w-full p-5 gap-5">
       <div className="w-1/4 p-4 bg-gray-100 rounded-lg shadow-md sticky top-[115px] h-[calc(100vh-80px)] overflow-auto">
         <h2 className="font-bold text-lg mb-4">Filters</h2>
@@ -137,10 +71,6 @@ const Main = ({ accountState }) => {
           </button>
         </div>
         
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
         <input 
           type="text" 
           placeholder="Search..." 
@@ -183,31 +113,12 @@ const Main = ({ accountState }) => {
         
         {category === "course" && (
           <>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-            <select onChange={(e) => setSubject(e.target.value)} value={subject || ""} className='p-3 border-2 border-blue-500 rounded-lg focus:border-blue-700'>
-              <option value="">All Subjects</option>
-              <option value="Science">Science</option>
-              <option value="Math">Math</option>
-              <option value="Language">Language</option>
-              <option value="Social">Social</option>
-              <option value="Music & Arts">Music & Arts</option>
-            </select>
-
-            <select onChange={(e) => setCourseType(e.target.value)} value={courseType || ""} className='p-3 border-2 border-blue-500 rounded-lg focus:border-blue-700'>
-=======
-=======
->>>>>>> Stashed changes
             <h3 className="font-semibold mb-2">Course Type</h3>
             <select 
               onChange={(e) => setCourseType(e.target.value)} 
               value={courseType || ""} 
               className='w-full p-2 border rounded-md mb-4'
             >
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
               <option value="">All Course Types</option>
               <option value="Live">Live</option>
               <option value="Video">Video</option>
@@ -216,48 +127,6 @@ const Main = ({ accountState }) => {
         )}
       </div>
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-      <hr className="my-10 border-gray-300" />
-
-      {/* Loading & Error Handling */}
-      {loading ? (
-        <p className="text-center text-blue-500">Loading {category}...</p>
-      ) : error ? (
-        <p className="text-center text-red-500">{error}</p>
-      ) : (
-        <div className="grid grid-cols-3 gap-4">
-
-    {items.length > 0 ? (
-      items.map((item, i) => (
-        <div onClick={() => handleItemClick(item)} key={i}>
-          {category === "course" ? (
-            <CourseItem
-              // course_id={item.course_id}
-              course_name={item.course_name}
-              image={item.image}
-              price={item.price}
-              subject={item.subject}
-              course_length={item.course_length}
-              course_type={item.course_type}
-            />
-          ) : (
-            <TutorItem
-              // tutor_id={item.tutor_id}
-              firstname={item.firstname}
-              lastname={item.lastname}
-              profile_picture={item.profile_picture}
-              specialization={item.specialization}
-            />
-          )}
-        </div>
-      ))
-    ) : (
-      <p className="text-center text-gray-500 w-full">No {category} found.</p>
-    )}
-=======
-=======
->>>>>>> Stashed changes
       <div className="w-3/4">
       {/* แสดง Subjects ที่เลือก */}
 {subjects.length > 0 && (
@@ -282,10 +151,6 @@ const Main = ({ accountState }) => {
     >
       Clear all
     </button>
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
   </div>
 )}
 
