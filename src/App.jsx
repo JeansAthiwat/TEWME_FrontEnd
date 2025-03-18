@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { handleLogin } from './utils/authHandlers';
 import Navbar from './Components/Navbar/Navbar';
-import GoBack from './Components/Navbar/GoBack';
 import Login from './Pages/Login';
 import Main from './Pages/Main';
 import Mycourse from './Pages/Mycourse';
@@ -73,9 +72,9 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
         <Route path='/admin' element={<AdminPage />} />
         <Route path="/login-success" element={<LoginSuccess setAccountState={setAccountState} setProfilePicture={setProfilePicture} />} />
         <Route path="/complete-profile" element={<CompleteProfile setAccountState={setAccountState} setProfilePicture={setProfilePicture} />} />
-        <Route path='/tutor/:email' element={<TutorProfile />} />
+        <Route path='/tutor/:tutorId' element={<TutorProfile />} />
       </Routes>
-      {shouldShowNavbar && <GoBack/>}
+      {shouldShowNavbar}
       <Footer />
     </>
   );
