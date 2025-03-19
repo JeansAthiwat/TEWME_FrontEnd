@@ -38,7 +38,7 @@ const Navbar = ({ accountState, onLogout, profilePicture }) => {
 
   const handleGoBack = () => {
     if (window.history.length > 1) {
-      navigate(-1);
+      navigate(-2);
     } else {
       navigate("/");
     }
