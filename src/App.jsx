@@ -67,7 +67,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
         <Route path='/admin' element={<AdminPage />} />
         <Route path="/login-success" element={<LoginSuccess setAccountState={setAccountState} setProfilePicture={setProfilePicture} />} />
         <Route path="/complete-profile" element={<CompleteProfile setAccountState={setAccountState} setProfilePicture={setProfilePicture} />} />
-        <Route path='/tutor/:email' element={<TutorProfile />} />
+        <Route path='/tutor/:tutorId' element={<TutorProfile />} />
       </Routes>
       {shouldShowNavbar}
       <Footer />

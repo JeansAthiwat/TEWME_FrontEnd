@@ -32,7 +32,7 @@ const Navbar = ({ accountState, onLogout, profilePicture }) => {
       return;
     }
     
-    setMenu(menuItem);
+    // setMenu(menuItem);
     navigate(path);
   };
 

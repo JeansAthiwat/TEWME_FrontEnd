@@ -19,10 +19,10 @@ import {
 } from "lucide-react";
 
 const TutorProfile = () => {
-  const { email } = useParams();
+  const { tutorId } = useParams();
   useEffect(() => {
-    console.log("Email from URL:", email);
-  }, [email]); // เมื่อ email เปลี่ยน ให้ log ค่าใหม่
+    console.log("Email from URL:", tutorId);
+  }, [tutorId]); // เมื่อ email เปลี่ยน ให้ log ค่าใหม่
   const [tutor, setTutor] = useState(null);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,20 +33,26 @@ const TutorProfile = () => {
     const fetchData = async () => {
       try {
         // เรียก API ดึงคอร์สทั้งหมด
-        const courseRes = await axios.get("http://localhost:39189/search?category=course");
-        console.log("📌 Course Data:", courseRes.data);
+        // const courseRes = await axios.get("http://localhost:39189/search?category=course");
+        // console.log("📌 Course Data:", courseRes.data);
         // เรียก API ดึงข้อมูลติวเตอร์ทั้งหมด
-        const tutorRes = await axios.get("http://localhost:39189/search?category=tutor");
-        console.log("📌 Tutor Data:", tutorRes.data);
+        // const tutorRes = await axios.get("http://localhost:39189/search?category=tutor");
+        // console.log("📌 Tutor Data:", tutorRes.data);
         // 🔹 กรองเฉพาะคอร์สที่มี t_email ตรงกับ email บน URL
-        const tutorCourses = courseRes.data.filter(course => course.t_email === email);
-        console.log("🎯 Filtered Tutor Courses:", tutorCourses);
+        // const tutorCourses = courseRes.data.filter(course => course.t_email === email);
+        // console.log("🎯 Filtered Tutor Courses:", tutorCourses);
         // 🔹 หาข้อมูลของติวเตอร์จาก API
-        const tutorData = tutorRes.data.find(user => user.email === email);
-        console.log("🎯 Found Tutor Data:", tutorData);
+        // const tutorData = tutorRes.data.find(user => user.email === email);
+        // console.log("🎯 Found Tutor Data:", tutorData);
 
-        setCourses(tutorCourses);
-        setTutor(tutorData);
+        const tutorCourses = await axios.get(`http://localhost:39189/course?tutor=${tutorId}&page=1&limit=5`);
+        console.log("📌 Tutor Course Data:", tutorCourses.data.data);
+
+        const tutorData = await axios.get(`http://localhost:39189/user/id/${tutorId}`);
+        console.log("🎯 Found Tutor Profile Data:", tutorData.data);
+
+        setCourses(tutorCourses.data.data);
+        setTutor(tutorData.data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -55,12 +61,12 @@ const TutorProfile = () => {
     };
 
     fetchData();
-  }, [email]);
+  }, [tutorId]);
 
-  useEffect(() => {
-    console.log("Tutor Data:", tutor);
-    console.log("Courses Data:", courses);
-  }, [tutor, courses]); // ให้ useEffect ทำงานเมื่อค่าเปลี่ยน
+  // useEffect(() => {
+  //   console.log("Tutor Data:", tutor);
+  //   console.log("Courses Data:", courses);
+  // }, [tutor, courses]); // ให้ useEffect ทำงานเมื่อค่าเปลี่ยน
 
   if (loading) {
     return (
@@ -112,7 +118,7 @@ const TutorProfile = () => {
               <div className="flex flex-col items-center text-center">
                 <div className="relative mb-4">
                   <img
-                    // src={tutor.profilePicture}
+                    src={tutor.profilePicture}
                     alt={`${tutor.firstname} ${tutor.lastname}`}
                     className="h-32 w-32 rounded-full object-cover border-4 border-blue-200 shadow-sm"
                   />
@@ -157,7 +163,11 @@ const TutorProfile = () => {
                 Education
               </h2>
               <ul className="space-y-3">
-                {/* Education items can be added here */}
+                {tutor.educations.map((education, index) => (
+                  <li key={index} className="text-sm leading-relaxed text-gray-600 pl-3 py-1">
+                    {education}
+                  </li>
+                ))}
               </ul>
             </div>
             
@@ -195,7 +205,17 @@ const TutorProfile = () => {
                 Teaching Style
               </h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {/* Teaching styles can be added here */}
+                {tutor.teaching_style.map((style, index) => (
+                  <div 
+                    key={index} 
+                    className="flex items-center p-3 rounded-lg border border-gray-200 bg-white transition-all duration-300 hover:border-tutor-purple hover:shadow-md"
+                  >
+                    <div className="mr-3 flex h-9 w-9 items-center justify-center rounded-full bg-tutor-light-purple">
+                      <CheckCircle size={16} className="text-tutor-purple" />
+                    </div>
+                    <div className="text-sm font-medium text-gray-700">{style}</div>
+                  </div>
+                ))}
               </div>
             </div>
             
@@ -208,7 +228,7 @@ const TutorProfile = () => {
               {courses.length > 0 ? (
                 <div className="space-y-4">
                   {courses.map((course, index) => (
-                    <div key={index} className="p-4 border bg-white rounded-lg hover:border-blue-300 transition-colors">
+                    <div key={index} className="p-4 border border-gray-200 bg-white rounded-lg hover:border-blue-300 hover:shadow-md transition-colors">
                       <div className="flex justify-between items-start">
                         <div>
                           <h3 className="font-medium text-gray-800">{course.course_name}</h3>
@@ -223,17 +243,14 @@ const TutorProfile = () => {
                           </span>
                         </div>
                       </div>
-
-                      {/* ✅ ปุ่ม View Details */}
-                <div className="mt-4 flex justify-start">
-                <button 
-                    className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                    onClick={() => navigate(`/course/${course.id}`)} // ✅ นำทางไปหน้าคอร์ส
-                >
-                    View Details
-                </button>
-                </div>
-
+                      <div className="mt-4 flex justify-start">
+                        <button 
+                          className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
+                          onClick={() => navigate(`/course/${course._id}`)}
+                        >
+                          View Details
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
