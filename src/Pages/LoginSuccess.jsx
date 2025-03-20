@@ -7,12 +7,16 @@ const LoginSuccess = ({ setAccountState, setProfilePicture }) => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
+    const UID = urlParams.get('UID');
 
     console.log("✅ Token from URL:", token); // ✅ Debugging
+    console.log("✅ UserID from URL:", UID); // ✅ Debugging
 
     if (token) {
       localStorage.setItem('token', token); // ✅ Store token correctly
       console.log("✅ Token stored in localStorage:", localStorage.getItem('token'));
+      localStorage.setItem('UID', UID); // ✅ Store UID correctly
+      console.log("✅ UID stored in localStorage:", localStorage.getItem('UID'));
 
       fetch('http://localhost:39189/api/profile/get-profile', {
         method: 'GET',

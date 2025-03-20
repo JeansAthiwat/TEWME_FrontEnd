@@ -54,7 +54,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
       <Routes>
         <Route path="/" element={<Main accountState={accountState} />} />
         <Route path="/main" element={<Main accountState={accountState} />} />
-        <Route path="/mycourse" element={<Mycourse email={email}/>} />
+        <Route path="/mycourse" element={<Mycourse UID={localStorage.getItem('UID')}/>} />
         <Route path="/enrollment" element={<Enrollment/>} />
         <Route path="/chatbox" element={<Chatbox />} />
         <Route path="/reservation" element={<Reservation />} />
