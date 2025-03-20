@@ -26,7 +26,7 @@ import Reservation from './Pages/Reservation';
 import CreateCourse from './Pages/CreateCourse';
 
 
-function AppContent({ accountState, setAccountState, profilePicture, setProfilePicture ,email, setEmail}) {
+function AppContent({ accountState, setAccountState, profilePicture, setProfilePicture, email, setEmail }) {
   const location = useLocation();
   const hideNavbarPaths = ['/login', '/signup', '/resetpassword'];
   const shouldShowNavbar = !hideNavbarPaths.includes(location.pathname);
@@ -34,11 +34,12 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
   const handleLoginWrapper = (email, password) => handleLogin(email, password, setAccountState, setEmail);
 
   const handleLogout = () => {
-    localStorage.removeItem('profilePicture');
-    localStorage.removeItem('token'); // ✅ Remove token on logout
-    localStorage.removeItem('accountState'); // ✅ Remove saved user role
+    localStorage.clear();
+
+    // ✅ Reset state variables
     setAccountState("unregistered");
-    setProfilePicture(profile_icon)
+    setProfilePicture(profile_icon);
+    setEmail("");
   };
 
   useEffect(() => {
@@ -54,15 +55,15 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
       <Routes>
         <Route path="/" element={<Main accountState={accountState} />} />
         <Route path="/main" element={<Main accountState={accountState} />} />
-        <Route path="/mycourse" element={<Mycourse UID={localStorage.getItem('UID')}/>} />
-        <Route path="/enrollment" element={<Enrollment/>} />
+        <Route path="/mycourse" element={<Mycourse UID={localStorage.getItem('UID')} />} />
+        <Route path="/enrollment" element={<Enrollment />} />
         <Route path="/chatbox" element={<Chatbox />} />
         <Route path="/reservation" element={<Reservation />} />
         <Route path="/notification" element={<Notification />} />
         <Route path='/course/:courseId/video/:videoNumber' element={<VideoPage />} />
         <Route path="/course/:courseId" element={<Course />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/login" element={<Login handleLogin={handleLoginWrapper} accountState={accountState} 
+        <Route path="/login" element={<Login handleLogin={handleLoginWrapper} accountState={accountState}
           setAccountState={setAccountState} setProfilePicture={setProfilePicture}
           email={email} setEmail={setEmail} />} />
         <Route path="/signup" element={<Signup />} />
@@ -103,9 +104,9 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        <AppContent accountState={accountState} setAccountState={setAccountState} 
-        profilePicture={profilePicture} setProfilePicture={setProfilePicture} 
-        email={email} setEmail={setEmail}/>
+        <AppContent accountState={accountState} setAccountState={setAccountState}
+          profilePicture={profilePicture} setProfilePicture={setProfilePicture}
+          email={email} setEmail={setEmail} />
       </BrowserRouter>
     </div>
   );
