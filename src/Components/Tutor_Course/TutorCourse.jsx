@@ -1,5 +1,5 @@
 import React from 'react';
-import CourseItem from '../Course/Course'; // Importing the generic CourseItem
+import CourseItem from '../CourseItem/CourseItem'; // Importing the generic CourseItem
 import './TutorCourse.css';
 
 const TutorCourse = (props) => {

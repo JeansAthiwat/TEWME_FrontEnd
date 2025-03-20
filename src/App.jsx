@@ -22,6 +22,8 @@ import CompleteProfile from './Pages/CompleteProfile';
 import LoginSuccess from './Pages/LoginSuccess';
 import TutorProfile from './Pages/TutorProfile';
 import Reservation from './Pages/Reservation';
+import CourseVideoPage from './Pages/CourseVideoPage';
+import SearchCourse from './Pages/SearchCourse'
 
 function AppContent({ accountState, setAccountState, profilePicture, setProfilePicture }) {
   const location = useLocation();
@@ -68,6 +70,8 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
         <Route path="/login-success" element={<LoginSuccess setAccountState={setAccountState} setProfilePicture={setProfilePicture} />} />
         <Route path="/complete-profile" element={<CompleteProfile setAccountState={setAccountState} setProfilePicture={setProfilePicture} />} />
         <Route path='/tutor/:tutorId' element={<TutorProfile />} />
+        <Route path="/course/video/:courseId" element={<CourseVideoPage />} />
+        <Route path="/course" element={<SearchCourse accountState={accountState} />} />
       </Routes>
       {shouldShowNavbar}
       <Footer />

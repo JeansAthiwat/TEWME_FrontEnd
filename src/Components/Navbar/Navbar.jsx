@@ -8,7 +8,7 @@ const Navbar = ({ accountState, onLogout, profilePicture }) => {
   const location = useLocation().pathname.split("/")[1];
 
   const navObjects = [
-    { id: 1, name: "Main", path: "main", permission: "all" },
+    { id: 1, name: "Home", path: "main", permission: "all" },
     { id: 2, name: "Verify Tutors", path: "admin", permission: "admin" },
     { id: 3, name: "Chat Box", path: "chatbox", permission: "all" },
     { id: 4, name: "Notifications", path: "notification", permission: "all" },
@@ -70,7 +70,7 @@ const Navbar = ({ accountState, onLogout, profilePicture }) => {
             strokeWidth={2.5}
           />
           <div className="nav-logo">
-            <p>TewMe</p>
+            <Link to="/main">TewMe</Link>
           </div>
         </div>
         <ul className="nav-menu">{navObjects.map(displayNav)}</ul>
