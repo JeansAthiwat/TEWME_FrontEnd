@@ -55,7 +55,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
       <Routes>
         <Route path="/" element={<Main accountState={accountState} />} />
         <Route path="/main" element={<Main accountState={accountState} />} />
-        <Route path="/mycourse" element={<Mycourse UID={localStorage.getItem('UID')} />} />
+        <Route path="/mycourse" element={<Mycourse UID={localStorage.getItem('UID')} email={email} />} />
         <Route path="/enrollment" element={<Enrollment />} />
         <Route path="/chatbox" element={<Chatbox />} />
         <Route path="/reservation" element={<Reservation />} />
@@ -89,16 +89,28 @@ function App() {
     return localStorage.getItem("profilePicture") || profile_icon; // Load from localStorage
   });
   const [email, setEmail] = useState(() => {
-    return localStorage.getItem("email") || ""; // Load from localStorage
+    return localStorage.getItem("email"); // Load from localStorage
   });
+
   useEffect(() => {
-    localStorage.setItem('accountState', accountState); // ✅ Save state when changed
+    if (localStorage.getItem('accountState') !== accountState) {
+      localStorage.setItem('accountState', accountState);
+    }
   }, [accountState]);
+
   useEffect(() => {
-    localStorage.setItem('profilePicture', profilePicture); // ✅ Save state when changed
+    if (localStorage.getItem('profilePicture') !== profilePicture) {
+      localStorage.setItem('profilePicture', profilePicture);
+    }
   }, [profilePicture]);
+
   useEffect(() => {
-    localStorage.setItem('email', email); // ✅ Save state when changed
+    const storedEmail = localStorage.getItem("email");
+
+    // Only update if email is not already stored
+    if (email && email !== storedEmail) {
+      localStorage.setItem("email", email);
+    }
   }, [email]);
 
   return (

@@ -8,15 +8,19 @@ const LoginSuccess = ({ setAccountState, setProfilePicture }) => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
     const UID = urlParams.get('UID');
+    const email = urlParams.get('email');
 
     console.log("✅ Token from URL:", token); // ✅ Debugging
     console.log("✅ UserID from URL:", UID); // ✅ Debugging
+    console.log("✅ email from URL:", email); // ✅ Debugging
 
     if (token) {
       localStorage.setItem('token', token); // ✅ Store token correctly
       console.log("✅ Token stored in localStorage:", localStorage.getItem('token'));
       localStorage.setItem('UID', UID); // ✅ Store UID correctly
       console.log("✅ UID stored in localStorage:", localStorage.getItem('UID'));
+      localStorage.setItem('email', email); // ✅ Store UID correctly
+      console.log("✅ email stored in localStorage:", localStorage.getItem('email'));
 
       fetch('http://localhost:39189/api/profile/get-profile', {
         method: 'GET',

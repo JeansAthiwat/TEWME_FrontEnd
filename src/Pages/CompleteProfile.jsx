@@ -66,7 +66,7 @@ const CompleteProfile = ({ setAccountState, setProfilePicture }) => {
                     onChange={(e) => setFormData({ ...formData, lastname: e.target.value })} required />
                 <input type="text" placeholder="Phone Number" value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })} required />
-                <input type="date" value={formData.birthdate}
+                <input type="date" max={new Date().toISOString().split("T")[0]} value={formData.birthdate}
                     onChange={(e) => setFormData({ ...formData, birthdate: e.target.value })} required />
 
                 <select value={formData.role} onChange={(e) => setFormData({ ...formData, role: e.target.value })}>

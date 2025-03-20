@@ -5,7 +5,7 @@ import { FaCalculator, FaFlask, FaCode, FaPaintBrush, FaLanguage, FaMusic, FaTim
 import { Link } from 'react-router-dom';
 import defaultCourseIcon from "../Components/Assets/book.avif"
 
-const Mycourse = ({ UID }) => {
+const Mycourse = ({ UID, email }) => {
   const [courses, setCourses] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
@@ -24,7 +24,7 @@ const Mycourse = ({ UID }) => {
   
     fetchCourses();
     
-  }, [UID]); // Added `tutor_id` as a dependency
+  }, [UID, email]); // Added `tutor_id` as a dependency
   
 
   const deleteCourse = async (courseId) => {
@@ -94,7 +94,7 @@ const Mycourse = ({ UID }) => {
             >
               <FaTimes className="w-6 h-6" />
             </button>
-            <MultiStepForm setCourses={setCourses} email={email} onClose={closeModal} />
+            <MultiStepForm setCourses={setCourses} tutorID={UID} tEmail={email} onClose={closeModal} />
           </div>
         </div>
       )}
