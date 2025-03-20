@@ -23,7 +23,7 @@ import LoginSuccess from './Pages/LoginSuccess';
 
 import TutorProfile from './Pages/TutorProfile';
 import Reservation from './Pages/Reservation';
-import CreateCourse from './Pages/CreateCourse';
+import CourseVideoPage from './Pages/CourseVideoPage';
 
 
 function AppContent({ accountState, setAccountState, profilePicture, setProfilePicture ,email, setEmail}) {
@@ -73,6 +73,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
         <Route path="/login-success" element={<LoginSuccess setAccountState={setAccountState} setProfilePicture={setProfilePicture} />} />
         <Route path="/complete-profile" element={<CompleteProfile setAccountState={setAccountState} setProfilePicture={setProfilePicture} />} />
         <Route path='/tutor/:tutorId' element={<TutorProfile />} />
+        <Route path="/course/video/:courseId" element={<CourseVideoPage />} />
       </Routes>
       {shouldShowNavbar}
       <Footer />

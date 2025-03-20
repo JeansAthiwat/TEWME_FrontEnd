@@ -24,45 +24,42 @@ const Course = () => {
   const { courseId } = useParams();
   const [course, setCourse] = useState(null);
   const [videos, setVideos] = useState([]);
-  const [reviews, setReviews] = useState(null);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    const getCourse = async () => {
-      const response = await fetch(`http://localhost:39189/course/${courseId}`);
-      const data = await response.json();
-      console.log("Course Data: ", data); // ดูข้อมูลที่ได้รับ
-      // console.log("Tutor : ", data.tutor); // ดูข้อมูลที่ได้รับ
+    const fetchData = async () => {
+      try {
+        // เรียกข้อมูลหลักของคอร์ส
+        const response = await fetch(`http://localhost:39189/course/${courseId}`);
+        const data = await response.json();
 
-      // ดึงข้อมูลผู้ใช้สำหรับ tutor
-      const userResponse = await axios.get(`http://localhost:39189/user/id/${data.tutor}?select=firstname,lastname,bio,profilePicture`);
-      // console.log("Tutor Data: ", userResponse); // ดูข้อมูลที่ได้รับ
-      const tutorWithUserData = { ...data.tutor, user: userResponse.data }; // รวมข้อมูลผู้ใช้เข้ากับ tutor
+        // ตรวจสอบว่า data.tutor มีค่าหรือไม่
+        if (data.tutor) {
+          const userResponse = await axios.get(`http://localhost:39189/user/id/${data.tutor}?select=firstname,lastname,bio,profilePicture`);
+          const tutorWithUserData = { ...data.tutor, user: userResponse.data };
+          setCourse({ ...data, tutor: tutorWithUserData });
+        } else {
+          console.error("Tutor not found");
+        }
 
-      setCourse({ ...data, tutor: tutorWithUserData }); // อัปเดต course ด้วยข้อมูล tutor
+        // เรียกข้อมูลรีวิว
+        const reviewResponse = await fetch(`http://localhost:39189/review/course/${courseId}`);
+        const reviewData = await reviewResponse.json();
+        const reviewsWithUserData = await Promise.all(reviewData.map(async (review) => {
+          const userResponse = await axios.get(`http://localhost:39189/user/id/${review.reviewer_id._id}?select=firstname,lastname,profilePicture`);
+          return { ...review, user: userResponse.data };
+        }));
+        setReviews(reviewsWithUserData);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
     };
-    getCourse();
-  }, [courseId]);
-  console.log("Course Data: ", course); // ดูข้อมูลที่ได้รับ
 
-  useEffect(() => {
-    const getReviews = async () => {
-      const response = await fetch(`http://localhost:39189/review/course/${courseId}`);
-      const data = await response.json();
-      console.log("Review Data: ", data); // ดูข้อมูลที่ได้รับ
-  
-      // ดึงข้อมูลผู้ใช้สำหรับแต่ละรีวิว
-      const reviewsWithUserData = await Promise.all(data.map(async (review) => {
-        const userResponse = await axios.get(`http://localhost:39189/user/id/${review.reviewer_id._id}?select=firstname,lastname,profilePicture`);
-        // console.log("Reviewer Data: ", userResponse); // ดูข้อมูลที่ได้รับ
-        return { ...review, user: userResponse.data }; // รวมข้อมูลผู้ใช้เข้ากับรีวิว
-      }));
-      
-      setReviews(reviewsWithUserData);
-    };
-    getReviews();
-  }, [courseId]);
+    fetchData();
+  }, [courseId]); // เรียกใช้ fetchData เมื่อ courseId เปลี่ยนแปลง
 
-  console.log("Reviewer Data: ", reviews);
+  console.log("Course Data: ", course);
+  console.log("Review Data: ", reviews);
 
   useEffect(() => {
     if (course) setVideos(course.videos);
@@ -197,7 +194,7 @@ const Course = () => {
                 <div className="mb-6 flex items-center text-sm text-gray-500">
                   <Link to="/" className="hover:text-gray-700">Home</Link>
                   <ChevronRight className="w-4 h-4 mx-2" />
-                  <Link to="/courses" className="hover:text-gray-700">Courses</Link>
+                  <Link to="/course" className="hover:text-gray-700">Courses</Link>
                   <ChevronRight className="w-4 h-4 mx-2" />
                   <span className="text-gray-800 font-semibold">{course.course_name}</span>
                 </div>
@@ -263,7 +260,9 @@ const Course = () => {
                           <Award className="w-5 h-5 mr-2" />
                           Enroll Now
                         </button>
-                        <button className="px-6 py-3 rounded-xl border border-blue-600 text-blue-600 hover:bg-blue-100 transition-colors sm:flex-1 flex justify-center items-center">
+                        <button 
+                        onClick={() => window.location.href = `/course/video/${courseId}`} 
+                        className="px-6 py-3 rounded-xl border border-blue-600 text-blue-600 hover:bg-blue-100 transition-colors sm:flex-1 flex justify-center items-center">
                           Preview Course
                         </button>
                       </div>
@@ -391,7 +390,7 @@ const Course = () => {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10">
             <h2 className="text-2xl font-display font-bold">Related Courses</h2>
             <Link 
-              to="/courses" 
+              to="/course" 
               className="group inline-flex items-center text-primary font-medium mt-4 md:mt-0"
             >
               View all courses
