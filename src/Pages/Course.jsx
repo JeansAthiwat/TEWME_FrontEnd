@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import { Link, useParams } from "react-router-dom";
 // import CourseItem from "../Components/Course/CourseItem";
@@ -19,7 +19,9 @@ import {
   Calendar,
   MapPin,
   Library,
-  Banknote
+  Banknote,
+  CircleCheck,
+  CircleX
 } from 'lucide-react';
 
 const Course = () => {
@@ -28,7 +30,8 @@ const Course = () => {
   const [videos, setVideos] = useState([]);
   const [reviews, setReviews] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [resCount, setResCount] = useState(0);
+  const [modalMode, setModalMode] = useState(false);
+  const [enrollmentStatus, setEnrollmentStatus] = useState(false);
 
   useEffect(() => {
     const getCourse = async () => {
@@ -47,6 +50,22 @@ const Course = () => {
     };
     getCourse();
   }, [courseId]);
+
+  useEffect(() => {
+    const getReservation = async () => {
+      const response = await fetch(`http://localhost:39189/reservation?course=${courseId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        }
+      })
+      const data = await response.json()
+      if(data.count) {
+        setEnrollmentStatus(true);
+      }
+    }
+    getReservation();
+  })
 
   useEffect(() => {
     const getReviews = async () => {
@@ -94,6 +113,13 @@ const Course = () => {
 
     const data = await response.json();
     console.log(data);
+    console.log(response.status)
+    if(response.status == 200) {
+      setEnrollmentStatus(true)
+    } else {
+      setEnrollmentStatus(false)
+    }
+    setModalMode(true);
   }
 
   return course ? (
@@ -274,8 +300,9 @@ const Course = () => {
                           <span className="text-sm">{course.course_type}</span>
                         </div>
                       </div>
-                      
+
                       {/* <div className="mt-auto flex flex-col sm:flex-row gap-4"> */}
+                      {!enrollmentStatus &&
                       <div className="flex space-x-4">
                         <button className="px-6 py-3 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 transition-all sm:flex-1 flex justify-center items-center"
                           onClick={() => setIsModalOpen(true)}>
@@ -286,6 +313,7 @@ const Course = () => {
                           Preview Course
                         </button>
                       </div>
+                      }
                   </div>
                 </div>
         </div>
@@ -301,7 +329,14 @@ const Course = () => {
                   {course.course_description}
                 </p>
               </div>
-              
+
+              {/* Course Contents (for enrolled learner) */}
+              {enrollmentStatus &&
+              <div className="course-content">
+
+              </div>
+              }
+
               {/* Instructor */}
               <div className="mt-10">
                 <h2 className="text-2xl font-display font-bold mb-6">Meet Your Instructor</h2>
@@ -485,13 +520,32 @@ const Course = () => {
       {isModalOpen && (
         <div className="modal">
           <div className="modal-content">
-            <h3 className="font-bold">Confirm Your Enrollment</h3>
-            <p>Course: {course.course_name}</p>
-            <p>{course.price} Baht</p>
-            <div className="modal-actions">
-              <button onClick={handleEnroll} className="update-btn">Confirm</button>
-              <button onClick={() => setIsModalOpen(false)} className="cancel-btn">Cancel</button>
-            </div>
+            {!modalMode ?
+              (<>
+                <h3 className="font-bold">Confirm Your Enrollment</h3>
+                <p>Course: {course.course_name}</p>
+                <p>{course.price} Baht</p>
+                <div className="modal-actions">
+                  <button onClick={handleEnroll} className="update-btn">Confirm</button>
+                  <button onClick={() => setIsModalOpen(false)} className="cancel-btn">Cancel</button>
+                </div>
+              </>):
+              (enrollmentStatus ? (<>
+                <h3 className="font-bold">Enrollment Success</h3>
+                <div className="flex justify-center pb-5">
+                  <CircleCheck className="w-[15%] h-[15%] mr-2 text-[#77bb41]" />
+                </div>
+                <button onClick={() => {setIsModalOpen(false);setModalMode(false);}} className="update-btn">Close</button>
+              </>):
+              (<>
+                <h3 className="font-bold">Enrollment Fail</h3>
+                <div className="flex justify-center pb-5">
+                  <CircleX className="w-[15%] h-[15%] mr-2 text-[#e32400]" />
+                </div>
+                <button onClick={() => {setIsModalOpen(false);setModalMode(false);}} className="update-btn">Close</button>
+              </>)
+              )
+            }
           </div>
         </div>
       )}
