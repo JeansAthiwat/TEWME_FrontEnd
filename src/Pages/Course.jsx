@@ -46,12 +46,17 @@ const Course = () => {
       const tutorWithUserData = { ...data.tutor, user: userResponse.data }; // รวมข้อมูลผู้ใช้เข้ากับ tutor
 
       setCourse({ ...data, tutor: tutorWithUserData }); // อัปเดต course ด้วยข้อมูล tutor
-      console.log("Course Data: ", course); // ดูข้อมูลที่ได้รับ
+      setVideos(data.videos)
+      // console.log("Course Data: ", course); // ดูข้อมูลที่ได้รับ
+      console.log("Videos: ", videos)
     };
     getCourse();
   }, [courseId]);
 
   useEffect(() => {
+    if(localStorage.getItem("accountState") == "tutor") {
+      return;
+    }
     const getReservation = async () => {
       const response = await fetch(`http://localhost:39189/reservation?course=${courseId}`, {
         headers: {
@@ -87,9 +92,6 @@ const Course = () => {
   }, [courseId]);
 
 
-  useEffect(() => {
-    if (course) setVideos(course.videos);
-  }, [course]);
 
   // Handler to download the supplementary file
   const handleDownload = () => {
@@ -333,7 +335,13 @@ const Course = () => {
               {/* Course Contents (for enrolled learner) */}
               {enrollmentStatus &&
               <div className="course-content">
-
+                <h2 className="text-2xl font-display font-bold mb-6">Content</h2>
+                <h3 className="text-xl font-display font-bold mb-6">Videos</h3>
+                <ul className='video-list'>
+                  {
+                    videos.forEach((video,index) =>  <Link to={`/course/${courseId}/video/${index}`}>{video.video_title}</Link>)
+                  }
+                </ul>
               </div>
               }
 
