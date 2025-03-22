@@ -37,7 +37,7 @@ const Course = () => {
     const getCourse = async () => {
       const response = await fetch(`http://localhost:39189/course/${courseId}`);
       const data = await response.json();
-      console.log("Course Data: ", data); // ดูข้อมูลที่ได้รับ
+      // console.log("Course Data: ", data); // ดูข้อมูลที่ได้รับ
       // console.log("Tutor : ", data.tutor); // ดูข้อมูลที่ได้รับ
 
       // ดึงข้อมูลผู้ใช้สำหรับ tutor
@@ -47,8 +47,6 @@ const Course = () => {
 
       setCourse({ ...data, tutor: tutorWithUserData }); // อัปเดต course ด้วยข้อมูล tutor
       setVideos(data.videos)
-      // console.log("Course Data: ", course); // ดูข้อมูลที่ได้รับ
-      console.log("Videos: ", videos)
     };
     getCourse();
   }, [courseId]);
@@ -65,12 +63,13 @@ const Course = () => {
         }
       })
       const data = await response.json()
+      console.log('Reservation: ',data)
       if(data.count) {
         setEnrollmentStatus(true);
       }
     }
     getReservation();
-  })
+  },[courseId])
 
   useEffect(() => {
     const getReviews = async () => {
@@ -337,9 +336,9 @@ const Course = () => {
               <div className="course-content">
                 <h2 className="text-2xl font-display font-bold mb-6">Content</h2>
                 <h3 className="text-xl font-display font-bold mb-6">Videos</h3>
-                <ul className='video-list'>
+                <ul className='video-list list-disc'>
                   {
-                    videos.forEach((video,index) =>  <Link to={`/course/${courseId}/video/${index}`}>{video.video_title}</Link>)
+                    videos.map((video,index) =>  <li className='ml-7' key={index}><Link to={`/course/${courseId}/video/${index}`} className='text-blue-600 underline hover:text-blue-500'>{video.video_title}</Link></li>)
                   }
                 </ul>
               </div>
