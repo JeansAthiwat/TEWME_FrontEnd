@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { Link, useParams } from "react-router-dom";
 // import CourseItem from "../Components/Course/CourseItem";
+import './CSS/Course.css';
 import StarRating from "../Components/StarRating/StarRating";
 import ReviewCard from "../Components/ReviewCard/ReviewCard";
 import DefaultPic from "../Components/Assets/course_id1.png";
@@ -17,7 +18,8 @@ import {
   GraduationCap,
   Calendar,
   MapPin,
-  Library
+  Library,
+  Banknote
 } from 'lucide-react';
 
 const Course = () => {
@@ -25,6 +27,8 @@ const Course = () => {
   const [course, setCourse] = useState(null);
   const [videos, setVideos] = useState([]);
   const [reviews, setReviews] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [resCount, setResCount] = useState(0);
 
   useEffect(() => {
     const getCourse = async () => {
@@ -39,10 +43,10 @@ const Course = () => {
       const tutorWithUserData = { ...data.tutor, user: userResponse.data }; // รวมข้อมูลผู้ใช้เข้ากับ tutor
 
       setCourse({ ...data, tutor: tutorWithUserData }); // อัปเดต course ด้วยข้อมูล tutor
+      console.log("Course Data: ", course); // ดูข้อมูลที่ได้รับ
     };
     getCourse();
   }, [courseId]);
-  console.log("Course Data: ", course); // ดูข้อมูลที่ได้รับ
 
   useEffect(() => {
     const getReviews = async () => {
@@ -58,11 +62,11 @@ const Course = () => {
       }));
       
       setReviews(reviewsWithUserData);
+      console.log("Reviewer Data: ", reviews);
     };
     getReviews();
   }, [courseId]);
 
-  console.log("Reviewer Data: ", reviews);
 
   useEffect(() => {
     if (course) setVideos(course.videos);
@@ -77,6 +81,20 @@ const Course = () => {
     const date = new Date(dateStr);
     return date.toLocaleDateString();
   };
+
+  const handleEnroll = async () => {
+    // add reservation to course
+    const response = await fetch(`http://localhost:39189/course/${courseId}/enroll`, {
+      method:"POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    console.log(data);
+  }
 
   return course ? (
     // <div className="max-w-6xl mx-auto p-6 bg-white shadow rounded space-y-6">
@@ -259,7 +277,8 @@ const Course = () => {
                       
                       {/* <div className="mt-auto flex flex-col sm:flex-row gap-4"> */}
                       <div className="flex space-x-4">
-                        <button className="px-6 py-3 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 transition-all sm:flex-1 flex justify-center items-center">
+                        <button className="px-6 py-3 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 transition-all sm:flex-1 flex justify-center items-center"
+                          onClick={() => setIsModalOpen(true)}>
                           <Award className="w-5 h-5 mr-2" />
                           Enroll Now
                         </button>
@@ -338,9 +357,10 @@ const Course = () => {
                   <h3 className="text-xl font-display font-bold mb-4">Course Details</h3>
                   <ul className="space-y-4">
                     {[
-                      { icon: <Clock className="w-5 h-5" />, label: 'Duration', value: course.course_length + ' ' + "Hrs"},
+                      { icon: <Clock className="w-5 h-5" />, label: 'Duration', value: course.course_length + " Hrs"},
                       { icon: <Users className="w-5 h-5" />, label: 'Instructor', value: course.tutor.user.firstname + ' ' + course.tutor.user.lastname },
-                      { icon: <GraduationCap className="w-5 h-5" />, label: 'Capacity', value: course.course_capacity + ' ' + "Persons" },
+                      { icon: <GraduationCap className="w-5 h-5" />, label: 'Capacity', value: course.course_capacity + " Persons" },
+                      { icon: <Banknote className="w-5 h-5"/>, label: 'Price', value: course.price + " Baht"},
                       // เพิ่มข้อมูล location และ start_time ถ้า course_type เป็น "Live"
                       ...(course.course_type === "Live" ? [
                         { icon: <BookOpen className="w-5 h-5" />, label: 'Location', value: "Room 101, ABC Institute" },
@@ -462,6 +482,19 @@ const Course = () => {
           </div>
         </div>
       </footer> */}
+      {isModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3 className="font-bold">Confirm Your Enrollment</h3>
+            <p>Course: {course.course_name}</p>
+            <p>{course.price} Baht</p>
+            <div className="modal-actions">
+              <button onClick={handleEnroll} className="update-btn">Confirm</button>
+              <button onClick={() => setIsModalOpen(false)} className="cancel-btn">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
     
   ) : (

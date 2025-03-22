@@ -1,0 +1,56 @@
+@import 'tailwindcss';
+
+/* 🔹 Improved Modal Styling */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px); /* 🔹 Soft Blur Background */
+  }
+  
+  /* 🔹 Modal Content */
+  .modal-content {
+    background: white;
+    padding: 25px;
+    border-radius: 12px; /* 🔹 Softer Corners */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 450px; /* 🔹 Slightly Wider */
+    text-align: center;
+    position: relative;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  /* 🔹 Modal Title */
+  .modal-content h3 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #333;
+  }
+  
+  /* 🔹 Fade-In Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* 🔹 Modal Buttons (Smaller & Properly Aligned) */
+  .modal-actions {
+    display: flex;
+    justify-content: center; /* ✅ Center Align Buttons */
+    gap: 12px; /* ✅ Adds some space between buttons */
+    margin-top: 15px;
+  }
