@@ -155,6 +155,14 @@ const CourseReviews = ({ course }) => {
           Student Reviews ({reviews.length})
         </h2>
         <div className="flex items-center gap-4">
+          {!isReviewFormOpen && (
+            <button
+              onClick={() => setIsReviewFormOpen(true)}
+              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg shadow-md transition-all hover:bg-blue-700 active:scale-95"
+            >
+              Write a Review
+            </button>
+          )}
           <div className="flex bg-gray-200 p-1 rounded-lg w-fit">
             <button
               className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
@@ -177,14 +185,6 @@ const CourseReviews = ({ course }) => {
               Oldest
             </button>
             </div>
-          {!isReviewFormOpen && (
-            <button
-              onClick={() => setIsReviewFormOpen(true)}
-              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg shadow-md transition-all hover:bg-blue-700 active:scale-95"
-            >
-              Write a Review
-            </button>
-          )}
         </div>
       </div>
 

@@ -4,10 +4,8 @@ import { Link, useParams } from "react-router-dom";
 // import CourseItem from "../Components/Course/CourseItem";
 import './CSS/Course.css';
 import StarRating from "../Components/StarRating/StarRating";
-import ReviewCard from "../Components/ReviewCard/ReviewCard";
 import DefaultPic from "../Components/Assets/course_id1.png";
-import CourseReview from "../Components/ReviewCard/CourseReview";
-import ReviewButton from "../Components/ReviewButton/ReviewButton";
+import CourseReview from "../Components/CourseReview/CourseReview";
 import { 
   ArrowLeft, 
   Clock, 
@@ -73,27 +71,6 @@ const Course = () => {
     getReservation();
   },[courseId])
 
-  useEffect(() => {
-    const getReviews = async () => {
-      const response = await fetch(`http://localhost:39189/review/course/${courseId}`);
-      const data = await response.json();
-      console.log("Review Data: ", data); // ดูข้อมูลที่ได้รับ
-  
-      // ดึงข้อมูลผู้ใช้สำหรับแต่ละรีวิว
-      const reviewsWithUserData = await Promise.all(data.map(async (review) => {
-        const userResponse = await axios.get(`http://localhost:39189/user/id/${review.reviewer_id._id}?select=firstname,lastname,profilePicture`);
-        // console.log("Reviewer Data: ", userResponse); // ดูข้อมูลที่ได้รับ
-        return { ...review, user: userResponse.data }; // รวมข้อมูลผู้ใช้เข้ากับรีวิว
-      }));
-      
-      setReviews(reviewsWithUserData);
-      console.log("Reviewer Data: ", reviews);
-    };
-    getReviews();
-  }, [courseId]);
-
-
-
   // Handler to download the supplementary file
   const handleDownload = () => {
     window.open(`http://localhost:39189/course/${courseId}/supplementary`, "_blank");
@@ -104,64 +81,6 @@ const Course = () => {
     return date.toLocaleDateString();
   };
 
-  // Add review
-  const handleAddReview = async (rating, comment) => {
-    if (!course) return;
-    
-    try {
-      // Prepare the request payload
-      const reviewData = {
-        reviewer_email: "learner@example.com", // In a real app, this would come from auth
-        course_id: course.id,
-        rating: rating,
-        review_text: comment
-      };
-      
-      // Send POST request to the API
-      const response = await fetch('http://localhost:39189/review/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(reviewData),
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to submit review');
-      }
-      
-      // Add the review to our data
-      const newReview = addReview({
-        userId: 'current-user', // In a real app, this would come from auth
-        userName: 'You', // In a real app, this would come from auth
-        courseId: course.id,
-        rating,
-        comment
-      });
-      
-      // Update the UI
-      setReviews([newReview, ...reviews]);
-      
-      // Update the course with new rating
-      setCourse({
-        ...course,
-        avgRating: parseFloat(((course.avgRating * course.totalReviews + rating) / (course.totalReviews + 1)).toFixed(1)),
-        totalReviews: course.totalReviews + 1
-      });
-      
-      toast({
-        title: "Review submitted",
-        description: "Thank you for sharing your feedback!",
-      });
-    } catch (error) {
-      console.error('Error submitting review:', error);
-      toast({
-        title: "Error submitting review",
-        description: "Please try again later",
-        variant: "destructive",
-      });
-    }
-  };
   const handleEnroll = async () => {
     // add reservation to course
     const response = await fetch(`http://localhost:39189/course/${courseId}/enroll`, {
