@@ -15,17 +15,22 @@ const Notification = () => {
   const [filterStatus, setFilterStatus] = useState("all");
 
   // Get user id from localStorage (assuming it's stored as "UID")
-  const userId = localStorage.getItem('UID');
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    if (!userId) {
-      console.log("No user id found for notifications.");
+    if (!token) {
+      console.log("No token found for notifications.");
       return;
     }
     const fetchNotifications = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${API_BASE_URL}/user/${userId}`);
+        const response = await fetch(`${API_BASE_URL}/user`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          }
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch notifications");
         }
@@ -44,7 +49,7 @@ const Notification = () => {
     };
 
     fetchNotifications();
-  }, [userId]);
+  }, []);
 
   const markAsRead = async (notificationId) => {
     // Optimistic update: mark as read in the UI immediately
