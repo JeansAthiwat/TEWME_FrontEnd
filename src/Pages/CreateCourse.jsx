@@ -259,6 +259,7 @@ const LiveClassForm = ({email}) => {
               <input
                 type="datetime-local"
                 name="datetime"
+                min={new Date().toISOString().split("T")[0]}
                 value={formData.datetime}
                 onChange={handleChange}
                 disabled={formData.isVideoCourse}

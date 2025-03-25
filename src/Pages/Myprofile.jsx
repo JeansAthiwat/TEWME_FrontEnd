@@ -130,6 +130,28 @@ const Myprofile = ({profilePicture, setProfilePicture}) => {
     setProfilePicture(user.profilePicture)
 
   }
+
+  const handlePayout = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) throw new Error('No token found');
+
+    const response = await fetch("http://localhost:39189/api/profile/update-balance", {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ balance: 0 })
+    });
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.msg || `Failed to update ${modalType}`);
+
+    alert("Payout Success\n🤑 Here comes the moneyyy 💸💸💸");
+    const { balance, ...newUser } = user;
+    newUser.balance = data.user.balance;
+    setUser(newUser);
+  }
   
   setProfile()
   
@@ -154,6 +176,14 @@ const Myprofile = ({profilePicture, setProfilePicture}) => {
         <h2>Contact Information</h2>
         <p>Email: {user.email}</p>
         <p>Phone: {user.phone || 'Not provided'}</p>
+      </div>
+
+      <div className="profile-finance bg-[rgba(0,0,0,0.05)] rounded-[8px] top-[5px] relative py-[15px]">
+        <h2 className="font-bold text-[20px]">Balance</h2>
+        <p>{`${user.balance} Tokens` || "0 Tokens"}</p>
+        {user.role=="tutor" && (
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-full" onClick={handlePayout}>Payout</button>
+        )}
       </div>
 
       {/* 🔹 Modal Popup for Profile Updates */}

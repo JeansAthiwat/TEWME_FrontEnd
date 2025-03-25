@@ -5,14 +5,14 @@ import { FaCalculator, FaFlask, FaCode, FaPaintBrush, FaLanguage, FaMusic, FaTim
 import { Link } from 'react-router-dom';
 import defaultCourseIcon from "../Components/Assets/book.avif"
 
-const Mycourse = ({ email }) => {
+const Mycourse = ({ UID, email }) => {
   const [courses, setCourses] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch(`http://localhost:39189/course/tutor/${email}`);
+        const response = await fetch(`http://localhost:39189/course/tutor/${UID}`);
         if (!response.ok) throw new Error("Failed to fetch courses");
         const data = await response.json();
         setCourses(data);
@@ -24,7 +24,7 @@ const Mycourse = ({ email }) => {
   
     fetchCourses();
     
-  }, [email]); // Added `email` as a dependency
+  }, [UID, email]); // Added `tutor_id` as a dependency
   
 
   const deleteCourse = async (courseId) => {
@@ -94,7 +94,7 @@ const Mycourse = ({ email }) => {
             >
               <FaTimes className="w-6 h-6" />
             </button>
-            <MultiStepForm setCourses={setCourses} email={email} onClose={closeModal} />
+            <MultiStepForm setCourses={setCourses} tutorID={UID} tEmail={email} onClose={closeModal} />
           </div>
         </div>
       )}

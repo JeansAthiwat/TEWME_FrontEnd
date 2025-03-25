@@ -93,7 +93,7 @@ const Signup = () => {
             <input type="text" name="display_name" placeholder='Display Name' value={formData.display_name} onChange={handleChange} required />
             <input type="email" name="email" placeholder='Email Address' value={formData.email} onChange={handleChange} required />
             <input type="password" name="password" placeholder='Password' value={formData.password} onChange={handleChange} required />
-            <input type="date" name="birthdate" placeholder='Birthdate' value={formData.birthdate} onChange={handleChange} required />
+            <input type="date" name="birthdate" placeholder='Birthdate' value={formData.birthdate} onChange={handleChange}  max={new Date().toISOString().split("T")[0]} required />
             <input type="text" name="contact_info" placeholder='Contact Info' value={formData.contact_info} onChange={handleChange} required />
           </div>
 

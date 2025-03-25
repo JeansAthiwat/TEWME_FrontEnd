@@ -2,29 +2,28 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CSS/MultiStepForm.css";
 
-const MultiStepForm = ({ setCourses, email, onClose }) => {
-  const [tutorId, setTutorId] = useState(null);
-  const [nemail, setNemail] = useState(email);
-  const fetchTutorId = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (!token) throw new Error('No token found');
-        const response = await fetch('http://localhost:39189/api/profile/get-profile', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
-        const data = await response.json();
-        // console.log("Tutor ID:", data._id);
-        setTutorId(data._id);
-        setNemail(data.email);
-      } catch (error) {
-        console.error("Error fetching tutor ID:", error.message);
-      }
-    };
-  fetchTutorId();
+const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
+  const [tutorId, setTutorId] = useState(tutorID);
+  // const fetchTutorId = async () => {
+  //     try {
+  //       const token = localStorage.getItem('token');
+  //       if (!token) throw new Error('No token found');
+  //       const response = await fetch('http://localhost:39189/api/profile/get-profile', {
+  //         method: 'GET',
+  //         headers: {
+  //           'Authorization': `Bearer ${token}`,
+  //           'Content-Type': 'application/json'
+  //         }
+  //       });
+  //       const data = await response.json();
+  //       // console.log("Tutor ID:", data._id);
+  //       setTutorId(data._id);
+  //       setNemail(data.email);
+  //     } catch (error) {
+  //       console.error("Error fetching tutor ID:", error.message);
+  //     }
+  //   };
+  // fetchTutorId();
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -149,7 +148,7 @@ const MultiStepForm = ({ setCourses, email, onClose }) => {
     courseData.append("session_status", "Schedule");
     courseData.append("is_publish", true);
     courseData.append("course_type", formData.isVideoCourse ? "Video" : "Live");
-    courseData.append("t_email", nemail);
+    courseData.append("t_email", tEmail);
     courseData.append("tutor", tutorId);
     courseData.append("tags", JSON.stringify(formData.tags));
 
@@ -358,6 +357,7 @@ const MultiStepForm = ({ setCourses, email, onClose }) => {
                   <input
                     type="datetime-local"
                     name="datetime"
+                    min={new Date().toISOString().slice(0, 16)}
                     value={formData.datetime}
                     onChange={handleChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"

@@ -39,10 +39,12 @@ const Login = ({ accountState, setAccountState , setProfilePicture, email, setEm
       <div className="login-container">
         <h1>Sign in</h1>
         {error && <p className="error-message">{error}</p>}
-        <form onSubmit={handleSubmit}>
+        <form method="POST" onSubmit={handleSubmit}>
           <div className="login-fields">
             <input 
               type="email" 
+              name="username"
+              autoComplete="username"
               placeholder="Email Address" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -50,6 +52,8 @@ const Login = ({ accountState, setAccountState , setProfilePicture, email, setEm
             />
             <input 
               type="password" 
+              name="password"
+              autoComplete="current-password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

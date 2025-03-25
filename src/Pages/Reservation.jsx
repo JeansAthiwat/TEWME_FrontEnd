@@ -143,8 +143,8 @@ const Reservation = () => {
             <div className="detail-row">
               <span className="label">Location / Time</span>
               <span className="value">
-                {reservation.course.live_detail.location} (
-                {new Date(reservation.course.live_detail.start_time).toLocaleString()})
+                {/* {reservation.course.live_detail.location} (
+                {new Date(reservation.course.live_detail.start_time).toLocaleString()}) */}
               </span>
             </div>
             <div className="detail-row">
