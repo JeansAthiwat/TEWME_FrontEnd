@@ -6,6 +6,7 @@ import axios from 'axios';
 import './CSS/Main.css';
 import { X } from "lucide-react";
 
+
 const API_URL = "http://localhost:39189/search"; // ✅ เปลี่ยนเป็น '/search/'
 
 const Main = ({ accountState }) => {

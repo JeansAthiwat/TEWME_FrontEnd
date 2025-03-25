@@ -20,6 +20,7 @@ import VideoPage from './Pages/VideoPage'
 import profile_icon from './Components/Assets/profile_icon.png'
 import CompleteProfile from './Pages/CompleteProfile';
 import LoginSuccess from './Pages/LoginSuccess';
+import ToastContainer from "./Components/Toast/ToastContainer";
 
 import TutorProfile from './Pages/TutorProfile';
 import Reservation from './Pages/Reservation';
@@ -102,6 +103,7 @@ function App() {
 
   return (
     <div>
+      <ToastContainer />
       <BrowserRouter>
         <AppContent accountState={accountState} setAccountState={setAccountState} 
         profilePicture={profilePicture} setProfilePicture={setProfilePicture} 

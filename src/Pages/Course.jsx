@@ -5,6 +5,8 @@ import { Link, useParams } from "react-router-dom";
 import StarRating from "../Components/StarRating/StarRating";
 import ReviewCard from "../Components/ReviewCard/ReviewCard";
 import DefaultPic from "../Components/Assets/course_id1.png";
+import CourseReview from "../Components/ReviewCard/CourseReview";
+import ReviewButton from "../Components/ReviewButton/ReviewButton";
 import { 
   ArrowLeft, 
   Clock, 
@@ -44,25 +46,8 @@ const Course = () => {
   }, [courseId]);
   console.log("Course Data: ", course); // ดูข้อมูลที่ได้รับ
 
-  useEffect(() => {
-    const getReviews = async () => {
-      const response = await fetch(`http://localhost:39189/review/course/${courseId}`);
-      const data = await response.json();
-      console.log("Review Data: ", data); // ดูข้อมูลที่ได้รับ
-  
-      // ดึงข้อมูลผู้ใช้สำหรับแต่ละรีวิว
-      const reviewsWithUserData = await Promise.all(data.map(async (review) => {
-        const userResponse = await axios.get(`http://localhost:39189/user/id/${review.reviewer_id._id}?select=firstname,lastname,profilePicture`);
-        // console.log("Reviewer Data: ", userResponse); // ดูข้อมูลที่ได้รับ
-        return { ...review, user: userResponse.data }; // รวมข้อมูลผู้ใช้เข้ากับรีวิว
-      }));
-      
-      setReviews(reviewsWithUserData);
-    };
-    getReviews();
-  }, [courseId]);
 
-  console.log("Reviewer Data: ", reviews);
+  // console.log("Reviewer Dataaaaaaaaa: ", reviews);
 
   useEffect(() => {
     if (course) setVideos(course.videos);
@@ -76,6 +61,65 @@ const Course = () => {
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
     return date.toLocaleDateString();
+  };
+
+  // Add review
+  const handleAddReview = async (rating, comment) => {
+    if (!course) return;
+    
+    try {
+      // Prepare the request payload
+      const reviewData = {
+        reviewer_email: "learner@example.com", // In a real app, this would come from auth
+        course_id: course.id,
+        rating: rating,
+        review_text: comment
+      };
+      
+      // Send POST request to the API
+      const response = await fetch('http://localhost:39189/review/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(reviewData),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to submit review');
+      }
+      
+      // Add the review to our data
+      const newReview = addReview({
+        userId: 'current-user', // In a real app, this would come from auth
+        userName: 'You', // In a real app, this would come from auth
+        courseId: course.id,
+        rating,
+        comment
+      });
+      
+      // Update the UI
+      setReviews([newReview, ...reviews]);
+      
+      // Update the course with new rating
+      setCourse({
+        ...course,
+        avgRating: parseFloat(((course.avgRating * course.totalReviews + rating) / (course.totalReviews + 1)).toFixed(1)),
+        totalReviews: course.totalReviews + 1
+      });
+      
+      toast({
+        title: "Review submitted",
+        description: "Thank you for sharing your feedback!",
+      });
+    } catch (error) {
+      console.error('Error submitting review:', error);
+      toast({
+        title: "Error submitting review",
+        description: "Please try again later",
+        variant: "destructive",
+      });
+    }
   };
 
   return course ? (
@@ -189,7 +233,7 @@ const Course = () => {
     //     )}
     //   </section>
     // </div>
-
+    
     <div className="min-h-screen bg-gray-50 py-10 px-6">
       {/* Course Header */}
         <div className="max-w-7xl mx-auto">
@@ -231,11 +275,9 @@ const Course = () => {
                       <p className="text-lg text-gray-600 mb-6">{course.course_description}</p>
 
                       <div className="flex items-center mb-4">
-                        <div className="flex-1 flex items-center">
-                          <StarRating rating={course.ratings.average} size="lg" />
-                          <span className="ml-2 text-muted-foreground">
-                            ({course.ratings.totalReviews} reviews)
-                          </span>
+                        <div className="flex items-center text-xs text-muted-foreground">
+                          <StarRating rating={course.ratings.average} size={25} className="mr-3" />
+                          <span className="ml-1 text-base font-medium">{course.ratings.average.toFixed(1)} ★ ({course.ratings.totalReviews})</span>
                         </div>
                         <button className="p-2 rounded-full hover:bg-secondary transition-colors" aria-label="Share course">
                           <Share2 className="w-5 h-5" />
@@ -307,28 +349,8 @@ const Course = () => {
               </div>
               
               {/* Reviews */}
-              <div className="mt-10">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-display font-bold">Student Reviews</h2>
-                  <StarRating rating={course.ratings.average} size="md" />
-                </div>
-                
-                <div className="space-y-4">
+              <CourseReview course = {course}/>
 
-                {reviews && reviews.length > 0 ? (
-                  reviews.map((review, index) => (
-                    <ReviewCard key={index} review={review} />
-                ))
-              ) : (
-                <p>No reviews available.</p>
-              )}
-                </div> 
-                <div className="mt-6 text-center">
-                  <button className="px-6 py-2 rounded-full border border-border hover:bg-secondary transition-colors text-sm">
-                    View All Reviews
-                  </button>
-                </div>
-              </div>
             </div>
             
             {/* Sidebar */}
@@ -358,8 +380,7 @@ const Course = () => {
                       </li>
                     ))}
                   </ul>
-                </div>
-                
+                </div>                
                 <div className="border-t border-gray-100 p-6">
                   <h3 className="text-xl font-display font-bold mb-4">What You'll Learn</h3>
                   <ul className="space-y-3">
