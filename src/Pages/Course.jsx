@@ -295,6 +295,10 @@ const Course = () => {
                           Preview Course
                         </button>
                       </div>
+                      } {
+                        <button className="px-6 py-3 rounded-xl border border-gray-600 text-gray-600 px-6 py-3 rounded-lg w-full">
+                          You Already Enrolled
+                        </button>
                       }
                   </div>
                 </div>
