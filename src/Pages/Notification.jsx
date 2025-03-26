@@ -97,7 +97,7 @@ const Notification = () => {
   // Batch update: mark all notifications as "read" for the user
   const markAllAsReadBatch = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/user/read-all`, {
+      const response = await fetch(`${API_BASE_URL}/user/read-all`, { // Updated endpoint
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -161,7 +161,12 @@ const Notification = () => {
               <div
                 key={notification._id}
                 onClick={() => navigate(`/course/${notification.course_id}`)}
-                className={`p-4 border rounded flex justify-between items-center ${notification.read_status === "unread" ? "bg-blue-50" : "bg-gray-100"}`}
+                title="Click to view course" // Tooltip on hover
+                className={`cursor-pointer p-4 border rounded flex justify-between items-center transition-colors ${
+                  notification.read_status === "unread"
+                    ? "bg-blue-50 hover:bg-blue-100"
+                    : "bg-gray-100 hover:bg-gray-200"
+                }`}
               >
                 <div className="flex items-center">
                   <span className="mr-3 text-xl">
