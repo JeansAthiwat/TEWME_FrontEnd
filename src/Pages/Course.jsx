@@ -28,7 +28,6 @@ const Course = () => {
   const { courseId } = useParams();
   const [course, setCourse] = useState(null);
   const [videos, setVideos] = useState([]);
-  //const [reviews, setReviews] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState(false);
   const [enrollmentStatus, setEnrollmentStatus] = useState(false);
@@ -82,25 +81,30 @@ const Course = () => {
   };
 
   const handleEnroll = async () => {
-    // add reservation to course
-    const response = await fetch(`http://localhost:39189/course/${courseId}/enroll`, {
-      method:"POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    const data = await response.json();
-    console.log(data);
-    console.log(response.status)
-    if(response.status == 200) {
-      setEnrollmentStatus(true)
-    } else {
-      setEnrollmentStatus(false)
+    try {
+      const response = await fetch(`http://localhost:39189/course/${courseId}/enroll`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      console.log(data);
+  
+      setEnrollmentStatus(true);
+    } catch (error) {
+      console.error("Enrollment failed:", error);
+      setEnrollmentStatus(false);
+    } finally {
+      setModalMode(true);
     }
-    setModalMode(true);
-  }
+  };
 
   return course ? (
     // <div className="max-w-6xl mx-auto p-6 bg-white shadow rounded space-y-6">
