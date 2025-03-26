@@ -284,7 +284,7 @@ const Course = () => {
                       </div>
 
                       {/* <div className="mt-auto flex flex-col sm:flex-row gap-4"> */}
-                      {!enrollmentStatus &&
+                      {!enrollmentStatus ? (
                       <div className="flex space-x-4">
                         <button className="px-6 py-3 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 transition-all sm:flex-1 flex justify-center items-center"
                           onClick={() => setIsModalOpen(true)}>
@@ -295,11 +295,11 @@ const Course = () => {
                           Preview Course
                         </button>
                       </div>
-                      } {
+                      ) : (
                         <button className="px-6 py-3 rounded-xl border border-gray-600 text-gray-600 px-6 py-3 rounded-lg w-full">
                           You Already Enrolled
                         </button>
-                      }
+                      )}
                   </div>
                 </div>
         </div>
