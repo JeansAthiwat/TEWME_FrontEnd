@@ -4,27 +4,37 @@ import "./CSS/MultiStepForm.css";
 
 const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
   const [tutorId, setTutorId] = useState(tutorID);
-  // const fetchTutorId = async () => {
-  //     try {
-  //       const token = localStorage.getItem('token');
-  //       if (!token) throw new Error('No token found');
-  //       const response = await fetch('http://localhost:39189/api/profile/get-profile', {
-  //         method: 'GET',
-  //         headers: {
-  //           'Authorization': `Bearer ${token}`,
-  //           'Content-Type': 'application/json'
-  //         }
-  //       });
-  //       const data = await response.json();
-  //       // console.log("Tutor ID:", data._id);
-  //       setTutorId(data._id);
-  //       setNemail(data.email);
-  //     } catch (error) {
-  //       console.error("Error fetching tutor ID:", error.message);
-  //     }
-  //   };
-  // fetchTutorId();
   const navigate = useNavigate();
+
+  // Fetch tutor ID if not provided as a prop
+  useEffect(() => {
+    if (!tutorID) {
+      const fetchTutorId = async () => {
+        try {
+          const token = localStorage.getItem("token");
+          if (!token) throw new Error("No token found");
+          const response = await fetch("http://localhost:39189/api/profile/get-profile", {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json"
+            }
+          });
+          if (!response.ok) {
+            throw new Error("Failed to fetch tutor profile");
+          }
+          const data = await response.json();
+          setTutorId(data._id); // set tutorId with the valid ObjectId
+        } catch (error) {
+          console.error("Error fetching tutor ID:", error.message);
+        }
+      };
+      fetchTutorId();
+    } else {
+      setTutorId(tutorID);
+    }
+  }, [tutorID]);
+
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     title: "",
@@ -42,14 +52,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
   });
   const [errors, setErrors] = useState({});
   const [inputTag, setInputTag] = useState("");
-  const availableTags = [
-    "Math",
-    "Science",
-    "Programming",
-    "Art",
-    "Language",
-    "Music",
-  ];
+  const availableTags = ["Math", "Science", "Programming", "Art", "Language", "Music"];
 
   // --- Tag Handlers ---
   const handleTagAdd = () => {
@@ -62,7 +65,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
   const handleTagRemove = (tagToRemove) => {
     setFormData((prev) => ({
       ...prev,
-      tags: prev.tags.filter((tag) => tag !== tagToRemove),
+      tags: prev.tags.filter((tag) => tag !== tagToRemove)
     }));
   };
 
@@ -71,14 +74,14 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === "checkbox" ? checked : value
     }));
   };
 
   const handleFileChange = (e) => {
     setFormData((prev) => ({
       ...prev,
-      supplementaryFile: e.target.files[0],
+      supplementaryFile: e.target.files[0]
     }));
   };
 
@@ -88,20 +91,16 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
 
     if (currentStep === 1) {
       if (!formData.title.trim()) newErrors.title = "Title is required";
-      if (!formData.description.trim())
-        newErrors.description = "Description is required";
-      if (formData.tags.length === 0)
-        newErrors.tags = "At least one tag is required";
+      if (!formData.description.trim()) newErrors.description = "Description is required";
+      if (formData.tags.length === 0) newErrors.tags = "At least one tag is required";
     }
 
     if (currentStep === 2) {
       if (formData.isVideoCourse) {
-        if (!formData.videoLink.trim())
-          newErrors.videoLink = "Video link is required";
+        if (!formData.videoLink.trim()) newErrors.videoLink = "Video link is required";
       } else {
         if (!formData.datetime) newErrors.datetime = "Date & Time is required";
-        if (!formData.location.trim())
-          newErrors.location = "Location is required";
+        if (!formData.location.trim()) newErrors.location = "Location is required";
       }
     }
 
@@ -132,6 +131,10 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateCurrentStep()) return;
+    if (!tutorId) {
+      alert("Tutor ID is missing. Please try again later.");
+      return;
+    }
 
     const courseData = new FormData();
     courseData.append("course_name", formData.title);
@@ -168,7 +171,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
       const response = await fetch("http://localhost:39189/course", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Ensure token is included
+          Authorization: `Bearer ${localStorage.getItem("token")}`
         },
         body: courseData,
       });
@@ -209,7 +212,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
               General Information
             </h3>
             <div className="mb-4">
-              <label className="block mb-2 text-sm font-medium text-gray-900 ">
+              <label className="block mb-2 text-sm font-medium text-gray-900">
                 Class Title
               </label>
               <input
@@ -236,9 +239,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 resize-y"
               />
               {errors.description && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.description}
-                </p>
+                <p className="text-red-500 text-sm mt-1">{errors.description}</p>
               )}
             </div>
             <div className="mb-4">
@@ -293,12 +294,9 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
         return (
           <div>
             <h3 className="mb-4 text-lg font-medium text-gray-900 text-left">
-              Course Type :
-              {formData.isVideoCourse
-                ? " Video Course Details"
-                : " Schedule Details"}
+              Course Type:{" "}
+              {formData.isVideoCourse ? "Video Course Details" : "Schedule Details"}
             </h3>
-            {/* Button Group for Course Type */}
             <div className="inline-flex rounded-md shadow-xs mb-4" role="group">
               <button
                 type="button"
@@ -327,8 +325,6 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
                 Live Course
               </button>
             </div>
-
-            {/* Conditionally Render Form Fields */}
             {formData.isVideoCourse ? (
               <div className="mb-4">
                 <label className="block mb-2 text-sm font-medium text-gray-900">
@@ -343,9 +339,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                 />
                 {errors.videoLink && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.videoLink}
-                  </p>
+                  <p className="text-red-500 text-sm mt-1">{errors.videoLink}</p>
                 )}
               </div>
             ) : (
@@ -363,9 +357,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   />
                   {errors.datetime && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.datetime}
-                    </p>
+                    <p className="text-red-500 text-sm mt-1">{errors.datetime}</p>
                   )}
                 </div>
                 <div className="mb-4">
@@ -381,9 +373,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   />
                   {errors.location && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.location}
-                    </p>
+                    <p className="text-red-500 text-sm mt-1">{errors.location}</p>
                   )}
                 </div>
               </>
@@ -422,9 +412,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                 />
                 {errors.maxStudents && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.maxStudents}
-                  </p>
+                  <p className="text-red-500 text-sm mt-1">{errors.maxStudents}</p>
                 )}
               </div>
             )}
@@ -442,9 +430,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                 />
                 {errors.courseLength && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.courseLength}
-                  </p>
+                  <p className="text-red-500 text-sm mt-1">{errors.courseLength}</p>
                 )}
               </div>
             )}
@@ -484,8 +470,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
                 <strong>Tags:</strong> {formData.tags.join(", ")}
               </p>
               <p>
-                <strong>Course Type:</strong>{" "}
-                {formData.isVideoCourse ? "Video" : "Live"}
+                <strong>Course Type:</strong> {formData.isVideoCourse ? "Video" : "Live"}
               </p>
               {formData.isVideoCourse ? (
                 <p>
@@ -508,8 +493,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
               )}
               {formData.isVideoCourse && (
                 <p>
-                  <strong>Course Length:</strong>{" "}
-                  {formData.courseLength || "N/A"}
+                  <strong>Course Length:</strong> {formData.courseLength || "N/A"}
                 </p>
               )}
               <p>
@@ -517,9 +501,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
               </p>
               <p>
                 <strong>Supplementary File:</strong>{" "}
-                {formData.supplementaryFile
-                  ? formData.supplementaryFile.name
-                  : "None"}
+                {formData.supplementaryFile ? formData.supplementaryFile.name : "None"}
               </p>
             </div>
           </div>
@@ -531,13 +513,10 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
 
   return (
     <div className="w-full p-6 bg-white">
-      {/* Multi-Step Progress Indicator */}
       <ol className="flex items-center w-full text-sm font-medium text-left text-gray-500 dark:text-gray-400 sm:text-base">
         <li
           className={`flex md:w-full items-center ${
-            currentStep >= 1
-              ? "text-blue-600 dark:text-blue-500"
-              : "text-gray-500"
+            currentStep >= 1 ? "text-blue-600 dark:text-blue-500" : "text-gray-500"
           } sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}
         >
           <span className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
@@ -559,9 +538,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
         </li>
         <li
           className={`flex md:w-full items-center ${
-            currentStep >= 2
-              ? "text-blue-600 dark:text-blue-500"
-              : "text-gray-500"
+            currentStep >= 2 ? "text-blue-600 dark:text-blue-500" : "text-gray-500"
           } sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}
         >
           <span className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
@@ -583,9 +560,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
         </li>
         <li
           className={`flex md:w-full items-center ${
-            currentStep >= 3
-              ? "text-blue-600 dark:text-blue-500"
-              : "text-gray-500"
+            currentStep >= 3 ? "text-blue-600 dark:text-blue-500" : "text-gray-500"
           } sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}
         >
           <span className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
@@ -607,9 +582,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
         </li>
         <li
           className={`flex items-center ${
-            currentStep >= 4
-              ? "text-blue-600 dark:text-blue-500"
-              : "text-gray-500"
+            currentStep >= 4 ? "text-blue-600 dark:text-blue-500" : "text-gray-500"
           }`}
         >
           <span className="flex items-center">
