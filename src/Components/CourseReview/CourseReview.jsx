@@ -4,7 +4,7 @@ import ReviewItem from './ReviewItem';
 import ReviewForm from './ReviewForm';
 import { useToast } from '../Toast/Toast';
 
-const CourseReviews = ({ course }) => {
+const CourseReviews = ({ course ,enrollmentStatus}) => {
   const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
   const [reviews, setReviews] = useState([]);
   const { toast } = useToast();
@@ -145,8 +145,7 @@ const CourseReviews = ({ course }) => {
         variant: "destructive",
       });
     }
-  };
-  
+  };  
 
   return (
     <div className="mt-8">
@@ -155,7 +154,7 @@ const CourseReviews = ({ course }) => {
           Student Reviews ({reviews.length})
         </h2>
         <div className="flex items-center gap-4">
-          {!isReviewFormOpen && (
+          {enrollmentStatus && !isReviewFormOpen && reviews.length > 0 &&(
             <button
               onClick={() => setIsReviewFormOpen(true)}
               className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg shadow-md transition-all hover:bg-blue-700 active:scale-95"
@@ -184,10 +183,10 @@ const CourseReviews = ({ course }) => {
             >
               Oldest
             </button>
-            </div>
+          </div>
         </div>
       </div>
-
+  
       {isReviewFormOpen && (
         <ReviewForm
           courseId={course.id}
@@ -195,7 +194,7 @@ const CourseReviews = ({ course }) => {
           onCancel={() => setIsReviewFormOpen(false)}
         />
       )}
-
+  
       {reviews.length > 0 ? (
         <div className="space-y-6 mt-6">
           {sortedReviews.map((review, index) => (
@@ -209,8 +208,10 @@ const CourseReviews = ({ course }) => {
       ) : (
         <div className="text-center py-12 bg-gray-50 rounded-xl border border-gray-200">
           <h3 className="text-lg font-medium text-gray-900 mb-2">No reviews yet</h3>
-          <p className="text-gray-600 mb-4">Be the first to share your experience with this course</p>
-          {!isReviewFormOpen && (
+          <p className="text-gray-600 mb-4">
+            Be the first to share your experience with this course
+          </p>
+          {enrollmentStatus &&  !isReviewFormOpen && (
             <button
               onClick={() => setIsReviewFormOpen(true)}
               className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg shadow-md transition-all hover:bg-blue-700 active:scale-95"

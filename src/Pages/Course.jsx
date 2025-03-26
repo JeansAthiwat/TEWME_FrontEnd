@@ -28,7 +28,7 @@ const Course = () => {
   const { courseId } = useParams();
   const [course, setCourse] = useState(null);
   const [videos, setVideos] = useState([]);
-  const [reviews, setReviews] = useState(null);
+  //const [reviews, setReviews] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState(false);
   const [enrollmentStatus, setEnrollmentStatus] = useState(false);
@@ -345,7 +345,7 @@ const Course = () => {
               </div>
               
               {/* Reviews */}
-              <CourseReview course = {course}/>
+              <CourseReview course = {course} enrollmentStatus = {enrollmentStatus}/>
 
             </div>
             
