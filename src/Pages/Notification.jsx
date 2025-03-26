@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { useNavigate } from 'react-router-dom';
 
 dayjs.extend(relativeTime);
 
@@ -11,11 +12,10 @@ const Notification = () => {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  // Simple filter for notifications by read_status (optional)
   const [filterStatus, setFilterStatus] = useState("all");
 
-  // Get user id from localStorage (assuming it's stored as "UID")
   const token = localStorage.getItem('token');
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   useEffect(() => {
     if (!token) {
@@ -52,7 +52,7 @@ const Notification = () => {
   }, []);
 
   const markAsRead = async (notificationId) => {
-    // Optimistic update: mark as read in the UI immediately
+    // Optimistically update the UI
     setNotifications((prev) =>
       prev.map((notification) =>
         notification._id === notificationId
@@ -70,11 +70,9 @@ const Notification = () => {
       if (!response.ok) {
         throw new Error("Failed to update notification");
       }
-      // Optionally process response data
-      // const updatedNotification = await response.json();
     } catch (err) {
       console.log("Error marking notification as read:", err);
-      // Optionally, revert the optimistic update if needed
+      // Optionally revert the optimistic update if needed
     }
   };
 
@@ -86,7 +84,7 @@ const Notification = () => {
 
   return (
     <div className="p-5">
-      {/* Header with "Notification" title and a placeholder "Mark all as read" button */}
+      {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Notification</h1>
         <button className="text-blue-600 font-medium" disabled>
@@ -94,7 +92,7 @@ const Notification = () => {
         </button>
       </div>
 
-      {/* Optional filter dropdown */}
+      {/* Filter Dropdown */}
       <div className="mb-4">
         <label htmlFor="filter" className="mr-2">Filter by status:</label>
         <select
@@ -119,12 +117,10 @@ const Notification = () => {
             filteredNotifications.map((notification) => (
               <div
                 key={notification._id}
-                className={`p-4 border rounded flex justify-between items-center ${
-                  notification.read_status === "unread" ? "bg-blue-50" : "bg-gray-100"
-                }`}
+                onClick={() => navigate(`/course/${notification.course_id}`)}
+                className={`p-4 border rounded flex justify-between items-center ${notification.read_status === "unread" ? "bg-blue-50" : "bg-gray-100"}`}
               >
                 <div className="flex items-center">
-                  {/* Placeholder icon */}
                   <span className="mr-3 text-xl">🔔</span>
                   <div>
                     <p className="font-medium">{notification.message}</p>
@@ -135,7 +131,7 @@ const Notification = () => {
                 </div>
                 {notification.read_status === "unread" && (
                   <button
-                    onClick={() => markAsRead(notification._id)}
+                    onClick={(e) => { e.stopPropagation(); markAsRead(notification._id); }}
                     className="text-sm text-blue-600 hover:underline"
                   >
                     Mark as read
