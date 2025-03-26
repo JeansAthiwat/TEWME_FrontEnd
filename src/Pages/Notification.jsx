@@ -15,7 +15,24 @@ const Notification = () => {
   const [filterStatus, setFilterStatus] = useState("all");
 
   const token = localStorage.getItem('token');
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  const navigate = useNavigate();
+
+  // Helper function to get icon based on status
+  const getStatusIcon = (status) => {
+    switch(status) {
+      case "pending":
+        return "⏳"; // Waiting symbol
+      case "paid":
+        return "✅"; // Ticked checkmark
+      case "failed":
+        return "❌"; // Failed symbol
+      case "expired":
+        return "⌛"; // Expired operation symbol
+      case "reminder":
+      default:
+        return "🔔"; // Reminder uses the yellow bell
+    }
+  };
 
   useEffect(() => {
     if (!token) {
@@ -49,8 +66,9 @@ const Notification = () => {
     };
 
     fetchNotifications();
-  }, []);
+  }, [token]);
 
+  // Update a single notification to "read"
   const markAsRead = async (notificationId) => {
     // Optimistically update the UI
     setNotifications((prev) =>
@@ -76,6 +94,28 @@ const Notification = () => {
     }
   };
 
+  // Batch update: mark all notifications as "read" for the user
+  const markAllAsReadBatch = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/user/read-all`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error("Failed to mark all notifications as read");
+      }
+      // Update local state: set all notifications' read_status to "read"
+      setNotifications(prev =>
+        prev.map(notification => ({ ...notification, read_status: "read" }))
+      );
+    } catch (error) {
+      console.error("Error marking all notifications as read:", error);
+    }
+  };
+
   // Filter notifications based on selected filter (all, unread, or read)
   const filteredNotifications = notifications.filter(notification => {
     if (filterStatus === "all") return true;
@@ -87,7 +127,10 @@ const Notification = () => {
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Notification</h1>
-        <button className="text-blue-600 font-medium" disabled>
+        <button 
+          className="text-blue-600 font-medium" 
+          onClick={markAllAsReadBatch}
+        >
           Mark all as read
         </button>
       </div>
@@ -121,7 +164,9 @@ const Notification = () => {
                 className={`p-4 border rounded flex justify-between items-center ${notification.read_status === "unread" ? "bg-blue-50" : "bg-gray-100"}`}
               >
                 <div className="flex items-center">
-                  <span className="mr-3 text-xl">🔔</span>
+                  <span className="mr-3 text-xl">
+                    {getStatusIcon(notification.status)}
+                  </span>
                   <div>
                     <p className="font-medium">{notification.message}</p>
                     <p className="text-sm text-gray-600">
