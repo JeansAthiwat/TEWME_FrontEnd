@@ -19,6 +19,7 @@
         "react-modal": "^3.16.3",
         "react-player": "^2.16.0",
         "react-router-dom": "^7.1.4",
+        "socket.io-client": "^4.8.1",
         "tailwind-merge": "^3.0.2",
         "tailwindcss": "^4.0.6",
         "web-vitals": "^4.2.4"
