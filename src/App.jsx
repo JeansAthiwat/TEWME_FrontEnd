@@ -36,18 +36,33 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
 
   useEffect(() => {
     // Connect to the Socket.IO server
-    const socketInstance = io("http://localhost:39189");
+    if(localStorage.getItem("token")) {
+      const socketInstance = io("http://localhost:39189", {
+        auth: {
+          token: localStorage.getItem('token')
+        }
+      });
+  
+      // Handle connection
+      socketInstance.on("connect", () => {
+        console.log("✅ Connected to socket server with ID:", socketInstance.id);
+      });
 
-    // Handle connection
-    socketInstance.on("connect", () => {
-      console.log("✅ Connected to socket server with ID:", socketInstance.id);
-    });
-    setSocket(socketInstance)
+      // socketInstance.on("private message", ({ from, message }) => {
+      //   console.log("TODO: Implement notification");
+      // });
 
-    // Clean up when component unmounts
-    return () => {
-      socketInstance.disconnect();
-    };
+      socketInstance.on("message stored", (response) => {
+        console.log(response);
+      })
+
+      setSocket(socketInstance);
+  
+      // Clean up when component unmounts
+      return () => {
+        socketInstance.disconnect();
+      };
+    }
   }, []);
 
   const handleLoginWrapper = (email, password) => handleLogin(email, password, setAccountState, setEmail);

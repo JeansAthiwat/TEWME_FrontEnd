@@ -66,8 +66,8 @@ const Login = ({ accountState, setAccountState , setProfilePicture, email, setEm
               <p>Remember for 30 days</p>
             </div>
             <div className="login-remember-right">
-              <Link to='/resetpassword' style={{ textDecoration: 'none' }} className='link'>
-                Forget password?<hr />
+              <Link to='/resetpassword' className='link hover:underline'>
+                Forget password?
               </Link>
             </div>
           </div>
@@ -81,7 +81,7 @@ const Login = ({ accountState, setAccountState , setProfilePicture, email, setEm
 
         <p className="login-signup">
           Don't have an account?
-          <Link to='/signup' style={{ textDecoration: 'none' }} className='link'>Sign Up<hr /></Link>
+          <Link to='/signup' className='link pl-2'>Sign Up</Link>
         </p>
       </div>
     </div>
