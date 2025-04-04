@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import "./CSS/Chatbox.css";
 import { jwtDecode } from "jwt-decode";
 
 const Chatbox = ({ socket }) => {
@@ -13,6 +12,13 @@ const Chatbox = ({ socket }) => {
 
   const user = jwtDecode(localStorage.getItem("token"));
   // console.log("user is",user);
+
+  const formatMsg = (msg) => {
+    return msg.match(/.{1,55}/g).join('<br />');
+  }
+  const formatPreviewMsg = (msg) => {
+    return msg.substring(0,50) + "..."
+  }
   
   // Scroll to bottom on messages change
   useEffect(() => {
@@ -107,9 +113,9 @@ const Chatbox = ({ socket }) => {
           {conversations.map((conv, index) => 
             conv.participants.map((participant) => 
               participant._id !== user.id && (
-                <li key={index} onClick={() => setCurrentConv(index)} className={`rounded-xl py-2 px-4 hover:cursor-default hover:bg-gray-100 ${index==currentConv?"bg-gray-100":"bg-gray-50"}`}>
+                <li key={index} onClick={() => setCurrentConv(index)} className={`rounded-xl py-2 px-4 hover:cursor-default hover:bg-gray-200 ${index==currentConv?"bg-gray-200":"bg-gray-50"}`}>
                   <div className="conversation-name font-bold">{participant.firstname} {participant.lastname}</div>
-                  <div className="last-message text-gray-400">{conv.lastMessage.text}</div>
+                  <div className="last-message text-gray-400">{formatPreviewMsg(conv.lastMessage.text)}</div>
                 </li>
               )
             )
@@ -120,7 +126,7 @@ const Chatbox = ({ socket }) => {
           <div ref={messageWindowRef} className="message-section w-full px-5 h-[65vh] overflow-y-scroll flex flex-col mx-auto">
             <button onClick={getOlderMessages} className='w-fit mx-auto bg-gray-50 border-2 border-gray-300 hover:border-gray-400 text-gray-500 font-bold py-2 px-4 rounded-full mt-2'>See Older</button>
             <ul className="flex flex-col gap-2 pt-5">
-              {messages.map((msg,index) => <li key={index} className={`w-fit rounded-full px-4 py-2 ${msg.sender==user.id?"ml-auto bg-blue-100":"mr-auto bg-gray-100"}`}>{msg.text}</li>)}
+              {messages.map((msg,index) => <li key={index} className={`w-fit rounded-3xl px-4 py-2 ${msg.sender==user.id?"ml-auto bg-blue-100":"mr-auto bg-gray-100"}`} dangerouslySetInnerHTML={{ __html: formatMsg(msg.text) }}></li>)}
             </ul>
             <div ref={bottomRef}/>
           </div>
