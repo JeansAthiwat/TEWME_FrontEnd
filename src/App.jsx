@@ -1,3 +1,4 @@
+import { io } from "socket.io-client";
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { handleLogin } from './utils/authHandlers';
@@ -31,6 +32,38 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
   const location = useLocation();
   const hideNavbarPaths = ['/login', '/signup', '/resetpassword'];
   const shouldShowNavbar = !hideNavbarPaths.includes(location.pathname);
+  const [socket, setSocket] = useState(null)
+
+  useEffect(() => {
+    // Connect to the Socket.IO server
+    if(localStorage.getItem("token")) {
+      const socketInstance = io("http://localhost:39189", {
+        auth: {
+          token: localStorage.getItem('token')
+        }
+      });
+  
+      // Handle connection
+      socketInstance.on("connect", () => {
+        console.log("✅ Connected to socket server with ID:", socketInstance.id);
+      });
+
+      // socketInstance.on("private message", ({ from, message }) => {
+      //   console.log("TODO: Implement notification");
+      // });
+
+      socketInstance.on("message stored", (response) => {
+        console.log(response);
+      })
+
+      setSocket(socketInstance);
+  
+      // Clean up when component unmounts
+      return () => {
+        socketInstance.disconnect();
+      };
+    }
+  }, []);
 
   const handleLoginWrapper = (email, password) => handleLogin(email, password, setAccountState, setEmail);
 
@@ -58,7 +91,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
         <Route path="/main" element={<Main accountState={accountState} />} />
         <Route path="/mycourse" element={<Mycourse UID={localStorage.getItem('UID')} email={email} />} />
         <Route path="/enrollment" element={<Enrollment />} />
-        <Route path="/chatbox" element={<Chatbox />} />
+        <Route path="/chatbox" element={<Chatbox socket={socket} />} />
         <Route path="/reservation" element={<Reservation />} />
         <Route path="/notification" element={<Notification />} />
         <Route path='/course/:courseId/video/:videoNumber' element={<VideoPage />} />
