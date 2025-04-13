@@ -240,7 +240,7 @@ const Course = () => {
                       )}
                     /> */}
                     <img 
-                    src={DefaultPic} 
+                    src={course.course_profile || DefaultPic} 
                     alt={course.course_name} 
                     className="w-full h-full object-cover"
                     />

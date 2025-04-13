@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import Cropper from "react-cropper";
+import "cropperjs/dist/cropper.css";
 import "./CSS/MultiStepForm.css";
 
 const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
   const [tutorId, setTutorId] = useState(tutorID);
   const navigate = useNavigate();
 
-  // Fetch tutor ID if not provided as a prop
+  // Fetch tutor ID if not provided as a prop.
   useEffect(() => {
     if (!tutorID) {
       const fetchTutorId = async () => {
@@ -24,7 +26,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
             throw new Error("Failed to fetch tutor profile");
           }
           const data = await response.json();
-          setTutorId(data._id); // set tutorId with the valid ObjectId
+          setTutorId(data._id);
         } catch (error) {
           console.error("Error fetching tutor ID:", error.message);
         }
@@ -45,11 +47,17 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
     datetime: "",
     location: "",
     supplementaryFile: null,
+    courseProfile: null, // This will store the cropped image as a File
     maxStudents: "",
     price: "",
     duration: "60", // For live courses
-    courseLength: "", // For video courses
+    courseLength: "" // For video courses
   });
+  // New state for original image URL and cropping mode
+  const [previewImage, setPreviewImage] = useState(null);
+  const [croppingMode, setCroppingMode] = useState(false);
+  const cropperRef = useRef(null);
+  
   const [errors, setErrors] = useState({});
   const [inputTag, setInputTag] = useState("");
   const availableTags = ["Math", "Science", "Programming", "Art", "Language", "Music"];
@@ -70,6 +78,30 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
   };
 
   // --- Input Handlers ---
+  // Handler for course profile using cropper
+  const handleCourseProfileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Optionally store the file initially (we will later replace it with the cropped file)
+      setFormData((prev) => ({ ...prev, courseProfile: file }));
+      const reader = new FileReader();
+      reader.onload = () => {
+        // Set the preview image and enable cropping mode
+        setPreviewImage(reader.result);
+        setCroppingMode(true);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Generic file handler for supplementary file
+  const handleFileChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.files[0]
+    }));
+  };
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -78,11 +110,23 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
     }));
   };
 
-  const handleFileChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      supplementaryFile: e.target.files[0]
-    }));
+  // --- Cropping Handler ---
+  const onCrop = () => {
+    if (cropperRef.current && cropperRef.current.cropper) {
+      // Get cropped canvas as dataURL
+      const croppedDataUrl = cropperRef.current.cropper
+        .getCroppedCanvas()
+        .toDataURL();
+      setPreviewImage(croppedDataUrl);
+      // Convert cropped canvas to a blob and then to a File
+      cropperRef.current.cropper.getCroppedCanvas().toBlob((blob) => {
+        // Create a new file using the original file name and blob type
+        const croppedFile = new File([blob], formData.courseProfile.name, { type: blob.type });
+        setFormData((prev) => ({ ...prev, courseProfile: croppedFile }));
+      });
+      // Exit cropping mode after cropping
+      setCroppingMode(false);
+    }
   };
 
   // --- Validation ---
@@ -154,6 +198,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
     courseData.append("t_email", tEmail);
     courseData.append("tutor", tutorId);
     courseData.append("tags", JSON.stringify(formData.tags));
+    courseData.append("subject", JSON.stringify(formData.tags));
 
     if (!formData.isVideoCourse) {
       courseData.append("live_detail[location]", formData.location);
@@ -167,6 +212,10 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
     if (formData.supplementaryFile) {
       courseData.append("supplementaryFile", formData.supplementaryFile);
     }
+    if (formData.courseProfile) {
+      courseData.append("courseProfile", formData.courseProfile);
+    }
+
     try {
       const response = await fetch("http://localhost:39189/course", {
         method: "POST",
@@ -177,6 +226,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
       });
       const data = await response.json();
       if (response.ok) {
+        // Reset form
         setFormData({
           title: "",
           description: "",
@@ -186,11 +236,14 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
           datetime: "",
           location: "",
           supplementaryFile: null,
+          courseProfile: null,
           maxStudents: "",
           price: "",
           duration: "60",
           courseLength: "",
         });
+        setPreviewImage(null);
+        setCroppingMode(false);
         onClose();
         setCourses((prev) => [...prev, data]);
       } else {
@@ -386,6 +439,53 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
             <h3 className="mb-4 text-lg font-medium text-gray-900 text-left">
               Additional Course Information
             </h3>
+            {/* Course Profile Input and Cropper */}
+            <div className="mb-4">
+              <label className="block mb-2 text-sm font-medium text-gray-900">
+                Course Profile
+              </label>
+              <input
+                type="file"
+                name="courseProfile"
+                onChange={handleCourseProfileChange}
+                accept="image/*"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+              />
+              {croppingMode ? (
+                // Render Cropper when in cropping mode
+                <div className="mt-3">
+                  <Cropper
+                    src={previewImage}
+                    style={{ height: 300, width: "100%" }}
+                    // Set the aspect ratio as needed (e.g., 16:9, 1:1, etc.)
+                    aspectRatio={16 / 9}
+                    guides={true}
+                    ref={cropperRef}
+                    viewMode={1}
+                    dragMode="move"
+                  />
+                  <button
+                    type="button"
+                    onClick={onCrop}
+                    className="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+                  >
+                    Crop Image
+                  </button>
+                </div>
+              ) : (
+                previewImage && (
+                  <div className="mt-3">
+                    <p className="text-sm text-gray-600">Image Preview:</p>
+                    <img
+                      src={previewImage}
+                      alt="Course Profile Preview"
+                      style={{ maxWidth: "100%", height: "auto", borderRadius: "8px", marginTop: "8px" }}
+                    />
+                  </div>
+                )
+              )}
+            </div>
+            {/* Supplementary File Input */}
             <div className="mb-4">
               <label className="block mb-2 text-sm font-medium text-gray-900">
                 Supplementary File
@@ -502,6 +602,10 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
               <p>
                 <strong>Supplementary File:</strong>{" "}
                 {formData.supplementaryFile ? formData.supplementaryFile.name : "None"}
+              </p>
+              <p>
+                <strong>Course Profile:</strong>{" "}
+                {formData.courseProfile ? formData.courseProfile.name : "None"}
               </p>
             </div>
           </div>

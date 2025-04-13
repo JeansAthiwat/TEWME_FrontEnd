@@ -5,11 +5,12 @@ import course_pic from '../Assets/course_id1.png';
 
 
 const CourseItem = (props) => {
+  console.log(props)
   return (
     <div className='course-item'>
       <div className="course-head">
         <Link to={`/course/${props.course_id}`}>
-          <img onClick={window.scrollTo(0, 0)} src={ course_pic ||props.img} alt="" />
+          <img onClick={window.scrollTo(0, 0)} src={ props.course_profile || course_pic} alt="" />
         </Link>
       </div>
       <Link to={`/course/${props.course_id}`} style={{ textDecoration: "none", color: "inherit" }}>
