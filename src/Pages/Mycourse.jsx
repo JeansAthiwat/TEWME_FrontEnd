@@ -5,10 +5,10 @@ import { FaCalculator, FaFlask, FaCode, FaPaintBrush, FaLanguage, FaMusic, FaTim
 import { Link } from 'react-router-dom';
 import defaultCourseIcon from "../Components/Assets/book.avif"
 
-const Mycourse = ({ UID, email }) => {
+const Mycourse = ({  email }) => {
   const [courses, setCourses] = useState([]);
   const [showModal, setShowModal] = useState(false);
-
+  const UID = localStorage.getItem("UID");
   useEffect(() => {
     const fetchCourses = async () => {
       try {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './CSS/Myprofile.css';
-
-const Myprofile = ({profilePicture, setProfilePicture}) => {
+import { useNavigate } from 'react-router-dom';
+const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -10,6 +10,12 @@ const Myprofile = ({profilePicture, setProfilePicture}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState(''); // 'profilePicture' or 'bio'
   const [modalValue, setModalValue] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogoutClick = () => {
+    onLogout();
+    navigate("/login");
+  };
 
   // Fetch User Profile on Component Mount
   useEffect(() => {
@@ -158,7 +164,7 @@ const Myprofile = ({profilePicture, setProfilePicture}) => {
 
   return (
     <div className="profile-container">
-      <div className="profile-header">
+      <div className="w-full profile-header">
         
         <img
           src={profilePicture || 'https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg'}
@@ -166,19 +172,19 @@ const Myprofile = ({profilePicture, setProfilePicture}) => {
           className="profile-picture"
           onClick={() => openModal('profilePicture')} // 🔹 Click to open modal
         />
-        <h1>{user.firstname} {user.lastname}</h1>
+        <h1 className='py-4'>{user.firstname} {user.lastname}</h1>
         <p className="profile-bio" onClick={() => openModal('bio')}>
           {user.bio || 'Click to add bio'}
         </p>
       </div>
 
-      <div className="profile-contact">
+      <div className="w-full profile-contact">
         <h2>Contact Information</h2>
         <p>Email: {user.email}</p>
         <p>Phone: {user.phone || 'Not provided'}</p>
       </div>
 
-      <div className="profile-finance bg-[rgba(0,0,0,0.05)] rounded-[8px] top-[5px] relative py-[15px]">
+      <div className="w-full profile-finance bg-[rgba(0,0,0,0.05)] rounded-[8px] top-[5px] relative p-[15px]">
         <h2 className="font-bold text-[20px]">Balance</h2>
         <p>{`${user.balance} Tokens` || "0 Tokens"}</p>
         {user.role=="tutor" && (
@@ -212,6 +218,12 @@ const Myprofile = ({profilePicture, setProfilePicture}) => {
           </div>
         </div>
       )}
+      <button className="bg-gradient-to-br from-[#ff4b4b] to-[#ff1414] text-white px-[18px] py-[8px] text-[16px] font-semibold 
+      rounded-[25px] cursor-pointer transition-all duration-300 ease-in-out shadow-[0_2px_5px_rgba(255,65,65,0.3)] 
+      hover:from-[#ff2d2d] hover:to-[#d60000] hover:scale-105 hover:shadow-[0_4px_10px_rgba(255,65,65,0.5)] w-30 mx-auto" 
+      onClick={handleLogoutClick}>
+              Logout
+      </button>
     </div>
   );
 };

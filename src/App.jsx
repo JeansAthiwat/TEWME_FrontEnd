@@ -85,11 +85,11 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
 
   return (
     <>
-      {shouldShowNavbar && <><Navbar accountState={accountState} onLogout={handleLogout} profilePicture={profilePicture} /></>}
+      {shouldShowNavbar && <><Navbar accountState={accountState}  profilePicture={profilePicture} /></>}
       <Routes>
         <Route path="/" element={<Main accountState={accountState} />} />
         <Route path="/main" element={<Main accountState={accountState} />} />
-        <Route path="/mycourse" element={<Mycourse UID={localStorage.getItem('UID')} email={email} />} />
+        <Route path="/mycourse" element={<Mycourse email={email} />} />
         <Route path="/enrollment" element={<Enrollment />} />
         <Route path="/chatbox" element={<Chatbox socket={socket} />} />
         <Route path="/reservation" element={<Reservation />} />
@@ -101,7 +101,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
           setAccountState={setAccountState} setProfilePicture={setProfilePicture}
           email={email} setEmail={setEmail} />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/myprofile" element={<Myprofile profilePicture={profilePicture} setProfilePicture={setProfilePicture} />} />
+        <Route path="/myprofile" element={<Myprofile profilePicture={profilePicture} onLogout={handleLogout} setProfilePicture={setProfilePicture} />} />
         <Route path="/resetpassword" element={<Resetpassword />} />
         {/* <Route path='/createcourse' element={<LiveClassForm email={email} />} /> */}
         <Route path='/admin' element={<AdminPage />} />

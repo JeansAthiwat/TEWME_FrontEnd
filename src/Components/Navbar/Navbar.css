@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-around;
     justify-items:center;
-    min-height: 13vh;
+    min-height: 7vh;
     /* padding: 16px 30px; */
     box-shadow: 0 1px 3px -2px black;
     position: fixed;
@@ -11,18 +11,20 @@
     right: 0vw;
     background-color: white;
     z-index: 1000;
+    position: relative;
 }
 
 /* ปรับตำแหน่ง Arrow Left ให้อยู่ใกล้ TewMe มากขึ้น */
 .nav-left {
     display: flex;
     align-items: center;
-    gap: 30px;
+    justify-content: center;
+    gap: 20px;
     margin-left: -35px;
   }
 
 .dummy-elem {
-    min-height: 13vh;
+    min-height: 7vh;
 }
 
 .navbar * {
@@ -31,24 +33,13 @@
 
 .nav-logo p {
     color: #171717;
-    font-size: 3.5em;
+    font-size: 2.5em;
     font-weight: 800;
     font-family: 'Agu Display', sans-serif;
     position: relative;
+    padding-bottom: 20px;
 }
 
-.nav-menu {
-    /* top:2vh; */
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    list-style: none;
-    gap: 50px;
-    color: #626262;
-    font-size: 20px;
-    font-weight: 500;
-    position: relative
-}
 
 .nav-menu li {
     flex-direction: column;

@@ -424,70 +424,9 @@ const Course = () => {
               <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
-          
-          {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {relatedCourses.map(course => (
-              <CourseItem key={courseId} course={course} />
-            ))}
-          </div> */}
         </div>
       </section>
-      
-      {/* Footer */}
-      {/* <footer className="bg-card border-t border-border py-10 px-6 md:px-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-            <div>
-              <h3 className="font-display font-bold text-xl mb-4">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-500">
-                  LearnConnect
-                </span>
-              </h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Connecting passionate learners with expert tutors for transformative educational experiences.
-              </p>
-            </div>
-            
-            {[
-              {
-                title: 'Platform',
-                links: ['Courses', 'Tutors', 'Community', 'Resources']
-              },
-              {
-                title: 'Company',
-                links: ['About Us', 'Careers', 'Blog', 'Contact']
-              },
-              {
-                title: 'Support',
-                links: ['Help Center', 'Terms of Service', 'Privacy Policy', 'Accessibility']
-              }
-            ].map((group, idx) => (
-              <div key={idx}>
-                <h4 className="font-medium mb-4">{group.title}</h4>
-                <ul className="space-y-2">
-                  {group.links.map((link, i) => (
-                    <li key={i}>
-                      <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                        {link}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-          
-          <div className="border-t border-border mt-10 pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
-            <p>© 2023 LearnConnect. All rights reserved.</p>
-            <div className="mt-4 md:mt-0 flex space-x-6">
-              <a href="#" className="hover:text-primary transition-colors">Twitter</a>
-              <a href="#" className="hover:text-primary transition-colors">LinkedIn</a>
-              <a href="#" className="hover:text-primary transition-colors">Instagram</a>
-              <a href="#" className="hover:text-primary transition-colors">YouTube</a>
-            </div>
-          </div>
-        </div>
-      </footer> */}
+    
       {isModalOpen && (
         <div className="modal">
           <div className="modal-content">

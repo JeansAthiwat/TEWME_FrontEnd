@@ -123,7 +123,7 @@ const Notification = () => {
   });
 
   return (
-    <div className="p-5">
+    <div className="p-5 w-[100vw] md:w-[70vw] mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Notification</h1>

@@ -20,6 +20,7 @@ export const handleLogin = async (email, password, setAccountState, setProfilePi
     localStorage.clear();
 
     // ✅ Store new user data
+    localStorage.setItem('UID', data.user.id);
     localStorage.setItem('token', data.token);
     localStorage.setItem('email', data.user.email);
     localStorage.setItem('profilePicture', data.user.profilePicture);
@@ -30,7 +31,7 @@ export const handleLogin = async (email, password, setAccountState, setProfilePi
     setEmail(data.user.email)
     setProfilePicture(data.user.profilePicture)
     setAccountState(data.user.role); // Role should be 'user' or 'admin'
-    console.log(data.user.role)
+    console.log(data.user)
     // localStorage.setItem("profilePicture", data.user.profilePicture);
     return data;
   } catch (error) {

@@ -1,29 +1,24 @@
 import "./Navbar.css";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, House, MessageCircle, Bell, BookText, BookMarked } from "lucide-react";
 
-const Navbar = ({ accountState, onLogout, profilePicture }) => {
+const Navbar = ({ accountState, profilePicture }) => {
   const navigate = useNavigate();
   const location = useLocation().pathname.split("/")[1];
 
   const navObjects = [
-    { id: 1, name: "Main", path: "main", permission: "all" },
+    { id: 1, name: "main", icon: <House />,path: "main", permission: "all" },
     { id: 2, name: "Verify Tutors", path: "admin", permission: "admin" },
-    { id: 3, name: "Chat Box", path: "chatbox", permission: "all" },
-    { id: 4, name: "Notifications", path: "notification", permission: "all" },
-    { id: 5, name: "My Course", path: "Reservation", permission: "learner" },
-    { id: 6, name: "My Courses", path: "mycourse", permission: "tutor" },
+    { id: 3, name: "Chat", icon:<MessageCircle />, path: "chatbox", permission: "all" },
+    { id: 4, name: "noti", icon:<Bell />, path: "notification", permission: "all" },
+    { id: 5, name: "Reservations", icon:<BookMarked />, path: "Reservation", permission: "learner" },
+    { id: 6, name: "My Courses", icon:<BookText />, path: "mycourse", permission: "tutor" },
   ];
 
   useEffect(() => {
     console.log("Location changed to:", location);
   }, [location]);
-
-  const handleLogoutClick = () => {
-    onLogout();
-    navigate("/login");
-  };
 
   const handleNavClick = (path) => {
     if (accountState === "unregistered" && path !== "/") {
@@ -50,8 +45,8 @@ const Navbar = ({ accountState, onLogout, profilePicture }) => {
       accountState !== "unregistered" &&
       (obj.permission === "all" || accountState === obj.permission) && (
         <li key={obj.id} onClick={() => handleNavClick(path)}>
-          <Link style={{ textDecoration: "none" }} to={path}>
-            {obj.name}
+          <Link className="flex flex-row items-center gap-1" style={{ textDecoration: "none" }} to={path}>
+            {obj.name}{obj.icon}
           </Link>
           {location === obj.path && <hr />}
         </li>
@@ -70,28 +65,28 @@ const Navbar = ({ accountState, onLogout, profilePicture }) => {
             strokeWidth={2.5}
           />
           <div className="nav-logo">
+          <Link to="/login">
             <p>TewMe</p>
+          </Link>
           </div>
         </div>
-        <ul className="nav-menu">{navObjects.map(displayNav)}</ul>
+        <ul className="hidden md:flex md:justify-end md:items-center  md:gap-[20px] lg:gap-[50px] md:text-[#626262] md:text-xl md:font-medium ">
+          {navObjects.map(displayNav)}
+          </ul>
         <div className="nav-login-profile">
           {accountState === "unregistered" ? (
             <Link to="/login">
               <button className="login-btn">Login</button>
             </Link>
           ) : (
-            <button className="logout-btn" onClick={handleLogoutClick}>
-              Logout
-            </button>
-          )}
-          {accountState !== "unregistered" && (
             <Link to="/myprofile">
               <img src={profilePicture} alt="Profile" />
             </Link>
+            
           )}
         </div>
       </div>
-      <div className="dummy-elem"></div>
+  
     </>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import "./CSS/Reservation.css";
 
 const getSubjectColor = (subject) => {
@@ -29,31 +30,26 @@ const Reservation = () => {
       const url = type === 'weekly' 
         ? 'http://localhost:39189/reservation/weekly'
         : 'http://localhost:39189/reservation';
-
-      const response = await fetch(url, {
-        method: 'GET',
+  
+      const response = await axios.get(url, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       });
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          throw new Error('Please login to view your reservations');
-        }
-        throw new Error('Failed to fetch reservations');
-      }
-
-      const result = await response.json();
+  
+      const result = response.data;
+  
       if (result.success) {
+        console.log(result.data);
         setReservations(result.data);
       } else {
         throw new Error('Failed to get reservation data');
       }
+  
       setLoading(false);
     } catch (err) {
-      setError(err.message);
+      setError(err.response?.data?.message || err.message);
       setLoading(false);
     }
   };

@@ -1,12 +1,17 @@
 /* 🔹 Profile Container */
 .profile-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  gap: 20px;
   max-width: 600px;
   margin: 40px auto;
   padding: 25px;
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  /* text-align: center; */
 }
 
 /* 🔹 Profile Header */
@@ -21,7 +26,7 @@
   height: 150px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 15px;
+  margin: auto;
   border: 3px solid #3498db;
   transition: transform 0.3s ease;
 }
@@ -36,9 +41,10 @@
   font-size: 16px;
   color: #444;
   margin-bottom: 15px;
-  padding: 10px;
+  padding: 16px;
   background-color: #f9f9f9;
   border-radius: 8px;
+  text-align: start;
 }
 
 /* 🔹 Profile Details Section */
