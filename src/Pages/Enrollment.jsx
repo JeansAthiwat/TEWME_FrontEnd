@@ -5,6 +5,7 @@ import axios from 'axios';
 import './CSS/Main.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LoadingScreen from '../Components/LoadingScreen/LoadingScreen';
 
 const API_URL = "http://localhost:39189/search/"; // ใช้ endpoint /search ตาม backend
 
@@ -98,7 +99,7 @@ const Main = ({ accountState }) => {
 
       {/* Loading & Error Handling */}
       {loading ? (
-        <p className="text-center text-blue-500">Loading courses...</p>
+        <LoadingScreen />
       ) : error ? (
         <p className="text-center text-red-500">{error}</p>
       ) : (

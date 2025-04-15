@@ -3,6 +3,7 @@ import axios from 'axios';
 import "./CSS/Reservation.css";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LoadingScreen from '../Components/LoadingScreen/LoadingScreen';
 
 const getSubjectColor = (subject) => {
   const colorMap = {
@@ -48,7 +49,7 @@ const Reservation = () => {
       } else {
         throw new Error('Failed to get reservation data');
       }
-  
+      console.log(result.data)
       setLoading(false);
     } catch (err) {
       setError(err.response?.data?.message || err.message);
@@ -86,7 +87,7 @@ const Reservation = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <LoadingScreen />;
   if (error) return <div>Error: {error}</div>;
 
   return (

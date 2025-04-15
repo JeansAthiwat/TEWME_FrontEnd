@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useNavigate } from 'react-router-dom';
+import LoadingScreen from '../Components/LoadingScreen/LoadingScreen';
 
 dayjs.extend(relativeTime);
 
@@ -151,7 +152,7 @@ const Notification = () => {
       </div>
 
       {loading ? (
-        <p>Loading notifications...</p>
+        <LoadingScreen />
       ) : error ? (
         <p>Error: {error}</p>
       ) : (

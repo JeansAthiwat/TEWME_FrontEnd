@@ -3,6 +3,7 @@ import './CSS/Myprofile.css';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LoadingScreen from '../Components/LoadingScreen/LoadingScreen';
 
 const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
   const [user, setUser] = useState(null);
@@ -116,7 +117,7 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
 
 
   if (loading) {
-    return <div className="profile-container"><h2>Loading profile...</h2></div>;
+    return <LoadingScreen />
   }
 
   if (error) {

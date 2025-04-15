@@ -2,6 +2,7 @@ import './CSS/VideoPage.css'
 import ReactPlayer from 'react-player'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import LoadingScreen from '../Components/LoadingScreen/LoadingScreen';
 
 const VideoPlayer = ({ videoObj, videoNumber, courseId }) => {
     return (
@@ -67,7 +68,7 @@ const VideoPage = () => {
             }
             {
                 (!video) &&
-                <h1 style={{font:70}}>Loading Video</h1>
+                <LoadingScreen />
             }
         </>
     )

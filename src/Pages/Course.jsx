@@ -23,6 +23,7 @@ import {
   CircleCheck,
   CircleX
 } from 'lucide-react';
+import LoadingScreen from "../Components/LoadingScreen/LoadingScreen";
 
 const Course = () => {
   const { courseId } = useParams();
@@ -391,8 +392,8 @@ const Course = () => {
     </div>
     
   ) : (
-    <div className="flex items-center justify-center h-screen">
-      <h1 className="text-2xl font-semibold">Loading...</h1>
+    <div className="">
+      <LoadingScreen />
     </div>
   );
 };

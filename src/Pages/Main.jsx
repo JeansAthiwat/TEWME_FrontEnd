@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './CSS/Main.css';
 import { X } from "lucide-react";
+import LoadingScreen from '../Components/LoadingScreen/LoadingScreen';
 
 
 const API_URL = "http://localhost:39189/search"; // ✅ เปลี่ยนเป็น '/search/'
@@ -187,7 +188,7 @@ const Main = ({ accountState}) => {
   )}
   
         {loading ? (
-          <p className="text-center text-blue-500">Loading {category}...</p>
+          <LoadingScreen />
         ) : error ? (
           <p className="text-center text-red-500">{error}</p>
         ) : (

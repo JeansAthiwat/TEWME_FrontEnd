@@ -17,6 +17,7 @@ import {
   Clock,
   Users
 } from "lucide-react";
+import LoadingScreen from "../Components/LoadingScreen/LoadingScreen";
 
 const TutorProfile = () => {
   const { tutorId } = useParams();
@@ -70,13 +71,7 @@ const TutorProfile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-page">
-        <div className="animate-pulse flex flex-col items-center">
-          <div className="w-24 h-24 rounded-full bg-tutor-light-purple mb-4"></div>
-          <div className="h-8 w-48 bg-tutor-light-purple rounded mb-4"></div>
-          <div className="h-4 w-64 bg-tutor-light-purple rounded"></div>
-        </div>
-      </div>
+      <LoadingScreen />
     );
   }
 
