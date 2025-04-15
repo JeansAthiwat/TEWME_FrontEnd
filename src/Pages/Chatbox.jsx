@@ -44,10 +44,11 @@ const Chatbox = ({ socket }) => {
   useEffect(() => {
     if(socket) {
 
-      const handlePrivateMessage = ({from, message}) => {
+      const handlePrivateMessage = ({from, message, createdAt}) => {
         if(conversations[currentConv].participants.some(participant => participant._id===from)) {
-          const newMessage = { sender:from, text:message }
-          console.log("Pre rerender messages", messages);
+          const newMessage = { sender:from, text:message, createdAt: createdAt }
+          console.log(newMessage)
+          // console.log("Pre rerender messages", messages);
           setMessages(prev => [...prev, newMessage]);
         }
       }
@@ -120,7 +121,7 @@ const Chatbox = ({ socket }) => {
     socket.emit("private message", {
       conversationId: conversations[currentConv]._id,
       recipient: recipient._id,
-      message: msgBoxRef.current.value
+      message: msgBoxRef.current.value,
     });
     setMessages([...messages, { sender:user.id, text:msgBoxRef.current.value, createdAt: new Date(Date.now()) }])
     msgBoxRef.current.value = "";
@@ -137,12 +138,12 @@ const Chatbox = ({ socket }) => {
           {conversations.map((conv, index) => 
             conv.participants.map((participant) => 
               participant._id !== user.id && (
-                <li key={index} onClick={() => setCurrentConv(index)} className={`flex flex-row items-center gap-3 rounded-xl py-2 px-4 hover:cursor-default hover:bg-gray-300 ${index==currentConv?"bg-gray-200":"bg-gray-100"}`}>
+                <li key={index} onClick={() => setCurrentConv(index)} className={`overflow-hidden flex flex-row items-center gap-3 rounded-xl py-2 px-4 hover:cursor-default hover:bg-gray-300 ${index==currentConv?"bg-gray-200":"bg-gray-100"}`}>
                   <img className="w-10 h-10 rounded-full" src={participant.profilePicture} alt="d" />
                   <div>
-                  <div className="conversation-name font-bold">{participant.firstname} {participant.lastname}</div>
+                  <div className="conversation-name font-bold truncate">{participant.firstname} {participant.lastname}</div>
                   <div className="conversation-name text-gray-600 truncate ">Course: {conv.courseId.course_name} </div>
-                  <div className="last-message text-gray-400">{conv.lastMessage && formatPreviewMsg(conv.lastMessage.text)}</div>
+                  <div className="last-message text-gray-400 truncate">{conv.lastMessage && formatPreviewMsg(conv.lastMessage.text)}</div>
                   </div>
                 </li>
               )
@@ -151,7 +152,7 @@ const Chatbox = ({ socket }) => {
           </ul>
         </div>
         <div className="border-1 border-gray-200 rounded-xl w-[60%] h-full">
-          <div ref={messageWindowRef} className="message-section w-full px-5 h-[75vh] overflow-y-scroll flex flex-col mx-auto">
+          <div ref={messageWindowRef} className="message-section w-full px-5 h-[75vh] overflow-y-scroll overflow-x-hidden flex flex-col mx-auto">
             <button onClick={getOlderMessages} className='w-fit mx-auto bg-gray-50 border-2 border-gray-300 hover:border-gray-400 text-gray-500 font-bold py-2 px-4 rounded-full mt-2'>See Older</button>
             <ul className="flex flex-col gap-2 pt-5">
               {messages.map((msg, index) => {

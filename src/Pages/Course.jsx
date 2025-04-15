@@ -244,7 +244,7 @@ const Course = () => {
               </div>
 
               {/* Course Contents (for enrolled learner) */}
-              {enrollmentStatus || course.tutor_id === localStorage.getItem('UID') &&
+              {(enrollmentStatus || course.tutor_id === localStorage.getItem('UID') )&&
               <div className="course-content">
                 <h2 className="text-2xl font-display font-bold  mb-6">Content</h2>
                 {course.supplementary_file? <button onClick={handleDownload} className='text-blue-600 underline hover:text-blue-500 mb-6'> {course.supplementary_file.fileName} </button>
