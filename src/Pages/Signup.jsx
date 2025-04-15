@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './CSS/Signup.css';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // import ImageUpload from '../Components/ImageUpload/ImageUpload';
 
 const Signup = () => {
@@ -30,12 +33,12 @@ const Signup = () => {
     setError('');
 
     if (!UserType) {
-      alert("Please select whether you're signing up as a tutor or learner");
+      toast.warn("Please select whether you're signing up as a tutor or learner");
       return;
     }
 
     if (!agree) {
-      alert("You must agree to the terms of use & privacy policy.");
+      toast.warn("You must agree to the terms of use & privacy policy.");
       return;
     }
 
@@ -65,7 +68,10 @@ const Signup = () => {
   };
 
   return (
+    
     <div className='signup'>
+      <ToastContainer position="top-center" autoClose={3000} />
+
       <div className="signup-container">
         <h1>Sign Up</h1>
 
