@@ -102,14 +102,14 @@ const Mycourse = ({  email }) => {
       <div className="courses-list">
         {courses.map((course) => (
           <div key={course._id} className="mycourse-card">
-            <div className="delete-btn-wrapper">
+            {/* <div className="delete-btn-wrapper">
               <button 
                 className="delete-btn"
                 onClick={() => deleteCourse(course._id)}
               >
                 Delete
               </button>
-            </div>
+            </div> */}
             <div className="mycourse-title-section">
               <div className="mycourse-image-wrapper">        
                 <Link to={`/course/${course.id}`}>
@@ -122,7 +122,7 @@ const Mycourse = ({  email }) => {
 
               </div>
               <div className="title-badge-wrapper">
-                <h2>{course.course_name}</h2>
+                <h2 className="course-title">{course.course_name}</h2>
                 <span 
                   className="mycourse-status-badge"
                   style={{ backgroundColor: getSubjectColor(course.subject) }}
