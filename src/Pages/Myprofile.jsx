@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './CSS/Myprofile.css';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -102,10 +105,10 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
 
       setUser(data.user);
       setProfile()
-      showCustomAlert(`${modalType === 'profilePicture' ? 'Profile picture' : 'Bio'} updated successfully!`, 'success');
+      toast.success(`${modalType === 'profilePicture' ? 'Profile picture' : 'Bio'} updated successfully!`, 'success');
       setIsModalOpen(false);
     } catch (error) {
-      showCustomAlert(error.message, 'error');
+      toast.error(error.message, 'error');
     }
 
     
@@ -153,7 +156,7 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
 
     if (!response.ok) throw new Error(data.msg || `Failed to update ${modalType}`);
 
-    alert("Payout Success\n🤑 Here comes the moneyyy 💸💸💸");
+    toast.success("Payout Success\n🤑 Here comes the moneyyy 💸💸💸");
     const { balance, ...newUser } = user;
     newUser.balance = data.user.balance;
     setUser(newUser);
@@ -164,6 +167,7 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
 
   return (
     <div className="profile-container">
+      <ToastContainer position="top-center" autoClose={3000} />
       <div className="w-full profile-header">
         
         <img

@@ -5,8 +5,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* ✅ Full viewport height */
-    background: #f4f4f4; /* ✅ Light background */
+    min-height: 100vh;
+    /* ✅ Full viewport height */
+    background: #f4f4f4;
+    /* ✅ Light background */
     padding: 20px;
 }
 
@@ -77,7 +79,8 @@
 
 /* Button Styling */
 .login-container button {
-    width: 100%; /* ✅ Fix overflow issue */
+    width: 100%;
+    /* ✅ Fix overflow issue */
     height: 50px;
     background: #1f2937;
     color: white;
@@ -132,19 +135,28 @@
 .google-login-container {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+}
+
+.google-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 500px;
+    /* Match the max-width of .login-container */
 }
 
 .google-btn {
+    background: #1f2937;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    height: 50px;
+    font-size: 18px;
+    font-weight: 600;
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 10px;
-    background: white;
-    border: 1px solid #ddd;
-    padding: 12px 20px;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -154,7 +166,6 @@
 }
 
 .google-btn .google-icon {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
 }
-
