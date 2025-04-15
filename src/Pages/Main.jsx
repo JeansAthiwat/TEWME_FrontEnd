@@ -9,12 +9,12 @@ import { X } from "lucide-react";
 
 const API_URL = "http://localhost:39189/search"; // ✅ เปลี่ยนเป็น '/search/'
 
-const Main = ({ accountState }) => {
+const Main = ({ accountState}) => {
   const navigate = useNavigate();
   const [items, setItems] = useState([]); // ใช้ทั้ง tutor/course
   const [inputSearch, setInputSearch] = useState("");
   const [sortBy, setSortBy] = useState("name"); // ✅ ค่าเริ่มต้นเป็น "name"
-  const [category, setCategory] = useState("course"); // ✅ ค่าเริ่มต้นเป็น "course"
+  const [category, setCategory] = useState(localStorage.getItem('category') || 'course'); // ✅ ค่าเริ่มต้นเป็น "course"
   const [subjects, setSubjects] = useState([]);
   const [courseType, setCourseType] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,7 +29,7 @@ const Main = ({ accountState }) => {
           ? subjects.map(sub => `${API_URL}?category=${category}&subject=${sub}&query=${inputSearch}&sortBy=${sortBy}&courseType=${courseType}`)
           : [`${API_URL}?category=${category}&query=${inputSearch}&sortBy=${sortBy}&courseType=${courseType}`];
 
-        console.log("📡 Fetching from API:", queries);
+        // console.log("📡 Fetching from API:", queries);
         
         const responses = await Promise.all(queries.map(url => axios.get(url)));
         responses.forEach((res, index) => console.log(`✅ API Response for ${queries[index]}:`, res.data));
@@ -53,7 +53,7 @@ const Main = ({ accountState }) => {
       const itemIden = item._id; // ✅ ตรวจสอบว่า _id มีค่าจริงไหม
       const newUrl = `/${category}/${itemIden}`;
       
-      console.log("🔗 Navigating to:", newUrl); // ✅ เช็คว่า URL ที่จะไปถูกต้องไหม
+      // console.log("🔗 Navigating to:", newUrl); // ✅ เช็คว่า URL ที่จะไปถูกต้องไหม
   
       if (itemIden) {
         navigate(newUrl, { replace: true });
@@ -76,13 +76,20 @@ const Main = ({ accountState }) => {
         <div className="flex justify-between mb-4 gap-2">
           <button 
             className={`w-1/2 p-2 rounded-lg ${category === "course" ? "bg-blue-500 text-white" : "bg-gray-200"}`} 
-            onClick={() => setCategory("course")}
+            onClick={() => {
+              setCategory("course")
+              localStorage.setItem('category', 'course')
+            }
+            }
           >
             Courses
           </button>
           <button 
             className={`w-1/2 p-2 rounded-lg ${category === "tutor" ? "bg-blue-500 text-white" : "bg-gray-200"}`} 
-            onClick={() => setCategory("tutor")}
+            onClick={() => {
+              setCategory("tutor")
+              localStorage.setItem('category', 'tutor')
+            }}
           >
             Tutors
           </button>
@@ -95,8 +102,9 @@ const Main = ({ accountState }) => {
           onChange={(e) => setInputSearch(e.target.value)}
           className="w-full p-2 border rounded-md mb-4"
         />
+        { category === 'course' &&<>
         
-        <h3 className="font-semibold mb-2">Subjects</h3>
+        <h3 className="font-semibold mb-2">Tags</h3>
         <div className="flex flex-col gap-2 mb-4">
           {"Science Math Language Social Music Arts".split(" ").map(subject => (
             <label key={subject} className="flex items-center w-full cursor-pointer justify-begin">
@@ -110,6 +118,7 @@ const Main = ({ accountState }) => {
             </label>
           ))}
         </div>
+        </>}
         
         <h3 className="font-semibold mb-2">Sort By</h3>
         <select 
@@ -152,12 +161,12 @@ const Main = ({ accountState }) => {
   </h2>
 )}
       {/* แสดง Subjects ที่เลือก */}
-  {subjects.length > 0 && (
+  {category==='course' && subjects.length > 0 && (
   <div className="flex items-center gap-2 flex-wrap mb-4">
     {subjects.map(subject => (
       <div 
         key={subject} 
-        className="flex items-center border border-gray-400 px-3 py-0.5 rounded-full text-gray-900 font-medium text-sm"
+        className="flex  items-center border border-gray-400 px-3 py-0.5 rounded-full text-gray-900 font-medium text-sm"
       >
         {subject}
         <button 
@@ -182,7 +191,7 @@ const Main = ({ accountState }) => {
         ) : error ? (
           <p className="text-center text-red-500">{error}</p>
         ) : (
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {items.length > 0 ? (
               items.map((item, i) => (
                 <div key={i} onClick={() => handleItemClick(item)}>

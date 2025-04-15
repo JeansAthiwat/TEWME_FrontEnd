@@ -2,6 +2,7 @@
 
 .App {
   text-align: center;
+  
 }
 
 .App-logo {
@@ -38,6 +39,8 @@
     transform: rotate(360deg);
   }
 }
+
+
 
 .page-title {
   @apply text-3xl text-center text-gray-800 mb-5

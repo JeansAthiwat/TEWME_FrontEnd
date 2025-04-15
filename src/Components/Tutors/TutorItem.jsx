@@ -3,26 +3,26 @@ import { Link } from 'react-router-dom';
 import './TutorItem.css';
 
 const TutorItem = (props) => {
-  // console.log(props.profilePicture)
+  console.log(props)
   return (
-    <div className='tutor-item'>
-      <div className="tutor-head">
-        <Link to={`/tutor/${props.email}`}>
-          <img onClick={window.scrollTo(0, 0)} src={props.profilePicture} alt="Tutor" />
-        </Link>
+    <Link to={`/tutor/${props.tutor_id}`} style={{ textDecoration: "none", color: "inherit" }}>
+    <div className='overflow-hidden shadow-md rounded-xl'>
+      <div className="flex items-center justify-center p-4 bg-gray-100">
+          <img className="w-48 h-48 overflow-hidden rounded-full border-blue-200 border-5 bg-white" onClick={window.scrollTo(0, 0)} src={props.profilePicture} alt="Tutor" />
       </div>
-      <Link to={`/tutor/${props.tutor_id}`} style={{ textDecoration: "none", color: "inherit" }}>
-        <div className="tutor-detail">
-          <p className="tutor-name">
+        <div className="p-4 space-y-2 h-24">
+          <p className="text-lg font-semibold truncate">
             {props.firstname} {props.lastname}
           </p>
-          <div className="tutor-detail-specialization">
-            <p>Specialization:</p>
-            {props.specialization}
+          <div className="text-sm  font-medium">
+            <p>Specialization: <span className='text-gray-600'>{Array.isArray(props.specialization) && props.specialization.join(", ")}</span></p>
+            
           </div>
         </div>
-      </Link>
     </div>
+  </Link>
+
+
   );
 };
 

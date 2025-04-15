@@ -7,36 +7,27 @@ import course_pic from '../Assets/course_id1.png';
 const CourseItem = (props) => {
   console.log(props)
   return (
-    <div className='course-item'>
-      <div className="course-head">
         <Link to={`/course/${props.course_id}`}>
-          <img onClick={window.scrollTo(0, 0)} src={ props.course_profile || course_pic} alt="" />
+          <div className="rounded overflow-hidden shadow-md">
+            <div className="w-full h-48 overflow-hidden">
+              <img
+                className="w-full h-full object-cover cursor-pointer"
+                onClick={() => window.scrollTo(0, 0)}
+                src={props.course_profile || course_pic}
+                alt=""
+              />
+            </div>
+
+            <div className="p-4 space-y-2 ">
+              <p className="text-lg font-semibold truncate">{props.course_name}</p>
+              <div className="text-sm text-gray-600 font-medium">
+                <p><span className="truncate">Price:</span> ${props.price}</p>
+                <p><span className="truncate">Course length:</span> {props.course_length}</p>
+                <p><span className="truncate">Course type:</span> {props.course_type}</p>
+              </div>
+            </div>
+          </div>
         </Link>
-      </div>
-      <Link to={`/course/${props.course_id}`} style={{ textDecoration: "none", color: "inherit" }}>
-      <div className="course-detail">
-        <p className="course-name">
-          {props.course_name}
-        </p>
-        <div className="course-detail-price">
-          <p>Price :</p>
-          ${props.price}
-        </div>
-        <div className="course-detail-subject">
-          <p>Subject :</p>
-          {props.subject}
-        </div>
-        <div className="course-detail-length">
-          <p>Course length :</p>
-          {props.course_length}
-        </div>
-        <div className="course-detail-course_type">
-          <p>Course type :</p>
-          {props.course_type}
-        </div>
-      </div>
-      </Link>
-    </div>
   );
 };
 

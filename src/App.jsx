@@ -86,6 +86,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
   return (
     <>
       {shouldShowNavbar && <><Navbar accountState={accountState}  profilePicture={profilePicture} /></>}
+      <div className={`${shouldShowNavbar && 'mt-22'}`}></div>
       <Routes>
         <Route path="/" element={<Main accountState={accountState} />} />
         <Route path="/main" element={<Main accountState={accountState} />} />

@@ -46,7 +46,7 @@ const Navbar = ({ accountState, profilePicture }) => {
       (obj.permission === "all" || accountState === obj.permission) && (
         <li key={obj.id} onClick={() => handleNavClick(path)}>
           <Link className="flex flex-row items-center gap-1" style={{ textDecoration: "none" }} to={path}>
-            {obj.name}{obj.icon}
+            <p className="hidden md:block">{obj.name}</p>{obj.icon}
           </Link>
           {location === obj.path && <hr />}
         </li>
@@ -70,7 +70,7 @@ const Navbar = ({ accountState, profilePicture }) => {
           </Link>
           </div>
         </div>
-        <ul className="hidden md:flex md:justify-end md:items-center  md:gap-[20px] lg:gap-[50px] md:text-[#626262] md:text-xl md:font-medium ">
+        <ul className=" hidden sm:flex justify-end items-center  gap-[20px] lg:gap-[50px] text-[#626262] text-xl font-medium ">
           {navObjects.map(displayNav)}
           </ul>
         <div className="nav-login-profile">

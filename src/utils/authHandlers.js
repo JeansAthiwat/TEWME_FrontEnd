@@ -25,6 +25,7 @@ export const handleLogin = async (email, password, setAccountState, setProfilePi
     localStorage.setItem('email', data.user.email);
     localStorage.setItem('profilePicture', data.user.profilePicture);
     localStorage.setItem('accountState', data.user.role);
+    localStorage.setItem('category', "course");
     
     // ✅ Set account state based on user role
     // console.dir(data)

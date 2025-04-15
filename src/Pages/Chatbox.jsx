@@ -23,7 +23,7 @@ const Chatbox = ({ socket }) => {
   // Scroll to bottom on messages change
   useEffect(() => {
     if(!isLoadingOlderMessages.current) {
-      bottomRef.current?.scrollIntoView({ behavior: "smooth" }); // or "smooth"
+      bottomRef.current?.scrollIntoView(); // or "smooth"
     } else {
       isLoadingOlderMessages.current = false;
       // Scroll to ending of the old message
@@ -106,14 +106,14 @@ const Chatbox = ({ socket }) => {
     {
       conversations.length &&
       <>
-      <div className="flex mt-5 mx-auto">
-        <div className="chat-list w-[30%] h-10 px-5">
-          <h1 className='font-bold text-2xl ml-2'>Contacts</h1>
+      <div className="flex justify-center mt-30">
+        <div className="w-[30%] h-10 px-5">
+          <h1 className='font-bold text-4xl mb-5 pl-3'>Contacts</h1>
           <ul className="flex flex-col gap-2">
           {conversations.map((conv, index) => 
             conv.participants.map((participant) => 
               participant._id !== user.id && (
-                <li key={index} onClick={() => setCurrentConv(index)} className={`rounded-xl py-2 px-4 hover:cursor-default hover:bg-gray-200 ${index==currentConv?"bg-gray-200":"bg-gray-50"}`}>
+                <li key={index} onClick={() => setCurrentConv(index)} className={`rounded-xl py-2 px-4 hover:cursor-default hover:bg-gray-300 ${index==currentConv?"bg-gray-200":"bg-gray-100"}`}>
                   <div className="conversation-name font-bold">{participant.firstname} {participant.lastname}</div>
                   <div className="last-message text-gray-400">{formatPreviewMsg(conv.lastMessage.text)}</div>
                 </li>
@@ -122,8 +122,8 @@ const Chatbox = ({ socket }) => {
           )}
           </ul>
         </div>
-        <div className="border-1 border-gray-200 rounded-xl w-[60%]">
-          <div ref={messageWindowRef} className="message-section w-full px-5 h-[65vh] overflow-y-scroll flex flex-col mx-auto">
+        <div className="border-1 border-gray-200 rounded-xl w-[60%] h-full">
+          <div ref={messageWindowRef} className="message-section w-full px-5 h-[75vh] overflow-y-scroll flex flex-col mx-auto">
             <button onClick={getOlderMessages} className='w-fit mx-auto bg-gray-50 border-2 border-gray-300 hover:border-gray-400 text-gray-500 font-bold py-2 px-4 rounded-full mt-2'>See Older</button>
             <ul className="flex flex-col gap-2 pt-5">
               {messages.map((msg,index) => <li key={index} className={`w-fit rounded-3xl px-4 py-2 ${msg.sender==user.id?"ml-auto bg-blue-100":"mr-auto bg-gray-100"}`} dangerouslySetInnerHTML={{ __html: formatMsg(msg.text) }}></li>)}
