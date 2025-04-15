@@ -4,7 +4,7 @@ import { handleLogin } from '../utils/authHandlers'; // ✅ Import the correct f
 import GoogleLogin from '../Components/GoogleLogin/GoogleLogin'; // ✅ Import Google Login component
 import './CSS/Login.css';
 
-const Login = ({ accountState, setAccountState , setProfilePicture, email, setEmail}) => {
+const Login = ({ accountState, setAccountState, setProfilePicture, email, setEmail }) => {
   // const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -18,7 +18,7 @@ const Login = ({ accountState, setAccountState , setProfilePicture, email, setEm
     try {
       await handleLogin(email, password, setAccountState, setProfilePicture, setEmail) // ✅ Call centralized login function
       console.log("Logged in successfully");
-      
+
 
     } catch (error) {
       setError("Login failed! Check credentials.");
@@ -41,17 +41,17 @@ const Login = ({ accountState, setAccountState , setProfilePicture, email, setEm
         {error && <p className="error-message">{error}</p>}
         <form method="POST" onSubmit={handleSubmit}>
           <div className="login-fields">
-            <input 
-              type="email" 
+            <input
+              type="email"
               name="username"
               autoComplete="username"
-              placeholder="Email Address" 
+              placeholder="Email Address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required 
+              required
             />
-            <input 
-              type="password" 
+            <input
+              type="password"
               name="password"
               autoComplete="current-password"
               placeholder="Password"
@@ -76,9 +76,10 @@ const Login = ({ accountState, setAccountState , setProfilePicture, email, setEm
 
         {/* 🔹 Google Login Button */}
         <div className="google-login-container">
-          <GoogleLogin />
+          <div className="google-btn-wrapper">
+            <GoogleLogin />
+          </div>
         </div>
-
         <p className="login-signup">
           Don't have an account?
           <Link to='/signup' className='link pl-2'>Sign Up</Link>
