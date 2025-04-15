@@ -21,8 +21,16 @@
 }
 
 .course-title-section h2 {
-  margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.9rem;
+  color: #282829; /* blue link color */
+  font-weight: 620;
+  margin-bottom: auto;
+  cursor: pointer; /* pointer cursor shows it's clickable */
+  transition: color 0.2s ease;
+}
+
+course-title-section h2:hover {
+  color: #777779; /* darker blue on hover */
 }
 
 .credit-badge {
@@ -32,7 +40,7 @@
 
 .status-badge {
   background: #ff69b4;
-  color: white;
+  color: rgb(166, 239, 248);
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 0.9rem;
@@ -57,18 +65,19 @@
 .label {
   color: #64748b;
   min-width: 130px;
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   font-weight: 500;
 }
 
 .value {
   font-weight: 600;
+  font-size: 1.1rem;
   color: #334155;
 }
 
 .status-green {
-  color: #4CAF50;
-  font-weight: 500;
+  color: #059669;
+  font-weight: 800;
 }
 
 .info-icon {
