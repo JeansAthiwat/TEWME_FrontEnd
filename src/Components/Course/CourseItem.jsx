@@ -5,7 +5,7 @@ import course_pic from '../Assets/course_id1.png';
 
 
 const CourseItem = (props) => {
-  console.log(props)
+  // console.log(props)
   return (
         <Link to={`/course/${props.course_id}`}>
           <div className="rounded overflow-hidden shadow-md">

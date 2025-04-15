@@ -31,6 +31,7 @@ const Course = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState(false);
   const [enrollmentStatus, setEnrollmentStatus] = useState(false);
+  const user_id = localStorage.getItem('UID');
 
   useEffect(() => {
     const getCourse = async () => {
@@ -115,8 +116,24 @@ const Course = () => {
       }
   
       const data = await response.json();
-      console.log(data);
-  
+      // console.log(data);
+      
+      const createChatResponse = await fetch(`http://localhost:39189/conversation/`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          participants: [course.tutor_id, localStorage.getItem("UID")],
+          courseId: courseId,
+        }),
+      });
+      
+
+      if (!createChatResponse.ok) {
+        throw new Error(`Chat create error! Status: ${createChatResponse.status}`);
+      }
       setEnrollmentStatus(true);
     } catch (error) {
       console.error("Enrollment failed:", error);
