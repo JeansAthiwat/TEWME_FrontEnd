@@ -3,6 +3,8 @@ import CourseItem from '../Components/Course/CourseItem';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './CSS/Main.css';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const API_URL = "http://localhost:39189/search/"; // ใช้ endpoint /search ตาม backend
 
@@ -45,7 +47,7 @@ const Main = ({ accountState }) => {
 
   const handleCourseClick = (courseId) => {
     if (accountState === "unregistered") {
-      alert("Please login to access course content");
+      toast.info("Please login to access course content");
       navigate('/');
     } else {
       navigate(`/course/${courseId}`);
@@ -54,6 +56,7 @@ const Main = ({ accountState }) => {
 
   return (
     <div className='main'>
+      <ToastContainer position="top-center" autoClose={3000} pauseOnHover={false} />
       <h1 className="text-3xl text-center text-gray-800 mb-5">ALL COURSES</h1>
 
       {/* Search Bar */}

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import "./CSS/MultiStepForm.css";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
   const [tutorId, setTutorId] = useState(tutorID);
@@ -176,7 +178,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
     e.preventDefault();
     if (!validateCurrentStep()) return;
     if (!tutorId) {
-      alert("Tutor ID is missing. Please try again later.");
+      toast.warning("Tutor ID is missing. Please try again later.");
       return;
     }
 
@@ -247,11 +249,11 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
         onClose();
         setCourses((prev) => [...prev, data]);
       } else {
-        alert(`Failed to create course: ${data.message}`);
+        toast.warning(`Failed to create course: ${data.message}`);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("Error creating course");
+      toast.error("Error creating course");
     }
   };
 
@@ -261,6 +263,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
       case 1:
         return (
           <div>
+            <ToastContainer position="top-center" autoClose={3000} pauseOnHover={false} />
             <h3 className="mb-4 text-lg font-medium text-gray-900 text-left">
               General Information
             </h3>

@@ -60,7 +60,7 @@ const Signup = () => {
         throw new Error(data.message || 'Signup failed');
       }
 
-      alert('Signup successful! Redirecting to login...');
+      toast.success('Signup successful! Redirecting to login...');
       navigate('/login'); // Redirect to login page after successful signup
     } catch (error) {
       setError(error.message);
@@ -70,7 +70,7 @@ const Signup = () => {
   return (
     
     <div className='signup'>
-      <ToastContainer position="top-center" autoClose={3000} />
+      <ToastContainer position="top-center" autoClose={3000} pauseOnHover={false} />
 
       <div className="signup-container">
         <h1>Sign Up</h1>

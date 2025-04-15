@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "./CSS/Reservation.css";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const getSubjectColor = (subject) => {
   const colorMap = {
@@ -80,7 +82,7 @@ const Reservation = () => {
       }
     } catch (err) {
       console.error(err);
-      alert('Error updating reservation status');
+      toast.error('Error updating reservation status');
     }
   };
 
@@ -89,6 +91,7 @@ const Reservation = () => {
 
   return (
     <div className="reservation-container">
+      <ToastContainer position="top-center" autoClose={3000} pauseOnHover={false} />
       <div className="reservation-header">
         <h1>Course Reservations</h1>
         <div className="view-controls">
