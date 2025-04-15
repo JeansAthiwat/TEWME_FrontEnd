@@ -81,6 +81,9 @@ const Reservation = () => {
       if (!response.ok) {
         throw new Error('Failed to update reservation');
       }
+      else {
+        console.log("its fine")
+      }
     } catch (err) {
       console.error(err);
       toast.error('Error updating reservation status');
@@ -152,7 +155,7 @@ const Reservation = () => {
               <input
                 type="checkbox"
                 className="large-checkbox"
-                checked={reservation.finish}
+                checked={!!reservation.finish}
                 onChange={() => handleCheckboxChange(reservation._id, reservation.finish)}
               />
             </div>
