@@ -7,7 +7,7 @@ const GoogleLogin = () => {
 
   return (
     <button onClick={handleGoogleLogin} className="google-btn">
-      <img src="https://banner2.cleanpng.com/20190228/qby/kisspng-google-logo-google-account-g-suite-google-images-g-icon-archives-search-png-1713904157115.webp" 
+      <img src="https://www.transparentpng.com/thumb/google-logo/colorful-google-logo-transparent-clipart-download-u3DWLj.png" 
            alt="Google Logo" className="google-icon"/>
       Sign in with Google
     </button>
