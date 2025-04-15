@@ -2,6 +2,9 @@ import "./Navbar.css";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { ArrowLeft, House, MessageCircle, Bell, BookText, BookMarked } from "lucide-react";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Navbar = ({ accountState, profilePicture }) => {
   const navigate = useNavigate();
@@ -22,7 +25,7 @@ const Navbar = ({ accountState, profilePicture }) => {
 
   const handleNavClick = (path) => {
     if (accountState === "unregistered" && path !== "/") {
-      alert("Please login to access this feature");
+      toast.info("Please login to access this feature");
       navigate("/");
       return;
     }
@@ -57,6 +60,7 @@ const Navbar = ({ accountState, profilePicture }) => {
   return (
     <>
       <div className="navbar">
+        <ToastContainer position="top-center" autoClose={3000} pauseOnHover={false} />
         <div className="nav-left">
           <ArrowLeft
             className="arrow-icon"

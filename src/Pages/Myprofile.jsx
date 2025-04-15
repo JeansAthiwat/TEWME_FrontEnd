@@ -114,18 +114,6 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
     
   };
 
-  // 🔹 Custom Alert Box
-  const showCustomAlert = (message, type) => {
-    const alertBox = document.createElement('div');
-    alertBox.innerText = message;
-    alertBox.className = `custom-alert ${type}`;
-    
-    document.body.appendChild(alertBox);
-    
-    setTimeout(() => {
-      alertBox.remove();
-    }, 3000);
-  };
 
   if (loading) {
     return <div className="profile-container"><h2>Loading profile...</h2></div>;
@@ -167,7 +155,7 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
 
   return (
     <div className="profile-container">
-      <ToastContainer position="top-center" autoClose={3000} />
+      <ToastContainer position="top-center" autoClose={3000} pauseOnHover={false} />
       <div className="w-full profile-header">
         
         <img

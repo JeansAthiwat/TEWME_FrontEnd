@@ -11,6 +11,9 @@ import {
   FaVideo,
   FaLink,
 } from "react-icons/fa";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const LiveClassForm = ({email}) => {
   const navigate = useNavigate();
@@ -113,7 +116,7 @@ const LiveClassForm = ({email}) => {
         console.log(courseData)
         const data = await response.json();
         if (response.ok) {
-          // alert("Course Created Successfully!");
+          // toast.success("Course Created Successfully!");
           console.log("Created Course:", data);
           setFormData({
             title: "",
@@ -131,11 +134,11 @@ const LiveClassForm = ({email}) => {
           });
           navigate("/mycourse");
         } else {
-          alert(`Failed to create course: ${data.message}`);
+          toast.error(`Failed to create course: ${data.message}`);
         }
       } catch (error) {
         console.error("Error submitting form:", error);
-        alert("Error creating course");
+        toast.error("Error creating course");
       }
     }
   };
@@ -180,6 +183,7 @@ const LiveClassForm = ({email}) => {
 
   return (
     <div className="class-form-container">
+      <ToastContainer position="top-center" autoClose={3000} pauseOnHover={false} />
       <h2>
         Schedule a New Course <FaBook />
       </h2>
