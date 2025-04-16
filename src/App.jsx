@@ -109,7 +109,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
         <Route path='/tutor/:tutorId' element={<TutorProfile />} />
       </Routes>
       {shouldShowNavbar}
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

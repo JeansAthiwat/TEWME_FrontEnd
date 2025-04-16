@@ -4,7 +4,8 @@ import { Form, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingScreen from '../Components/LoadingScreen/LoadingScreen';
-
+import { CirclePlus } from 'lucide-react';
+import ArrayField from '../Components/ArrayField';
 
 const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
   const [user, setUser] = useState(null);
@@ -57,7 +58,8 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
   // 🔹 Open Modal for Editing
   const openModal = (type) => {
     setModalType(type);
-    setModalValue(user[type]);
+    if (typeof user[type] === 'string') setModalValue(user[type]);
+    else setModalValue('')
     setIsModalOpen(true);
   };
 
@@ -89,15 +91,13 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
       toast.error(modalType+' cannot be empty', 'error');
       return
     }
-    
+
+
     try {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('No token found');
 
-      // const endpoint =
-      //   modalType === 'profilePicture'
-      //     ? 'http://localhost:39189/api/profile/update-profile-picture'
-      //     : 'http://localhost:39189/api/profile/update-bio';
+      const payload = Array.isArray(user[modalType])  ? [...user[modalType], modalValue] : modalValue
       console.log(modalType, modalValue)
       const endpoint = 'http://localhost:39189/user/'+user.email
       const response = await fetch(endpoint, {
@@ -106,18 +106,19 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ [modalType]: modalValue })
+        body: JSON.stringify({ [modalType]: payload })
       });
 
       const data = await response.json();
       if (!response.ok) throw new Error(data.msg || `Failed to update ${modalType}`);
       console.log(data)
       // setUser(data.user);
-      user[modalType] = modalValue 
+      user[modalType] = payload 
       if (modalType==='profilePicture') setProfile()
-      toast.success(`${modalType} updated successfully!`, 'success');
       setIsModalOpen(false);
+      toast.success(`${modalType} updated successfully!`, 'success');
     } catch (error) {
+      setIsModalOpen(false);
       toast.error(error.message, 'error');
     }
 
@@ -165,16 +166,20 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
   return (
     <div className="w-[90vw] flex flex-col  md:flex-row gap-3  max-w-300 m-auto my-30 border-1 border-gray-200  rounded-lg">
       {/* <ToastContainer position="top-center" autoClose={3000} pauseOnHover={false} /> */}
-      <div className="p-5 w-full gap-2 md:w-100  flex flex-col items-center">
+      <div className="p-5 w-full gap-2 md:w-100  flex flex-col items-center relative">
         
         <img
           src={profilePicture || 'https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg'}
           alt={`${user.firstname}'s profile`}
-          className="w-40 h-40 rounded-full"
+          className="w-40 h-40 border-2 border-blue-200 rounded-full relative object-cover"
           onClick={() => openModal('profilePicture')} // 🔹 Click to open modal
         />
+
         <h1 className=' font-semibold text-xl'>{user.firstname} {user.lastname}</h1>
-        {user.role === 'tutor' && <h2 className={` font-semibold text-md ${user.verification_status ? "text-green-600" : "text-red-600"}`}>{user.verification_status ? "verified" : "not verified"}</h2>}
+          <p className={`text-md font-medium  ${user.role==='admin' ? 'text-red-600' : (user.role==='tutor'? 'text-blue-600' : 'text-green-600')}`}>{user.role.toUpperCase()}</p>
+          {/* {user.role === 'tutor' && (user.verification_status ? 
+            <p className='text-green-500'>verified</p> : <p className='text-red-500'>unverified</p>
+          )} */}
    <button className="mt-5 bg-gradient-to-br from-[#ff4b4b] to-[#ff1414] text-white  py-[8px] text-[15px] font-semibold 
       rounded-[25px] cursor-pointer transition-all duration-300 ease-in-out shadow-[0_2px_5px_rgba(255,65,65,0.3)] 
       hover:from-[#ff2d2d] hover:to-[#d60000] hover:scale-105 hover:shadow-[0_4px_10px_rgba(255,65,65,0.5)] w-24" 
@@ -183,7 +188,7 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
       </button>
       </div>
       <div className='w-full md:w-200 flex flex-col gap-5 border-l-1 border-gray-200'>
-        <h1 className='font-semibold text-3xl text-center border-b-1 border-gray-200 p-3'>Profile</h1>
+        <h1 className='hidden md:block font-semibold text-3xl text-center border-b-1 border-gray-200 p-3'>Profile</h1>
         <div className='flex flex-col gap-2 w-full max-w-180 m-auto px-5'>
         <h2 className='font-semibold text-xl'>Basics:</h2>
           <p>Firstname</p>
@@ -191,27 +196,16 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
           <p>Lastname</p>
           <p onClick={()=>openModal('lastname')} className='p-2 border-1 border-gray-300 rounded-lg'>{user.lastname}</p>
           <p>Bio</p>
-          <p onClick={()=>openModal('bio')} className='h-30 p-2 border-1 border-gray-300 rounded-lg truncate'>{user.bio}</p>
+          <p onClick={()=>openModal('bio')} className='truncate h-30 p-2 border-1 border-gray-300 rounded-lg truncate'>{user.bio}</p>
         </div>
       <hr className='mx-5 text-gray-200'/>
       {user.role === 'tutor' &&       
       <div className="flex flex-col gap-2 w-full max-w-180 m-auto px-5">
           <h2 className='font-semibold text-xl'>Academic Information:</h2>   
-          <p>Educations</p>
-          <div className='flex flex-row wrap gap-1'>
-          {user.educations.length>0 ?user.educations.map((e) => <p className='p-2 border-1 border-gray-300 rounded-lg '>{e}</p>)
-          : "-None-"}
-          </div>
-          <p>Specialization</p>
-          <div className='flex flex-row wrap gap-1'>
-          {user.specialization.length>0 ?user.specialization.map((e) => <p className='p-2 border-1 border-gray-300 rounded-lg '>{e}</p>)
-          : "-None-"}
-          </div>
-          <p>Teaching styles</p>
-          <div className='flex flex-row wrap gap-1'>
-          {user.teaching_style.length>0 ?user.teaching_style.map((e) => <p className='p-2 border-1 border-gray-300 rounded-lg '>{e}</p>)
-          : "-None-"}
-          </div>
+    
+          <ArrayField header='Educations' array={user.educations} addFunction={()=>openModal('educations')} />
+          <ArrayField header='Specializations' array={user.specialization} addFunction={()=>openModal('specialization')} />
+          <ArrayField header='Teaching Styles' array={user.teaching_style} addFunction={()=>openModal('teaching_style')} />
       </div>}
       <div className="flex flex-col gap-2 w-full max-w-180 m-auto px-5">
           <h2 className='font-semibold text-xl'>Contact Information:</h2>

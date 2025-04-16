@@ -1,8 +1,11 @@
 import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import { jwtDecode } from "jwt-decode";
 import { CircleUser } from 'lucide-react';
+import LoadingScreen from '../Components/LoadingScreen/LoadingScreen';
+
 const Chatbox = ({ socket }) => {
   const [messages,setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [conversations, setConversations] = useState([]);
   const [currentConv, setCurrentConv] = useState(0);
   const msgBoxRef = useRef(null);
@@ -62,6 +65,7 @@ const Chatbox = ({ socket }) => {
 
   useEffect(() => {
     const getConversations = async() => {
+      setLoading(true)
       const response = await fetch("http://localhost:39189/conversation/user", {
         method: "GET",
         headers: {
@@ -71,13 +75,16 @@ const Chatbox = ({ socket }) => {
       const data = await response.json();
       console.dir(data)
       setConversations([...data]);
+      setLoading(false)
       // console.log("User conversations", data);
     }
     getConversations();
   },[])
 
   useEffect(() => {
+    
     const getMessages = async() => {
+      
       const response = await fetch(`http://localhost:39189/message/${conversations[currentConv]._id}`, {
         method: "GET",
         headers: {
@@ -86,9 +93,14 @@ const Chatbox = ({ socket }) => {
       });
       const data = await response.json();
       setMessages([...data]);
+      
       // console.log("messages are", data);
     }
-    if(conversations.length) getMessages();
+    if(conversations.length) {
+      getMessages();
+      
+    }
+    
   },[conversations, currentConv])
 
   const getOlderMessages = async () => {
@@ -128,8 +140,8 @@ const Chatbox = ({ socket }) => {
   }
   return (
     <>
-    {
-      conversations.length &&
+    {loading? <LoadingScreen /> :
+      conversations.length>0 &&
       <>
       <div className="flex justify-center mt-30 ">
         <div className="w-[30%] min-w-50 max-w-100  px-5 border-gray-200 border-1">
@@ -181,7 +193,9 @@ const Chatbox = ({ socket }) => {
                         msg.sender === user.id ? 'ml-auto bg-blue-100' : 'mr-auto bg-gray-100'
                       }`}
                     >
-                      <div dangerouslySetInnerHTML={{ __html: formatMsg(msg.text) }}></div>
+                      {/* <div dangerouslySetInnerHTML={{ __html: formatMsg(msg.text) }}></div> */}
+                      <div>{msg.text}</div>
+
                       <div className="text-xs text-gray-400 mt-1 text-right">
                         {msgDate.toLocaleTimeString([], {
                           hour: '2-digit',

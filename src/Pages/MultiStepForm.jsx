@@ -6,6 +6,14 @@ import "./CSS/MultiStepForm.css";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const Detail = ({ label, value }) => (
+  <div className="flex flex-col sm:flex-row sm:items-start">
+    <span className="w-40 font-medium text-gray-600">{label}:</span>
+    <span className="text-gray-800">{value}</span>
+  </div>
+);
+
+
 const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
   const [tutorId, setTutorId] = useState(tutorID);
   const navigate = useNavigate();
@@ -558,12 +566,12 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
         );
       case 4:
         return (
-          <div>
-            <h3 className="mb-4 text-lg font-medium text-gray-900 text-left">
+          <div className="text-left">
+            <h3 className="mb-4 text-lg font-medium text-gray-900 ">
               Review & Confirm
             </h3>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <p>
+            <div className="bg-gray-50 p-4 rounded-lg flex flex-col items-start grow w-full">
+              <p className=" ">
                 <strong>Class Title:</strong> {formData.title}
               </p>
               <p>

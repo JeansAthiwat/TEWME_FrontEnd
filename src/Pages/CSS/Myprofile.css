@@ -183,7 +183,7 @@
 .modal-content input {
  /* width: 90%; */ /* ✅ Keeps input within the modal */
   padding: 10px;
-  border: 2px solid #ccc;
+  border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 16px;
   margin-bottom: 15px;
@@ -195,10 +195,31 @@
 
 /* 🔹 Focus Effect on Input */
 .modal-content input:focus {
-  border: 2px solid #3498db;
+  border: 1px solid #3498db;
   outline: none;
 }
 
+.modal-content textarea {
+  /* width: 90%; */ /* ✅ Keeps input within the modal */
+   padding: 10px;
+   border: 1px solid #ccc;
+   border-radius: 8px;
+   font-size: 16px;
+   height: auto;
+   overflow-y: auto;
+   margin-bottom: 15px;
+   transition: border 0.3s ease-in-out;
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
+ }
+ 
+ /* 🔹 Focus Effect on Input */
+ .modal-content textarea:focus {
+   border: 1px solid #3498db;
+   outline: none;
+ }
+ 
 
 /* 🔹 Fade-In Animation */
 @keyframes fadeIn {

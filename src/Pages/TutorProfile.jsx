@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+
 import { 
   CheckCircle, 
   GraduationCap, 
@@ -128,16 +129,6 @@ const TutorProfile = () => {
                   {tutor.firstname} {tutor.lastname}
                 </h1>
                 
-                <div className="mt-2 flex flex-wrap justify-center gap-1">
-                  {tutor.specialization.slice(0, 3).map((spec, index) => (
-                    <span
-                      key={index}
-                      className="inline-flex items-center rounded-full border border-blue-300 bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-600"
-                    >
-                      {spec}
-                    </span>
-                  ))}
-                </div>
                 
                 <div className="mt-4 space-y-2">
                   <div className="flex items-center justify-center text-sm text-gray-600">
@@ -172,7 +163,7 @@ const TutorProfile = () => {
                 Specializations
               </h2>
               <div className="flex flex-wrap gap-2">
-                {tutor.specialization.slice(0, 3).map((spec, index) => (
+                {tutor.specialization.map((spec, index) => (
                   <span
                     key={index}
                     className="inline-flex items-center rounded-full border border-blue-300 bg-blue-50 px-3 py-1 text-xs font-medium text-blue-600"
@@ -227,7 +218,7 @@ const TutorProfile = () => {
                       <div className="flex justify-between items-start">
                         <div>
                           <h3 className="font-medium text-gray-800">{course.course_name}</h3>
-                          <p className="text-sm text-gray-500 mt-1">{course.subject}</p>
+                          <p className="text-sm text-gray-500 mt-1">{course.tags.join(', ')}</p>
                         </div>
                         <div className="flex flex-col items-end">
                           <span className="text-xs rounded-full bg-blue-100 px-2 py-0.5 text-blue-600">
@@ -259,26 +250,7 @@ const TutorProfile = () => {
         </div>
       </main>
       
-      {/* <footer className="border-t py-8">
-        <div className="page-container">
-          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-            <div className="flex items-center space-x-2">
-              <span className="text-sm text-muted-foreground">© 2023 TutorVerse. All rights reserved.</span>
-            </div>
-            <div className="flex items-center space-x-4">
-              <a href="#" className="text-sm text-muted-foreground hover:text-foreground">
-                Privacy Policy
-              </a>
-              <a href="#" className="text-sm text-muted-foreground hover:text-foreground">
-                Terms of Service
-              </a>
-              <a href="#" className="text-sm text-muted-foreground hover:text-foreground">
-                Contact
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer> */}
+
     </div>
   );
 };

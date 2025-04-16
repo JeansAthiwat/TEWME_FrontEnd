@@ -317,23 +317,7 @@ const Course = () => {
                   </ul>
                 </div>                
                 <div className="border-t border-gray-100 p-6">
-                  <h3 className="text-xl font-display font-bold mb-4">What You'll Learn</h3>
-                  <ul className="space-y-3">
-                    {/* {[
-                      'Comprehensive understanding of key concepts',
-                      'Practical skills for real-world application',
-                      'Problem-solving techniques specific to the field',
-                      'Best practices from industry experts',
-                      'Portfolio-worthy projects and exercises'
-                    ].map((item, idx) => (
-                      <li key={idx} className="flex">
-                        <div className="w-5 h-5 rounded-full bg-primary/20 flex-shrink-0 flex items-center justify-center mr-3 mt-0.5">
-                          <div className="w-2 h-2 rounded-full bg-primary"></div>
-                        </div>
-                        <span className="text-sm">{item}</span>
-                      </li>
-                    ))} */}
-                  </ul>
+
                 </div>
               </div>
             </div>
@@ -350,7 +334,7 @@ const Course = () => {
               to={`/tutor/${course.tutor_id}`} 
               className="group inline-flex items-center text-primary font-medium mt-4 md:mt-0"
             >
-              View all courses from tutor
+              View tutor profile
               <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
