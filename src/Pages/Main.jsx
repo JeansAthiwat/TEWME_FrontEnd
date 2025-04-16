@@ -71,7 +71,7 @@ const Main = ({ accountState}) => {
 
   return (
     <div className="flex w-full p-5 gap-5">
-      <div className="w-1/4 p-4 bg-gray-100 rounded-lg shadow-md sticky top-[115px] h-[calc(100vh-80px)] overflow-auto">
+      <div className="w-1/4 p-4 bg-gray-100 rounded-lg shadow-md sticky top-[100px] h-[calc(90vh-80px)] overflow-auto">
         <h2 className="font-bold text-lg mb-4">Filters</h2>
         
         <div className="flex justify-between mb-4 gap-2">

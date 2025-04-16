@@ -2,6 +2,7 @@
     display: flex;
     justify-content: space-around;
     justify-items:center;
+    
     min-height: 7vh;
     /* padding: 16px 30px; */
     box-shadow: 0 1px 3px -2px black;
@@ -19,7 +20,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 10px;
     margin-left: -35px;
   }
 

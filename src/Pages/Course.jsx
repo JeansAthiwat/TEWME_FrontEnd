@@ -203,7 +203,7 @@ const Course = () => {
                         </div>
                         <div className="flex items-center px-4 py-2 rounded-lg bg-gray-100">
                           <Library className="w-4 h-4 mr-2 text-blue-500" />
-                          <span className="text-sm">{course.subject}</span>
+                          <span className="text-sm">{course.tags.join(', ')}</span>
                         </div>
                         <div className="flex items-center px-4 py-2 rounded-lg bg-gray-100">
                           <BookOpen className="w-4 h-4 mr-2 text-blue-500" />

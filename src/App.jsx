@@ -22,10 +22,8 @@ import profile_icon from './Components/Assets/profile_icon.png'
 import CompleteProfile from './Pages/CompleteProfile';
 import LoginSuccess from './Pages/LoginSuccess';
 import ToastContainer from "./Components/Toast/ToastContainer";
-
 import TutorProfile from './Pages/TutorProfile';
 import Reservation from './Pages/Reservation';
-import CreateCourse from './Pages/CreateCourse';
 
 
 function AppContent({ accountState, setAccountState, profilePicture, setProfilePicture, email, setEmail }) {
@@ -138,6 +136,8 @@ function App() {
       localStorage.setItem('profilePicture', profilePicture);
     }
   }, [profilePicture]);
+
+
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");

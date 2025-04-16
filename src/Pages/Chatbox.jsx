@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import { jwtDecode } from "jwt-decode";
-
+import { CircleUser } from 'lucide-react';
 const Chatbox = ({ socket }) => {
   const [messages,setMessages] = useState([]);
   const [conversations, setConversations] = useState([]);
@@ -131,10 +131,10 @@ const Chatbox = ({ socket }) => {
     {
       conversations.length &&
       <>
-      <div className="flex justify-center mt-30">
-        <div className="w-[30%] h-10 px-5">
-          <h1 className='font-bold text-4xl mb-5 pl-3'>Contacts</h1>
-          <ul className="flex flex-col gap-2">
+      <div className="flex justify-center mt-30 ">
+        <div className="w-[30%] min-w-50 max-w-100  px-5 border-gray-200 border-1">
+          <div className='font-bold text-4xl  p-4 flex  flex-row items-center'><p className=''>Contacts</p></div>
+          <ul className="flex flex-col gap-2 ">
           {conversations.map((conv, index) => 
             conv.participants.map((participant) => 
               participant._id !== user.id && (
@@ -151,7 +151,7 @@ const Chatbox = ({ socket }) => {
           )}
           </ul>
         </div>
-        <div className="border-1 border-gray-200 rounded-xl w-[60%] h-full">
+        <div className="border-1 border-gray-200 border-l-0 w-[60%] h-full">
           <div ref={messageWindowRef} className="message-section w-full px-5 h-[75vh] overflow-y-scroll overflow-x-hidden flex flex-col mx-auto">
             <button onClick={getOlderMessages} className='w-fit mx-auto bg-gray-50 border-2 border-gray-300 hover:border-gray-400 text-gray-500 font-bold py-2 px-4 rounded-full mt-2'>See Older</button>
             <ul className="flex flex-col gap-2 pt-5">
@@ -177,7 +177,7 @@ const Chatbox = ({ socket }) => {
                       </li>
                     )}
                     <li
-                      className={`w-fit rounded-3xl px-4 py-2 ${
+                      className={`w-fit rounded-3xl max-w-120 px-4 py-2 ${
                         msg.sender === user.id ? 'ml-auto bg-blue-100' : 'mr-auto bg-gray-100'
                       }`}
                     >
@@ -195,14 +195,14 @@ const Chatbox = ({ socket }) => {
             </ul>
             <div ref={bottomRef}/>
           </div>
-          <div className='relative mt-[0.5rem]'>
+          <div className='relative  p-2 '>
             <input ref={msgBoxRef} type='text' placeholder='type here' className='h-[3rem]'
               onKeyDown={(e) => {
                 if (e.code === "Enter") {
                   e.preventDefault(); // optional: prevent space from being typed
                   handleSend();
                 }}}/>
-            <button onClick={handleSend} className='absolute right-0 h-[3rem] bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r-lg'>Send</button>
+            <button onClick={handleSend} className='absolute right-0 h-[3rem] bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r-lg mr-2'>Send</button>
           </div>
         </div>
       </div>
