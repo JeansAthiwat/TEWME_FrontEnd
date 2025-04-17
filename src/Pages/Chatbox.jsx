@@ -53,6 +53,7 @@ const Chatbox = ({ socket }) => {
           console.log(newMessage)
           // console.log("Pre rerender messages", messages);
           setMessages(prev => [...prev, newMessage]);
+          
         }
       }
       socket.on("private message", handlePrivateMessage)
@@ -144,16 +145,16 @@ const Chatbox = ({ socket }) => {
       conversations.length>0 &&
       <>
       <div className="flex justify-center mt-30 ">
-        <div className="w-[30%] min-w-50 max-w-100  px-5 border-gray-200 border-1">
-          <div className='font-bold text-4xl  p-4 flex  flex-row items-center'><p className=''>Contacts</p></div>
-          <ul className="flex flex-col gap-2 ">
+        <div className="w-[30%] min-w-50 max-w-100  pl-5 border-gray-200 border-1">
+          <div className='font-semibold text-4xl  p-4 flex  flex-row items-center'><p className=''>Contacts</p></div>
+          <ul className="flex flex-col gap-2 overflow-y-scroll pr-2 h-full">
           {conversations.map((conv, index) => 
             conv.participants.map((participant) => 
               participant._id !== user.id && (
                 <li key={index} onClick={() => setCurrentConv(index)} className={`overflow-hidden flex flex-row items-center gap-3 rounded-xl py-2 px-4 hover:cursor-default hover:bg-gray-300 ${index==currentConv?"bg-gray-200":"bg-gray-100"}`}>
-                  <img className="w-10 h-10 rounded-full" src={participant.profilePicture} alt="d" />
+                  <img className="w-10 h-10 rounded-full object-cover" src={participant.profilePicture} alt="d" />
                   <div>
-                  <div className="conversation-name font-bold truncate">{participant.firstname} {participant.lastname}</div>
+                  <div className="conversation-name font-semibold truncate">{participant.firstname} {participant.lastname}</div>
                   <div className="conversation-name text-gray-600 truncate ">Course: {conv.courseId.course_name} </div>
                   <div className="last-message text-gray-400 truncate">{conv.lastMessage && formatPreviewMsg(conv.lastMessage.text)}</div>
                   </div>
