@@ -124,10 +124,10 @@ const Notification = () => {
   });
 
   return (
-    <div className="p-5 w-[100vw] md:w-[70vw] mx-auto">
+    <div className="p-5 w-[90vw] min-w-70 m-auto my-30 md:max-w-200">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">Notification</h1>
+        <h1 className="text-3xl font-bold">Notifications</h1>
         <button 
           className="text-blue-600 font-medium" 
           onClick={markAllAsReadBatch}
@@ -163,7 +163,7 @@ const Notification = () => {
                 key={notification._id}
                 onClick={() => navigate(`/course/${notification.course_id}`)}
                 title="Click to view course" // Tooltip on hover
-                className={`cursor-pointer p-4 border rounded flex justify-between items-center transition-colors ${
+                className={`cursor-pointer p-4 border-gray-400 border-1 rounded flex justify-between items-center transition-colors ${
                   notification.read_status === "unread"
                     ? "bg-blue-50 hover:bg-blue-100"
                     : "bg-gray-100 hover:bg-gray-200"

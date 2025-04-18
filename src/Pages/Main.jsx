@@ -27,15 +27,23 @@ const Main = ({ accountState}) => {
       setError(null);
       try {
         const queries = subjects.length > 0 
-          ? subjects.map(sub => `${API_URL}?category=${category}&subject=${sub}&query=${inputSearch}&sortBy=${sortBy}&courseType=${courseType}`)
-          : [`${API_URL}?category=${category}&query=${inputSearch}&sortBy=${sortBy}&courseType=${courseType}`];
-
-        // console.log("📡 Fetching from API:", queries);
-        
-        const responses = await Promise.all(queries.map(url => axios.get(url)));
-        responses.forEach((res, index) => console.log(`✅ API Response for ${queries[index]}:`, res.data));
-        
-        const allData = responses.flatMap(res => res.data.data || []);
+        ? subjects.map(sub => `${API_URL}?category=${category}&subject=${sub}&query=${inputSearch}&sortBy=${sortBy}&courseType=${courseType}`)
+        : [`${API_URL}?category=${category}&query=${inputSearch}&sortBy=${sortBy}&courseType=${courseType}`];
+      
+      // console.log("📡 Fetching from API:", queries);
+      
+      const responses = await Promise.all(queries.map(url => axios.get(url)));
+      responses.forEach((res, index) => console.log(`✅ API Response for ${queries[index]}:`, res.data));
+      
+      // Flatten and deduplicate based on course ID
+      const allDataRaw = responses.flatMap(res => res.data.data || []);
+      const seen = new Set();
+      const allData = allDataRaw.filter(item => {
+        if (seen.has(item._id)) return false;
+        seen.add(item._id);
+        return true;
+      });
+      
         setItems(allData);
       } catch (err) {
         console.error("❌ API Error:", err);
@@ -70,7 +78,7 @@ const Main = ({ accountState}) => {
   };
 
   return (
-    <div className="flex w-full p-5 gap-5">
+    <div className="flex w-full max-w-400 m-auto p-5 gap-5">
       <div className="w-1/4 p-4 bg-gray-100 rounded-lg shadow-md sticky top-[100px] h-[calc(90vh-80px)] overflow-auto">
         <h2 className="font-bold text-lg mb-4">Filters</h2>
         
@@ -107,7 +115,7 @@ const Main = ({ accountState}) => {
         
         <h3 className="font-semibold mb-2">Tags</h3>
         <div className="flex flex-col gap-2 mb-4">
-          {"Science Math Language Social Music Arts".split(" ").map(subject => (
+          {"Science Math Language Social Music Art".split(" ").map(subject => (
             <label key={subject} className="flex items-center w-full cursor-pointer justify-begin">
               <input 
                 type="checkbox" 

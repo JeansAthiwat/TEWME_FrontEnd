@@ -62,38 +62,39 @@ const Reservation = () => {
     }
   };
 
-  const handleViewChange = (type) => {
-    setViewType(type);
-  };
+  // const handleViewChange = (type) => {
+  //   setViewType(type);
+  // };
 
-  const handleCheckboxChange = async (id, currentFinish) => {
-    try {
-      const token = localStorage.getItem('token');
-      const updatedReservations = reservations.map((reservation) =>
-        reservation._id === id ? { ...reservation, finish: !currentFinish } : reservation
-      );
-      setReservations(updatedReservations); // Update local state
+  // const handleCheckboxChange = async (id, currentFinish) => {
+  //   try {
+  //     const token = localStorage.getItem('token');
+  //     const updatedReservations = reservations.map((reservation) =>
+  //       reservation._id === id ? { ...reservation, finish: !currentFinish } : reservation
+  //     );
+  //     setReservations(updatedReservations); // Update local state
 
-      const response = await fetch(`http://localhost:39189/reservation/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ finish: !currentFinish })
-      });
+  //     const response = await fetch(`http://localhost:39189/reservation/${id}`, {
+  //       method: 'PUT',
+  //       headers: {
+  //         'Authorization': `Bearer ${token}`,
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify({ finish: !currentFinish })
+  //     });
 
-      if (!response.ok) {
-        throw new Error('Failed to update reservation');
-      }
-      else {
-        console.log("its fine")
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error('Error updating reservation status');
-    }
-  };
+  //     if (!response.ok) {
+  //       throw new Error('Failed to update reservation');
+  //     }
+  //     else {
+  //       console.log("its fine")
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //     toast.error('Error updating reservation status');
+  //   }
+  // };
+
 
   if (loading) return <LoadingScreen />;
   if (error) return <div>Error: {error}</div>;
@@ -177,7 +178,7 @@ const Reservation = () => {
       </div>
       <div className=' flex flex-col gap-2 '>
         {reservations.map((e) => 
-        <Link to={`/course/${e.course._id}`} key={e._id}
+        (reservType==='All' || reservType=== e.course.course_type) && <Link to={`/course/${e.course._id}`} key={e._id}
         className='hover:text-blue-600 hover:border-blue-600 rounded-md border-gray-400 border-1 flex flex-col p-3 gap-2'>
           <div className='flex flex-row justify-between'>
             <h2 className='truncate text-lg '>{e.course.course_name}</h2>

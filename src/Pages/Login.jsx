@@ -18,7 +18,7 @@ const Login = ({ accountState, setAccountState, setProfilePicture, email, setEma
     try {
       await handleLogin(email, password, setAccountState, setProfilePicture, setEmail) // ✅ Call centralized login function
       console.log("Logged in successfully");
-
+      navigate('/')
 
     } catch (error) {
       setError("Login failed! Check credentials.");
@@ -26,13 +26,13 @@ const Login = ({ accountState, setAccountState, setProfilePicture, email, setEma
   };
 
   // Redirect when login is successful
-  useEffect(() => {
-    if (accountState !== "unregistered") {
-      // navigate('/myprofile');
-      // navigate('/myprofile')
-      navigate('/')
-    }
-  }, [accountState, navigate]);
+  // useEffect(() => {
+  //   if (accountState !== "unregistered") {
+  //     // navigate('/myprofile');
+  //     // navigate('/myprofile')
+  //     navigate('/')
+  //   }
+  // }, [accountState, navigate]);
 
   return (
     <div className='login'>

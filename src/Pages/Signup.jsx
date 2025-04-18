@@ -14,7 +14,7 @@ const Signup = () => {
     password: '',
     firstname: '',
     lastname: '',
-    display_name: '',
+    // display_name: '',
     bank_account: '',
     birthdate: '',
     contact_info: '',
@@ -96,7 +96,7 @@ const Signup = () => {
           <div className="signup-fields">
             <input type="text" name="firstname" placeholder='First Name' value={formData.firstname} onChange={handleChange} required />
             <input type="text" name="lastname" placeholder='Last Name' value={formData.lastname} onChange={handleChange} required />
-            <input type="text" name="display_name" placeholder='Display Name' value={formData.display_name} onChange={handleChange} required />
+            {/* <input type="text" name="display_name" placeholder='Display Name' value={formData.display_name} onChange={handleChange} required /> */}
             <input type="email" name="email" placeholder='Email Address' value={formData.email} onChange={handleChange} required />
             <input type="password" name="password" placeholder='Password' value={formData.password} onChange={handleChange} required />
             <input type="date" name="birthdate" placeholder='Birthdate' value={formData.birthdate} onChange={handleChange}  max={new Date().toISOString().split("T")[0]} required />

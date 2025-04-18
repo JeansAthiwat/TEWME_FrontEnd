@@ -2,12 +2,13 @@ import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import { jwtDecode } from "jwt-decode";
 import { CircleUser } from 'lucide-react';
 import LoadingScreen from '../Components/LoadingScreen/LoadingScreen';
+import axios from 'axios';
 
 const Chatbox = ({ socket }) => {
   const [messages,setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [conversations, setConversations] = useState([]);
-  const [currentConv, setCurrentConv] = useState(0);
+  const [currentConv, setCurrentConv] = useState(null);
   const msgBoxRef = useRef(null);
   const bottomRef = useRef(null); // 👈 this is our scroll target
   const messageWindowRef = useRef(null);
@@ -23,7 +24,7 @@ const Chatbox = ({ socket }) => {
     return msg.match(/.{1,55}/g).join('<br />');
   }
   const formatPreviewMsg = (msg) => {
-    return msg.substring(0,50) + "..."
+    return msg.substring(0,50) + (msg.length>50 ? "..." : "")
   }
 
   useLayoutEffect(() => {
@@ -45,24 +46,75 @@ const Chatbox = ({ socket }) => {
 
 
   useEffect(() => {
-    if(socket) {
-
-      const handlePrivateMessage = ({from, message, createdAt}) => {
-        if(conversations[currentConv].participants.some(participant => participant._id===from)) {
-          const newMessage = { sender:from, text:message, createdAt: createdAt }
-          console.log(newMessage)
-          // console.log("Pre rerender messages", messages);
+    if (socket) {
+      const handlePrivateMessage = ({ from, message, courseId, createdAt }) => {
+        const newMessage = { sender: from, text: message, createdAt };
+  
+        // Check if message is for current conversation
+        const isCurrent = conversations[currentConv]?.courseId === courseId;
+  
+        if (isCurrent) {
           setMessages(prev => [...prev, newMessage]);
-          
         }
-      }
-      socket.on("private message", handlePrivateMessage)
-      
+        console.log(courseId)
+        // Update conversations list
+        setConversations(prevConvs => {
+          let updatedConvs = [...prevConvs];
+          const convIndex = updatedConvs.findIndex(conv =>
+            conv.courseId.id === courseId.id
+          );
+    
+          if (convIndex !== -1) {
+            const targetConv = { ...updatedConvs[convIndex] };
+    
+            // Update lastMessage
+            targetConv.lastMessage.text = message;
+    
+            // If not currently open, increment unread count
+            if (!isCurrent) {
+              targetConv.unreadCount = (targetConv.unreadCount || 0) + 1;
+            }
+    
+            // Remove from current position
+            updatedConvs.splice(convIndex, 1);
+            // Move to top
+            updatedConvs.unshift(targetConv);
+          }          console.log(updatedConvs)
+          return updatedConvs;
+        });
+      };
+  
+      socket.on("private message", handlePrivateMessage);
+  
       return () => {
         socket.off("private message", handlePrivateMessage);
       };
     }
-  }, [socket, conversations, currentConv])
+  }, [socket, conversations, currentConv]);
+  
+  // useEffect(() => {
+  //   if (currentConv === null) return;
+  //   const resetUnreadCount = async () => {
+  //     try{
+  //       const response = await axios.patch(
+  //         `http://localhost:39189/conversation/update/${conversations[currentConv]?._id}`,
+  //         {}, // or your actual data
+  //         {
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //             'Authorization': `Bearer ${localStorage.getItem('token')}`
+  //           }
+  //         }
+  //       );
+  //       conversations[currentConv].unreadCount=0
+  //     } catch(error){
+  //       console.error(error.message, conversations[currentConv]._id);
+  //     }
+  //   }
+
+  //   resetUnreadCount()
+    
+  // }, [currentConv, conversations[currentConv]?.lastMessage])
 
   useEffect(() => {
     const getConversations = async() => {
@@ -134,10 +186,32 @@ const Chatbox = ({ socket }) => {
     socket.emit("private message", {
       conversationId: conversations[currentConv]._id,
       recipient: recipient._id,
+      courseId: conversations[currentConv].courseId,
       message: msgBoxRef.current.value,
     });
-    setMessages([...messages, { sender:user.id, text:msgBoxRef.current.value, createdAt: new Date(Date.now()) }])
+
+    const newMessage = { sender:user.id, text:msgBoxRef.current.value, createdAt: new Date(Date.now()) }
+
+    setMessages([...messages, newMessage])
+    setConversations(prevConvs => {
+      let updatedConvs = [...prevConvs];
+      const convIndex = currentConv
+      const targetConv = { ...updatedConvs[convIndex] };
+
+        // Update lastMessage
+      targetConv.lastMessage.text = newMessage.text;
+      
+
+        // Remove from current position
+      updatedConvs.splice(convIndex, 1);
+        // Move to top
+      updatedConvs.unshift(targetConv);
+               
+      return updatedConvs;
+    });
+    setCurrentConv(0);
     msgBoxRef.current.value = "";
+    
   }
   return (
     <>
@@ -147,16 +221,21 @@ const Chatbox = ({ socket }) => {
       <div className="flex justify-center mt-30 ">
         <div className="w-[30%] min-w-50 max-w-100  pl-5 border-gray-200 border-1">
           <div className='font-semibold text-4xl  p-4 flex  flex-row items-center'><p className=''>Contacts</p></div>
-          <ul className="flex flex-col gap-2 overflow-y-scroll pr-2 h-full">
+          <ul className="flex flex-col overflow-y-scroll gap-1 pr-2 ">
           {conversations.map((conv, index) => 
             conv.participants.map((participant) => 
               participant._id !== user.id && (
-                <li key={index} onClick={() => setCurrentConv(index)} className={`overflow-hidden flex flex-row items-center gap-3 rounded-xl py-2 px-4 hover:cursor-default hover:bg-gray-300 ${index==currentConv?"bg-gray-200":"bg-gray-100"}`}>
+                <li key={index} onClick={() => setCurrentConv(index)} className={`overflow-hidden flex flex-row items-center gap-3 rounded-xl py-2 px-4 hover:cursor-default hover:bg-gray-200 ${index==currentConv?"bg-gray-100":""}`}>
                   <img className="w-10 h-10 rounded-full object-cover" src={participant.profilePicture} alt="d" />
                   <div>
                   <div className="conversation-name font-semibold truncate">{participant.firstname} {participant.lastname}</div>
                   <div className="conversation-name text-gray-600 truncate ">Course: {conv.courseId.course_name} </div>
-                  <div className="last-message text-gray-400 truncate">{conv.lastMessage && formatPreviewMsg(conv.lastMessage.text)}</div>
+                  <div className="last-message text-gray-400 truncate flex flex-row gap-1 items-center">
+                  {conv.unreadCount>1 ? <p className='  text-center text-blue-600 font-bold'>{conv.unreadCount}+ unread messages</p>
+                  :
+                    <p className={`${conv.unreadCount===1 && 'font-bold text-blue-600'}`}>{conv.lastMessage && formatPreviewMsg(conv.lastMessage.text)}</p>}
+                    
+                    </div>
                   </div>
                 </li>
               )
@@ -164,8 +243,19 @@ const Chatbox = ({ socket }) => {
           )}
           </ul>
         </div>
-        <div className="border-1 border-gray-200 border-l-0 w-[60%] h-full">
-          <div ref={messageWindowRef} className="message-section w-full px-5 h-[75vh] overflow-y-scroll overflow-x-hidden flex flex-col mx-auto">
+         <div className="border-1 border-gray-200 border-l-0 w-[60%] h-[85vh]">
+         {currentConv!== null && <>
+         <div className='border-b-1 border-gray-200 p-1'>
+            {conversations[currentConv].participants.map((p, index) => p._id !== user.id && (
+              <li key={index} onClick={() => setCurrentConv(index)} className={`overflow-hidden flex flex-row items-center gap-3 rounded-xl py-2 px-4 hover:cursor-default hover:bg-gray-200 `}>
+                  <img className="w-10 h-10 rounded-full object-cover" src={p.profilePicture} alt="d" />
+                  <div>
+                  <div className="conversation-name font-semibold truncate">{p.firstname} {p.lastname}</div>
+                  <div className="conversation-name text-gray-600 truncate ">Course: {conversations[currentConv].courseId.course_name} </div>
+                  </div>
+                </li>))}
+          </div>
+          <div ref={messageWindowRef} className="message-section w-full px-5 h-[70vh] overflow-y-scroll overflow-x-hidden flex flex-col mx-auto">
             <button onClick={getOlderMessages} className='w-fit mx-auto bg-gray-50 border-2 border-gray-300 hover:border-gray-400 text-gray-500 font-bold py-2 px-4 rounded-full mt-2'>See Older</button>
             <ul className="flex flex-col gap-2 pt-5">
               {messages.map((msg, index) => {
@@ -219,7 +309,7 @@ const Chatbox = ({ socket }) => {
                 }}}/>
             <button onClick={handleSend} className='absolute right-0 h-[3rem] bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r-lg mr-2'>Send</button>
           </div>
-        </div>
+          </>}</div>
       </div>
       </>
     }

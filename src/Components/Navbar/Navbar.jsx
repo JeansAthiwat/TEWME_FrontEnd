@@ -59,8 +59,9 @@ const Navbar = ({ accountState, profilePicture }) => {
 
   return (
     <>
+    <ToastContainer position="top-center" autoClose={3000} pauseOnHover={false} />
       <div className="navbar">
-        <ToastContainer position="top-center" autoClose={3000} pauseOnHover={false} />
+        
         <div className="nav-left">
           <ArrowLeft
             className="arrow-icon"
