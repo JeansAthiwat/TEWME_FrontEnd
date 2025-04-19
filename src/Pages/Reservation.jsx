@@ -193,7 +193,7 @@ const Reservation = () => {
           <div className='flex flex-row gap-2'>{e.course.tags?.map((t,i) => 
             <h3 key={i} className={`text-blue-600  text-[14px]`}>{t}</h3>)}
             </div>
-          <p className='text-gray-400 text-sm'>Bought at {new Date(e.createAt).toLocaleString()}</p>
+          <p className='text-gray-400 text-sm'>Bought at {new Date(e.payment_date).toLocaleString()}</p>
         </Link>)}
       </div>
     </div>

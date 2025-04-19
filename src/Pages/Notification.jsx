@@ -11,7 +11,7 @@ const API_BASE_URL = "http://localhost:39189/notification"; // Adjust as needed
 
 const Notification = () => {
   const [notifications, setNotifications] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filterStatus, setFilterStatus] = useState("all");
 
