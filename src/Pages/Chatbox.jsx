@@ -5,6 +5,7 @@ import LoadingScreen from '../Components/LoadingScreen/LoadingScreen';
 import axios from 'axios';
 
 const Chatbox = ({ socket }) => {
+  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
   const [messages,setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [conversations, setConversations] = useState([]);
@@ -97,7 +98,7 @@ const Chatbox = ({ socket }) => {
   //   const resetUnreadCount = async () => {
   //     try{
   //       const response = await axios.patch(
-  //         `/api/conversation/update/${conversations[currentConv]?._id}`,
+  //         `http://localhost:39189/conversation/update/${conversations[currentConv]?._id}`,
   //         {}, // or your actual data
   //         {
   //           headers: {
@@ -119,7 +120,7 @@ const Chatbox = ({ socket }) => {
   useEffect(() => {
     const getConversations = async() => {
       setLoading(true)
-      const response = await fetch("/api/conversation/user", {
+      const response = await fetch(baseURL+"/api/conversation/user", {
         method: "GET",
         headers: {
           authorization: `Bearer ${localStorage.getItem('token')}`
@@ -138,7 +139,7 @@ const Chatbox = ({ socket }) => {
     
     const getMessages = async() => {
       
-      const response = await fetch(`/api/message/${conversations[currentConv]._id}`, {
+      const response = await fetch(`${baseURL}/api/message/${conversations[currentConv]._id}`, {
         method: "GET",
         headers: {
           authorization: `Bearer ${localStorage.getItem('token')}`
@@ -165,7 +166,7 @@ const Chatbox = ({ socket }) => {
     isLoadingOlderMessages.current = true;
   
     const response = await fetch(
-      `/api/message/${conversations[currentConv]._id}?createdBefore=${messages[0].createdAt}`,
+      `${baseURL}/api/message/${conversations[currentConv]._id}?createdBefore=${messages[0].createdAt}`,
       {
         method: "GET",
         headers: {
@@ -199,8 +200,7 @@ const Chatbox = ({ socket }) => {
       const targetConv = { ...updatedConvs[convIndex] };
 
         // Update lastMessage
-      targetConv.lastMessage.text = newMessage.text;
-      
+      targetConv.lastMessage = newMessage;
 
         // Remove from current position
       updatedConvs.splice(convIndex, 1);
@@ -219,30 +219,46 @@ const Chatbox = ({ socket }) => {
       conversations.length>0 &&
       <>
       <div className="flex justify-center mt-30 ">
-        <div className="w-[30%] min-w-50 max-w-100  pl-5 border-gray-200 border-1">
-          <div className='font-semibold text-4xl  p-4 flex  flex-row items-center'><p className=''>Contacts</p></div>
-          <ul className="flex flex-col overflow-y-scroll gap-1 pr-2 ">
-          {conversations.map((conv, index) => 
-            conv.participants.map((participant) => 
-              participant._id !== user.id && (
-                <li key={index} onClick={() => setCurrentConv(index)} className={`overflow-hidden flex flex-row items-center gap-3 rounded-xl py-2 px-4 hover:cursor-default hover:bg-gray-200 ${index==currentConv?"bg-gray-100":""}`}>
-                  <img className="w-10 h-10 rounded-full object-cover" src={participant.profilePicture} alt="d" />
-                  <div>
-                  <div className="conversation-name font-semibold truncate">{participant.firstname} {participant.lastname}</div>
-                  <div className="conversation-name text-gray-600 truncate ">Course: {conv.courseId.course_name} </div>
-                  <div className="last-message text-gray-400 truncate flex flex-row gap-1 items-center">
-                  {conv.unreadCount>1 ? <p className='  text-center text-blue-600 font-bold'>{conv.unreadCount}+ unread messages</p>
-                  :
-                    <p className={`${conv.unreadCount===1 && 'font-bold text-blue-600'}`}>{conv.lastMessage && formatPreviewMsg(conv.lastMessage.text)}</p>}
-                    
-                    </div>
-                  </div>
-                </li>
-              )
-            )
-          )}
-          </ul>
-        </div>
+      <div className="w-[30%] h-[85vh] min-w-50 max-w-100 pl-5 border-gray-200 border-1 flex flex-col">
+  <div className="font-semibold text-4xl p-4 flex flex-row items-center">
+    <p>Contacts</p>
+  </div>
+
+  {/* Scrollable list */}
+  <div className="flex-1 min-h-0 flex flex-col overflow-y-auto overflow-x-hidden gap-1 pr-2">
+    {conversations.map((conv, index) =>
+      conv.participants.map((participant) =>
+        participant._id !== user.id && (
+          <div
+            key={index}
+            onClick={() => setCurrentConv(index)}
+            className={`flex flex-row items-center gap-3 rounded-xl py-2 px-4 hover:cursor-default hover:bg-gray-200 ${index === currentConv ? "bg-gray-100" : ""}`}
+          >
+            <img className="w-10 h-10 rounded-full object-cover" src={participant.profilePicture} alt="d" />
+            <div>
+              <div className="conversation-name font-semibold truncate">
+                {participant.firstname} {participant.lastname}
+              </div>
+              <div className="conversation-name text-gray-600 truncate">
+                Course: {conv.courseId.course_name}
+              </div>
+              <div className="last-message text-gray-400 truncate flex flex-row gap-1 items-center">
+                {conv.unreadCount > 1 ? (
+                  <p className="text-center text-blue-600 font-bold">{conv.unreadCount}+ unread messages</p>
+                ) : (
+                  <p className={`${conv.unreadCount === 1 && "font-bold text-blue-600"}`}>
+                    {conv.lastMessage && formatPreviewMsg(conv.lastMessage.text)}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        )
+      )
+    )}
+  </div>
+</div>
+
          <div className="border-1 border-gray-200 border-l-0 w-[60%] h-[85vh]">
          {currentConv!== null && <>
          <div className='border-b-1 border-gray-200 p-1'>

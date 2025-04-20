@@ -15,6 +15,7 @@ const Detail = ({ label, value }) => (
 
 
 const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
+  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
   const [tutorId, setTutorId] = useState(tutorID);
   const navigate = useNavigate();
 
@@ -25,7 +26,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
         try {
           const token = localStorage.getItem("token");
           if (!token) throw new Error("No token found");
-          const response = await fetch("/api/api/profile/get-profile", {
+          const response = await fetch(baseURL+"/api/profile/get-profile", {
             method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
@@ -227,7 +228,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
     }
 
     try {
-      const response = await fetch("/api/course", {
+      const response = await fetch(baseURL+"/api/course", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`

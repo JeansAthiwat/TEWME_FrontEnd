@@ -26,6 +26,7 @@ import {
 import LoadingScreen from "../Components/LoadingScreen/LoadingScreen";
 
 const Course = () => {
+  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
   const { courseId } = useParams();
   const [course, setCourse] = useState(null);
   const [videos, setVideos] = useState([]);
@@ -36,13 +37,13 @@ const Course = () => {
 
   useEffect(() => {
     const getCourse = async () => {
-      const response = await fetch(`/api/course/${courseId}`);
+      const response = await fetch(`${baseURL}/api/course/${courseId}`);
       const data = await response.json();
       // console.log("Course Data: ", data); // ดูข้อมูลที่ได้รับ
       // console.log("Tutor : ", data.tutor); // ดูข้อมูลที่ได้รับ
 
       // ดึงข้อมูลผู้ใช้สำหรับ tutor
-      const userResponse = await axios.get(`/api/user/id/${data.tutor}?select=firstname,lastname,bio,profilePicture`);
+      const userResponse = await axios.get(`${baseURL}/api/user/id/${data.tutor}?select=firstname,lastname,bio,profilePicture`);
       // console.log("Tutor Data: ", userResponse); // ดูข้อมูลที่ได้รับ
       const tutorWithUserData = { ...data.tutor, user: userResponse.data }; // รวมข้อมูลผู้ใช้เข้ากับ tutor
       console.log(data.supplementary_file)
@@ -57,7 +58,7 @@ const Course = () => {
       return;
     }
     const getReservation = async () => {
-      const response = await fetch(`/api/reservation?course=${courseId}`, {
+      const response = await fetch(`${baseURL}/api/reservation?course=${courseId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",
@@ -104,7 +105,7 @@ const Course = () => {
 
   const handleEnroll = async () => {
     try {
-      const response = await fetch(`/api/course/${courseId}/enroll`, {
+      const response = await fetch(`${baseURL}/api/course/${courseId}/enroll`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -119,7 +120,7 @@ const Course = () => {
       const data = await response.json();
       // console.log(data);
       
-      const createChatResponse = await fetch(`/api/conversation/`, {
+      const createChatResponse = await fetch(`${baseURL}/api/conversation/`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

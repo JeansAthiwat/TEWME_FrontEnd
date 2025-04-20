@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 
 
 const Reservation = () => {
+  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reservType, setReservType] = useState('All')
@@ -36,8 +37,8 @@ const Reservation = () => {
     try {
       const token = localStorage.getItem('token');
       const url = type === 'weekly' 
-        ? '/api/reservation/weekly'
-        : '/api/reservation?page=1';
+        ? baseURL+'/api/reservation/weekly'
+        : baseURL+'/api/reservation?page=1';
   
       const response = await axios.get(url, {
         headers: {

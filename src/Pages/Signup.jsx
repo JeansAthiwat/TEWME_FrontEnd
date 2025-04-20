@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // import ImageUpload from '../Components/ImageUpload/ImageUpload';
 
 const Signup = () => {
+  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
   const navigate = useNavigate();
   const [UserType, setUserType] = useState('');
   const [formData, setFormData] = useState({
@@ -43,7 +44,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch(baseURL+'/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

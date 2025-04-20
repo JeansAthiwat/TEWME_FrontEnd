@@ -27,6 +27,7 @@ import Reservation from './Pages/Reservation';
 
 
 function AppContent({ accountState, setAccountState, profilePicture, setProfilePicture, email, setEmail }) {
+  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
   const location = useLocation();
   const hideNavbarPaths = ['/login', '/signup', '/resetpassword'];
   const shouldShowNavbar = !hideNavbarPaths.includes(location.pathname);
@@ -35,7 +36,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
   useEffect(() => {
     // Connect to the Socket.IO server
     if(localStorage.getItem("token")) {
-      const socketInstance = io("/api", {
+      const socketInstance = io(baseURL, {
         auth: {
           token: localStorage.getItem('token')
         }

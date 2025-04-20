@@ -8,6 +8,7 @@ import { CirclePlus } from 'lucide-react';
 import ArrayField from '../Components/ArrayField';
 
 const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
+  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -30,7 +31,7 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
         const token = localStorage.getItem('token');
         if (!token) throw new Error('No token found');
 
-        const response = await fetch('/api/api/profile/get-profile', {
+        const response = await fetch(baseURL+'/api/profile/get-profile', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -99,7 +100,7 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
 
       const payload = Array.isArray(user[modalType])  ? [...user[modalType], modalValue] : modalValue
       console.log(modalType, modalValue)
-      const endpoint = '/api/user/'+user.email
+      const endpoint = baseURL+'/api/user/'+user.email
       const response = await fetch(endpoint, {
         method: 'PATCH',
         headers: {
@@ -142,7 +143,7 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
     const token = localStorage.getItem('token');
     if (!token) throw new Error('No token found');
 
-    const response = await fetch("/api/api/profile/update-balance", {
+    const response = await fetch(baseURL+"/api/api/profile/update-balance", {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,

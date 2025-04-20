@@ -8,7 +8,8 @@ import { X } from "lucide-react";
 import LoadingScreen from '../Components/LoadingScreen/LoadingScreen';
 
 
-const API_URL = "/api/search"; // ✅ เปลี่ยนเป็น '/search/'
+const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
+const API_URL = baseURL+"/api/search"; // ✅ เปลี่ยนเป็น '/search/'
 
 const Main = ({ accountState}) => {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ const Main = ({ accountState}) => {
       // console.log("📡 Fetching from API:", queries);
       
       const responses = await Promise.all(queries.map(url => axios.get(url)));
+      console.log("queries yall", queries)
       responses.forEach((res, index) => console.log(`✅ API Response for ${queries[index]}:`, res.data));
       
       // Flatten and deduplicate based on course ID

@@ -5,6 +5,7 @@ const LoginSuccess = ({ setAccountState, setProfilePicture }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
     const UID = urlParams.get('UID');
@@ -22,7 +23,7 @@ const LoginSuccess = ({ setAccountState, setProfilePicture }) => {
       localStorage.setItem('email', email); // ✅ Store UID correctly
       console.log("✅ email stored in localStorage:", localStorage.getItem('email'));
 
-      fetch('/api/api/profile/get-profile', {
+      fetch(baseURL+'/api/api/profile/get-profile', {
         method: 'GET',
         headers: { 'Authorization': `Bearer ${token}` }
       })

@@ -1,8 +1,9 @@
 import React from 'react';
 
 const GoogleLogin = () => {
+  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
   const handleGoogleLogin = () => {
-    window.location.href = '/api/auth/google';
+    window.location.href = `${baseURL}/api/auth/google`;
   };
 
   return (

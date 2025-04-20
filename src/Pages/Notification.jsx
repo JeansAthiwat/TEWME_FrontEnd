@@ -7,7 +7,8 @@ import LoadingScreen from '../Components/LoadingScreen/LoadingScreen';
 
 dayjs.extend(relativeTime);
 
-const API_BASE_URL = "/api/notification"; // Adjust as needed
+const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
+const API_BASE_URL = baseURL+"/api/notification"; // Adjust as needed
 
 const Notification = () => {
   const [notifications, setNotifications] = useState([]);

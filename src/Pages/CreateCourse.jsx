@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const LiveClassForm = ({email}) => {
+  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
@@ -109,7 +110,7 @@ const LiveClassForm = ({email}) => {
           courseData.append("supplementaryFile", formData.supplementaryFile);
         }
 
-        const response = await fetch("/api/course", {
+        const response = await fetch(baseURL+"/api/course", {
           method: "POST",
           body: courseData,
         });

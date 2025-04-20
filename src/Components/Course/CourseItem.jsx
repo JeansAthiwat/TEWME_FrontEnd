@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './CourseItem.css';
 import course_pic from '../Assets/course_id1.png';
 
 
