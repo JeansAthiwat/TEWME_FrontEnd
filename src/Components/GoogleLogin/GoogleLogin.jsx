@@ -2,7 +2,7 @@ import React from 'react';
 
 const GoogleLogin = () => {
   const handleGoogleLogin = () => {
-    window.location.href = 'http://localhost:39189/auth/google';
+    window.location.href = '/api/auth/google';
   };
 
   return (

@@ -35,7 +35,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
   useEffect(() => {
     // Connect to the Socket.IO server
     if(localStorage.getItem("token")) {
-      const socketInstance = io("http://localhost:39189", {
+      const socketInstance = io("/api", {
         auth: {
           token: localStorage.getItem('token')
         }

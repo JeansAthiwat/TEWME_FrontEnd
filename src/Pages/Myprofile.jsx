@@ -30,7 +30,7 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
         const token = localStorage.getItem('token');
         if (!token) throw new Error('No token found');
 
-        const response = await fetch('http://localhost:39189/api/profile/get-profile', {
+        const response = await fetch('/api/api/profile/get-profile', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -99,7 +99,7 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
 
       const payload = Array.isArray(user[modalType])  ? [...user[modalType], modalValue] : modalValue
       console.log(modalType, modalValue)
-      const endpoint = 'http://localhost:39189/user/'+user.email
+      const endpoint = '/api/user/'+user.email
       const response = await fetch(endpoint, {
         method: 'PATCH',
         headers: {
@@ -142,7 +142,7 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
     const token = localStorage.getItem('token');
     if (!token) throw new Error('No token found');
 
-    const response = await fetch("http://localhost:39189/api/profile/update-balance", {
+    const response = await fetch("/api/api/profile/update-balance", {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,

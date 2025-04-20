@@ -35,10 +35,10 @@ const TutorProfile = () => {
     const fetchData = async () => {
       try {
         // เรียก API ดึงคอร์สทั้งหมด
-        // const courseRes = await axios.get("http://localhost:39189/search?category=course");
+        // const courseRes = await axios.get("/api/search?category=course");
         // console.log("📌 Course Data:", courseRes.data);
         // เรียก API ดึงข้อมูลติวเตอร์ทั้งหมด
-        // const tutorRes = await axios.get("http://localhost:39189/search?category=tutor");
+        // const tutorRes = await axios.get("/api/search?category=tutor");
         // console.log("📌 Tutor Data:", tutorRes.data);
         // 🔹 กรองเฉพาะคอร์สที่มี t_email ตรงกับ email บน URL
         // const tutorCourses = courseRes.data.filter(course => course.t_email === email);
@@ -47,10 +47,10 @@ const TutorProfile = () => {
         // const tutorData = tutorRes.data.find(user => user.email === email);
         // console.log("🎯 Found Tutor Data:", tutorData);
 
-        const tutorCourses = await axios.get(`http://localhost:39189/course?tutor=${tutorId}&page=1&limit=5`);
+        const tutorCourses = await axios.get(`/api/course?tutor=${tutorId}&page=1&limit=5`);
         console.log("📌 Tutor Course Data:", tutorCourses.data.data);
 
-        const tutorData = await axios.get(`http://localhost:39189/user/id/${tutorId}`);
+        const tutorData = await axios.get(`/api/user/id/${tutorId}`);
         console.log("🎯 Found Tutor Profile Data:", tutorData.data);
 
         setCourses(tutorCourses.data.data);

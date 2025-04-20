@@ -7,7 +7,7 @@ import LoadingScreen from '../Components/LoadingScreen/LoadingScreen';
 
 dayjs.extend(relativeTime);
 
-const API_BASE_URL = "http://localhost:39189/notification"; // Adjust as needed
+const API_BASE_URL = "/api/notification"; // Adjust as needed
 
 const Notification = () => {
   const [notifications, setNotifications] = useState([]);

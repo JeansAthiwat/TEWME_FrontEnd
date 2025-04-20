@@ -97,7 +97,7 @@ const Chatbox = ({ socket }) => {
   //   const resetUnreadCount = async () => {
   //     try{
   //       const response = await axios.patch(
-  //         `http://localhost:39189/conversation/update/${conversations[currentConv]?._id}`,
+  //         `/api/conversation/update/${conversations[currentConv]?._id}`,
   //         {}, // or your actual data
   //         {
   //           headers: {
@@ -119,7 +119,7 @@ const Chatbox = ({ socket }) => {
   useEffect(() => {
     const getConversations = async() => {
       setLoading(true)
-      const response = await fetch("http://localhost:39189/conversation/user", {
+      const response = await fetch("/api/conversation/user", {
         method: "GET",
         headers: {
           authorization: `Bearer ${localStorage.getItem('token')}`
@@ -138,7 +138,7 @@ const Chatbox = ({ socket }) => {
     
     const getMessages = async() => {
       
-      const response = await fetch(`http://localhost:39189/message/${conversations[currentConv]._id}`, {
+      const response = await fetch(`/api/message/${conversations[currentConv]._id}`, {
         method: "GET",
         headers: {
           authorization: `Bearer ${localStorage.getItem('token')}`
@@ -165,7 +165,7 @@ const Chatbox = ({ socket }) => {
     isLoadingOlderMessages.current = true;
   
     const response = await fetch(
-      `http://localhost:39189/message/${conversations[currentConv]._id}?createdBefore=${messages[0].createdAt}`,
+      `/api/message/${conversations[currentConv]._id}?createdBefore=${messages[0].createdAt}`,
       {
         method: "GET",
         headers: {

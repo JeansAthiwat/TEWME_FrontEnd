@@ -36,8 +36,8 @@ const Reservation = () => {
     try {
       const token = localStorage.getItem('token');
       const url = type === 'weekly' 
-        ? 'http://localhost:39189/reservation/weekly'
-        : 'http://localhost:39189/reservation?page=1';
+        ? '/api/reservation/weekly'
+        : '/api/reservation?page=1';
   
       const response = await axios.get(url, {
         headers: {
@@ -74,7 +74,7 @@ const Reservation = () => {
   //     );
   //     setReservations(updatedReservations); // Update local state
 
-  //     const response = await fetch(`http://localhost:39189/reservation/${id}`, {
+  //     const response = await fetch(`/api/reservation/${id}`, {
   //       method: 'PUT',
   //       headers: {
   //         'Authorization': `Bearer ${token}`,

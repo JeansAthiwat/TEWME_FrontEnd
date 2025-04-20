@@ -36,13 +36,13 @@ const Course = () => {
 
   useEffect(() => {
     const getCourse = async () => {
-      const response = await fetch(`http://localhost:39189/course/${courseId}`);
+      const response = await fetch(`/api/course/${courseId}`);
       const data = await response.json();
       // console.log("Course Data: ", data); // ดูข้อมูลที่ได้รับ
       // console.log("Tutor : ", data.tutor); // ดูข้อมูลที่ได้รับ
 
       // ดึงข้อมูลผู้ใช้สำหรับ tutor
-      const userResponse = await axios.get(`http://localhost:39189/user/id/${data.tutor}?select=firstname,lastname,bio,profilePicture`);
+      const userResponse = await axios.get(`/api/user/id/${data.tutor}?select=firstname,lastname,bio,profilePicture`);
       // console.log("Tutor Data: ", userResponse); // ดูข้อมูลที่ได้รับ
       const tutorWithUserData = { ...data.tutor, user: userResponse.data }; // รวมข้อมูลผู้ใช้เข้ากับ tutor
       console.log(data.supplementary_file)
@@ -57,7 +57,7 @@ const Course = () => {
       return;
     }
     const getReservation = async () => {
-      const response = await fetch(`http://localhost:39189/reservation?course=${courseId}`, {
+      const response = await fetch(`/api/reservation?course=${courseId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",
@@ -104,7 +104,7 @@ const Course = () => {
 
   const handleEnroll = async () => {
     try {
-      const response = await fetch(`http://localhost:39189/course/${courseId}/enroll`, {
+      const response = await fetch(`/api/course/${courseId}/enroll`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -119,7 +119,7 @@ const Course = () => {
       const data = await response.json();
       // console.log(data);
       
-      const createChatResponse = await fetch(`http://localhost:39189/conversation/`, {
+      const createChatResponse = await fetch(`/api/conversation/`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

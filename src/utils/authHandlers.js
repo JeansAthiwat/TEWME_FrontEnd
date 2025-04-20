@@ -2,7 +2,7 @@ import { SquareTerminalIcon } from "lucide-react";
 
 export const handleLogin = async (email, password, setAccountState, setProfilePicture, setEmail) => {
   try {
-    const response = await fetch(`http://localhost:39189/auth/login`, { // ✅ Calls backend
+    const response = await fetch(`/api/auth/login`, { // ✅ Calls backend
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

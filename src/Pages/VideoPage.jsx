@@ -28,7 +28,7 @@ const VideoPage = () => {
 
     useEffect(()=>{
         const getCourse = async () => {
-            const course = await fetch(`http://localhost:39189/course/${courseId}`)
+            const course = await fetch(`/api/course/${courseId}`)
                                     .then((res)=> res.json())
                                     .then((json)=>json)
             setCourse(course)

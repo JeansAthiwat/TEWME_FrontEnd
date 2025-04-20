@@ -15,7 +15,7 @@ const Mycourse = ({  email }) => {
     const fetchCourses = async () => {
       setLoading(true)
       try {
-        const response = await fetch(`http://localhost:39189/course/tutor/${UID}`);
+        const response = await fetch(`/api/course/tutor/${UID}`);
         if (!response.ok) throw new Error("Failed to fetch courses");
         const data = await response.json();
         setCourses(data);
@@ -35,7 +35,7 @@ const Mycourse = ({  email }) => {
 
   const deleteCourse = async (courseId) => {
     try {
-      const response = await fetch(`http://localhost:39189/course/${courseId}`, {
+      const response = await fetch(`/api/course/${courseId}`, {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`, // Ensure token is included

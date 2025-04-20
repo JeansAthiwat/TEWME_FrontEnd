@@ -25,7 +25,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
         try {
           const token = localStorage.getItem("token");
           if (!token) throw new Error("No token found");
-          const response = await fetch("http://localhost:39189/api/profile/get-profile", {
+          const response = await fetch("/api/api/profile/get-profile", {
             method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
@@ -227,7 +227,7 @@ const MultiStepForm = ({ setCourses, tutorID, tEmail, onClose }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:39189/course", {
+      const response = await fetch("/api/course", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`

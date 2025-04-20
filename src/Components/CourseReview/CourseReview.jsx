@@ -21,7 +21,7 @@ const CourseReviews = ({ course ,enrollmentStatus}) => {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('No token found');
 
-      const response = await fetch('http://localhost:39189/api/profile/get-profile', {
+      const response = await fetch('/api/profile/get-profile', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -45,7 +45,7 @@ const CourseReviews = ({ course ,enrollmentStatus}) => {
   
   const getReviews = async () => {
     try {
-      const response = await fetch(`http://localhost:39189/review/course/${course.id}`);
+      const response = await fetch(`/api/review/course/${course.id}`);
       if (!response.ok) {
         throw new Error("Failed to fetch reviews");
       }
@@ -56,7 +56,7 @@ const CourseReviews = ({ course ,enrollmentStatus}) => {
         data.map(async (review) => {
           try {
             const userResponse = await axios.get(
-              `http://localhost:39189/user/id/${review.reviewer_id._id}?select=firstname,lastname,profilePicture`
+              `/api/user/id/${review.reviewer_id._id}?select=firstname,lastname,profilePicture`
             );
             return { ...review, user: userResponse.data };
           } catch (userError) {
@@ -93,7 +93,7 @@ const CourseReviews = ({ course ,enrollmentStatus}) => {
         return;
       }
   
-      const response = await fetch(`http://localhost:39189/review/`, {
+      const response = await fetch(`/api/review/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

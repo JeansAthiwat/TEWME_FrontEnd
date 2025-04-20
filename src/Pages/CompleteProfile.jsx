@@ -32,7 +32,7 @@ const CompleteProfile = ({ setAccountState, setProfilePicture }) => {
         console.log("Json Data:", JSON.stringify(formData));
 
         try {
-            const response = await fetch('http://localhost:39189/api/profile/complete-profile', {
+            const response = await fetch('/api/api/profile/complete-profile', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

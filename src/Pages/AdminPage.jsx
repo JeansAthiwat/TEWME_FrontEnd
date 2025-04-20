@@ -12,7 +12,7 @@ const AdminPage = () => {
           const token = localStorage.getItem('token');
           if (!token) throw new Error('No token found');
   
-          const response = await fetch('http://localhost:39189/user/', {
+          const response = await fetch('/api/user/', {
             method: 'GET',
             headers: {
               'Authorization': `Bearer ${token}`,
@@ -46,7 +46,7 @@ const AdminPage = () => {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('No token found');
       
-      const response = await fetch('http://localhost:39189/admin/'+tutor.email, {
+      const response = await fetch('/api/admin/'+tutor.email, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -71,7 +71,7 @@ const AdminPage = () => {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('No token found');
       
-      const response = await fetch('http://localhost:39189/admin/'+tutor.email, {
+      const response = await fetch('/api/admin/'+tutor.email, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

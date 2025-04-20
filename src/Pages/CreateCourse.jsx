@@ -109,7 +109,7 @@ const LiveClassForm = ({email}) => {
           courseData.append("supplementaryFile", formData.supplementaryFile);
         }
 
-        const response = await fetch("http://localhost:39189/course", {
+        const response = await fetch("/api/course", {
           method: "POST",
           body: courseData,
         });
