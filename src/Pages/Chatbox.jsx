@@ -247,7 +247,7 @@ const Chatbox = ({ socket }) => {
          {currentConv!== null && <>
          <div className='border-b-1 border-gray-200 p-1'>
             {conversations[currentConv].participants.map((p, index) => p._id !== user.id && (
-              <li key={index} onClick={() => setCurrentConv(index)} className={`overflow-hidden flex flex-row items-center gap-3 rounded-xl py-2 px-4 hover:cursor-default hover:bg-gray-200 `}>
+              <li key={index} className={`overflow-hidden flex flex-row items-center gap-3 rounded-xl py-2 px-4 `}>
                   <img className="w-10 h-10 rounded-full object-cover" src={p.profilePicture} alt="d" />
                   <div>
                   <div className="conversation-name font-semibold truncate">{p.firstname} {p.lastname}</div>
