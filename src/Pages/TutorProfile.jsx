@@ -21,7 +21,7 @@ import {
 import LoadingScreen from "../Components/LoadingScreen/LoadingScreen";
 
 const TutorProfile = () => {
-  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
+  
   const { tutorId } = useParams();
   useEffect(() => {
     console.log("Email from URL:", tutorId);
@@ -48,10 +48,10 @@ const TutorProfile = () => {
         // const tutorData = tutorRes.data.find(user => user.email === email);
         // console.log("🎯 Found Tutor Data:", tutorData);
 
-        const tutorCourses = await axios.get(`${baseURL}/api/course?tutor=${tutorId}&page=1&limit=5`);
+        const tutorCourses = await axios.get(`/api/course?tutor=${tutorId}&page=1&limit=5`);
         console.log("📌 Tutor Course Data:", tutorCourses.data.data);
 
-        const tutorData = await axios.get(`${baseURL}/api/user/id/${tutorId}`);
+        const tutorData = await axios.get(`/api/user/id/${tutorId}`);
         console.log("🎯 Found Tutor Profile Data:", tutorData.data);
 
         setCourses(tutorCourses.data.data);

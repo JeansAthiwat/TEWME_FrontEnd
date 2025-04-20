@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { Video, MapPin , UserRound, Star } from 'lucide-react';
 import LoadingScreen from "../Components/LoadingScreen/LoadingScreen";
 const Mycourse = ({  email }) => {
-  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
+  
   const [courses, setCourses] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -16,7 +16,7 @@ const Mycourse = ({  email }) => {
     const fetchCourses = async () => {
       setLoading(true)
       try {
-        const response = await fetch(`${baseURL}/api/course/tutor/${UID}`);
+        const response = await fetch(`/api/course/tutor/${UID}`);
         if (!response.ok) throw new Error("Failed to fetch courses");
         const data = await response.json();
         setCourses(data);
@@ -36,7 +36,7 @@ const Mycourse = ({  email }) => {
 
   const deleteCourse = async (courseId) => {
     try {
-      const response = await fetch(`${baseURL}/api/course/${courseId}`, {
+      const response = await fetch(`/api/course/${courseId}`, {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`, // Ensure token is included

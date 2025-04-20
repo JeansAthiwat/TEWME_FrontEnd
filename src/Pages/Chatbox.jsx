@@ -5,7 +5,7 @@ import LoadingScreen from '../Components/LoadingScreen/LoadingScreen';
 import axios from 'axios';
 
 const Chatbox = ({ socket }) => {
-  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
+  
   const [messages,setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [conversations, setConversations] = useState([]);
@@ -120,7 +120,7 @@ const Chatbox = ({ socket }) => {
   useEffect(() => {
     const getConversations = async() => {
       setLoading(true)
-      const response = await fetch(baseURL+"/api/conversation/user", {
+      const response = await fetch("/api/conversation/user", {
         method: "GET",
         headers: {
           authorization: `Bearer ${localStorage.getItem('token')}`
@@ -139,7 +139,7 @@ const Chatbox = ({ socket }) => {
     
     const getMessages = async() => {
       
-      const response = await fetch(`${baseURL}/api/message/${conversations[currentConv]._id}`, {
+      const response = await fetch(`/api/message/${conversations[currentConv]._id}`, {
         method: "GET",
         headers: {
           authorization: `Bearer ${localStorage.getItem('token')}`
@@ -166,7 +166,7 @@ const Chatbox = ({ socket }) => {
     isLoadingOlderMessages.current = true;
   
     const response = await fetch(
-      `${baseURL}/api/message/${conversations[currentConv]._id}?createdBefore=${messages[0].createdAt}`,
+      `/api/message/${conversations[currentConv]._id}?createdBefore=${messages[0].createdAt}`,
       {
         method: "GET",
         headers: {

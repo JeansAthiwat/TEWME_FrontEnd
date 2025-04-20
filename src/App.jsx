@@ -47,6 +47,10 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
         console.log("✅ Connected to socket server with ID:", socketInstance.id);
       });
 
+      socketInstance.on("connect_error", (err) => {
+        console.error("❌ Socket connection to", baseURL, "failed:", err.message);
+      });
+
       // socketInstance.on("private message", ({ from, message }) => {
       //   console.log("TODO: Implement notification");
       // });

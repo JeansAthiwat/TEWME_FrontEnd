@@ -5,7 +5,6 @@ import ReviewForm from './ReviewForm';
 import { useToast } from '../Toast/Toast';
 
 const CourseReviews = ({ course ,enrollmentStatus}) => {
-  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
   const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
   const [reviews, setReviews] = useState([]);
   const { toast } = useToast();
@@ -22,7 +21,7 @@ const CourseReviews = ({ course ,enrollmentStatus}) => {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('No token found');
 
-      const response = await fetch(`${baseURL}/api/profile/get-profile`, {
+      const response = await fetch(`/api/profile/get-profile`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -46,7 +45,7 @@ const CourseReviews = ({ course ,enrollmentStatus}) => {
   
   const getReviews = async () => {
     try {
-      const response = await fetch(`${baseURL}/api/review/course/${course.id}`);
+      const response = await fetch(`/api/review/course/${course.id}`);
       if (!response.ok) {
         throw new Error("Failed to fetch reviews");
       }
@@ -57,7 +56,7 @@ const CourseReviews = ({ course ,enrollmentStatus}) => {
         data.map(async (review) => {
           try {
             const userResponse = await axios.get(
-              `${baseURL}/api/user/id/${review.reviewer_id._id}?select=firstname,lastname,profilePicture`
+              `/api/user/id/${review.reviewer_id._id}?select=firstname,lastname,profilePicture`
             );
             return { ...review, user: userResponse.data };
           } catch (userError) {

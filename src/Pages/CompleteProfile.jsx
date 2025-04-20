@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './CSS/CompleteProfile.css'; // ✅ Import CSS
 
 const CompleteProfile = ({ setAccountState, setProfilePicture }) => {
-    const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
+    
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         firstname: '',
@@ -33,7 +33,7 @@ const CompleteProfile = ({ setAccountState, setProfilePicture }) => {
         console.log("Json Data:", JSON.stringify(formData));
 
         try {
-            const response = await fetch(baseURL+'/api/api/profile/complete-profile', {
+            const response = await fetch('/api/api/profile/complete-profile', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

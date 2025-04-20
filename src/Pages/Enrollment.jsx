@@ -7,8 +7,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingScreen from '../Components/LoadingScreen/LoadingScreen';
 
-const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
-const API_URL = baseURL+"/api/search/"; // ใช้ endpoint /search ตาม backend
+
+const API_URL = "/api/search/"; // ใช้ endpoint /search ตาม backend
 
 const Main = ({ accountState }) => {
   const navigate = useNavigate();

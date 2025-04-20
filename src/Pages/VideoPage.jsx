@@ -16,7 +16,7 @@ const VideoPlayer = ({ videoObj, videoNumber, courseId }) => {
 };
 
 const VideoPage = () => {
-    const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
+    
     const {courseId, videoNumber} = useParams()
     const [course, setCourse] = useState()
     const [video, setVideo] = useState()
@@ -29,7 +29,7 @@ const VideoPage = () => {
 
     useEffect(()=>{
         const getCourse = async () => {
-            const course = await fetch(`${baseURL}/api/course/${courseId}`)
+            const course = await fetch(`/api/course/${courseId}`)
                                     .then((res)=> res.json())
                                     .then((json)=>json)
             setCourse(course)
