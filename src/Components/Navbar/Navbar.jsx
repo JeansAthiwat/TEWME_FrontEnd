@@ -71,11 +71,11 @@ const Navbar = ({ accountState, profilePicture }) => {
           />
           <div className="nav-logo">
           <Link to="/login">
-            <p>TewMe</p>
+            <p className="hidden sm:block">TewMe</p>
           </Link>
           </div>
         </div>
-        <ul className=" hidden sm:flex justify-end items-center  gap-[20px] lg:gap-[50px] text-[#626262] text-xl font-medium ">
+        <ul className=" flex justify-end items-center  gap-[20px] lg:gap-[50px] text-[#626262] text-xl font-medium ">
           {navObjects.map(displayNav)}
           </ul>
         <div className="nav-login-profile">

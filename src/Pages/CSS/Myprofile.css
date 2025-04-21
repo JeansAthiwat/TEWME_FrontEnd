@@ -186,6 +186,7 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 16px;
+  color: black;
   margin-bottom: 15px;
   transition: border 0.3s ease-in-out;
   display: block;
@@ -205,6 +206,7 @@
    border: 1px solid #ccc;
    border-radius: 8px;
    font-size: 16px;
+   color: black;
    height: auto;
    overflow-y: auto;
    margin-bottom: 15px;

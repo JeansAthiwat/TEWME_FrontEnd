@@ -79,13 +79,13 @@ const Main = ({ accountState}) => {
   };
 
   return (
-    <div className="flex w-full max-w-400 m-auto p-5 gap-5">
-      <div className="w-1/4 p-4 bg-gray-100 rounded-lg shadow-md sticky top-[100px] h-[calc(90vh-80px)] overflow-auto">
-        <h2 className="font-bold text-lg mb-4">Filters</h2>
+    <div className="flex flex-col md:flex-row w-full max-w-400 m-auto p-5 gap-5">
+      <div className="md:w-1/4 p-4 bg-gray-100 rounded-lg shadow-md sticky md:top-[100px] md:h-[calc(90vh-80px)] md:overflow-auto">
+        <h2 className="hidden md:block font-bold text-lg mb-4">Filters</h2>
         
-        <div className="flex justify-between mb-4 gap-2">
+        <div className="flex md:justify-between mb-4 gap-2">
           <button 
-            className={`w-1/2 p-2 rounded-lg ${category === "course" ? "bg-blue-500 text-white" : "bg-gray-200"}`} 
+            className={`w-40 md:w-1/2 p-2 rounded-lg ${category === "course" ? "bg-blue-500 text-white" : "bg-gray-200"}`} 
             onClick={() => {
               setCategory("course")
               localStorage.setItem('category', 'course')
@@ -95,7 +95,7 @@ const Main = ({ accountState}) => {
             Courses
           </button>
           <button 
-            className={`w-1/2 p-2 rounded-lg ${category === "tutor" ? "bg-blue-500 text-white" : "bg-gray-200"}`} 
+            className={`w-40 md:w-1/2 p-2 rounded-lg ${category === "tutor" ? "bg-blue-500 text-white" : "bg-gray-200"}`} 
             onClick={() => {
               setCategory("tutor")
               localStorage.setItem('category', 'tutor')
@@ -114,8 +114,8 @@ const Main = ({ accountState}) => {
         />
         { category === 'course' &&<>
         
-        <h3 className="font-semibold mb-2">Tags</h3>
-        <div className="flex flex-col gap-2 mb-4">
+        <h3 className="hidden md:blcok font-semibold mb-2">Tags</h3>
+        <div className="hidden md:flex flex-col gap-2 mb-4">
           {"Science Math Language Social Music Art".split(" ").map(subject => (
             <label key={subject} className="flex items-center w-full cursor-pointer justify-begin">
               <input 
@@ -124,17 +124,17 @@ const Main = ({ accountState}) => {
                 onChange={() => handleSubjectChange(subject)}
                 className="w-5 h-5 accent-black rounded-md border-gray-400 "
               />
-              <span className="text-left w-550">{subject}</span>
+              <span className="px-2 text-left w-550">{subject}</span>
             </label>
           ))}
         </div>
         </>}
         
-        <h3 className="font-semibold mb-2">Sort By</h3>
+        <h3 className=" hidden md:block font-semibold mb-2">Sort By</h3>
         <select 
           onChange={(e) => setSortBy(e.target.value)} 
           value={sortBy || ""} 
-          className='w-full p-2 border rounded-md mb-4'
+          className='hidden md:block w-full p-2 border rounded-md mb-4'
         >
           <option value="">Select Sort Option</option>
           <option value="name">Name: A-Z</option>
@@ -149,11 +149,11 @@ const Main = ({ accountState}) => {
         
         {category === "course" && (
           <>
-            <h3 className="font-semibold mb-2">Course Type</h3>
+            <h3 className="hidden md:block font-semibold mb-2">Course Type</h3>
             <select 
               onChange={(e) => setCourseType(e.target.value)} 
               value={courseType || ""} 
-              className='w-full p-2 border rounded-md mb-4'
+              className='hidden md:block w-full p-2 border rounded-md mb-4'
             >
               <option value="">All Course Types</option>
               <option value="Live">Live</option>
@@ -163,7 +163,7 @@ const Main = ({ accountState}) => {
         )}
       </div>
   
-      <div className="w-3/4">
+      <div className="w-full md:w-3/4">
       {/* Search Term Display */}
 {inputSearch && (
   <h2 className="text-xl font-semibold mb-4">

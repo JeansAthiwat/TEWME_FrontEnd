@@ -159,7 +159,7 @@
   @media (max-width: 640px){
     .navbar {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         justify-items:center;
         min-height: 7vh;
         /* padding: 16px 30px; */
