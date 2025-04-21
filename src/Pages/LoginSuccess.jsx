@@ -23,7 +23,7 @@ const LoginSuccess = ({ setAccountState, setProfilePicture }) => {
       localStorage.setItem('email', email); // ✅ Store UID correctly
       console.log("✅ email stored in localStorage:", localStorage.getItem('email'));
 
-      fetch('/api/api/profile/get-profile', {
+      fetch('/api/profile/get-profile', {
         method: 'GET',
         headers: { 'Authorization': `Bearer ${token}` }
       })

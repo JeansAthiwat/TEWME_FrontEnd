@@ -143,7 +143,7 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
     const token = localStorage.getItem('token');
     if (!token) throw new Error('No token found');
 
-    const response = await fetch("/api/api/profile/update-balance", {
+    const response = await fetch("/api/profile/update-balance", {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,
