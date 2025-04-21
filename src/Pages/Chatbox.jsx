@@ -177,7 +177,7 @@ const Chatbox = () => {
     
     const getMessages = async() => {
       setMessageLoading(true)
-      
+      console.log("case1 jaa")
       const response = await fetch(`/api/message/${conversations[currentConv]._id}`, {
         method: "GET",
         headers: {
@@ -194,7 +194,7 @@ const Chatbox = () => {
       
     }
     
-  },[conversations, currentConv])
+  },[currentConv])
 
   const getOlderMessages = async () => {
     const messageWindow = messageWindowRef.current;
@@ -204,6 +204,7 @@ const Chatbox = () => {
     prevScrollTopRef.current = messageWindow.scrollTop;
     isLoadingOlderMessages.current = true;
     setMessageLoading(true)
+    console.log("case2 jaa")
     const response = await fetch(
       `/api/message/${conversations[currentConv]._id}?createdBefore=${messages[0].createdAt}`,
       {
