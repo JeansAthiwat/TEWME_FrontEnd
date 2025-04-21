@@ -7,6 +7,7 @@ import axios from 'axios';
 
 const Chatbox = () => {
   const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
+  const [messageLoading, setMessageLoading] = useState(false)
   const [socket, setSocket] = useState(null)
   const [messages,setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -175,6 +176,7 @@ const Chatbox = () => {
   useEffect(() => {
     
     const getMessages = async() => {
+      setMessageLoading(true)
       
       const response = await fetch(`/api/message/${conversations[currentConv]._id}`, {
         method: "GET",
@@ -184,7 +186,7 @@ const Chatbox = () => {
       });
       const data = await response.json();
       setMessages([...data]);
-      
+      setMessageLoading(false)
       // console.log("messages are", data);
     }
     if(conversations.length) {
@@ -201,7 +203,7 @@ const Chatbox = () => {
     prevScrollHeightRef.current = messageWindow.scrollHeight;
     prevScrollTopRef.current = messageWindow.scrollTop;
     isLoadingOlderMessages.current = true;
-  
+    setMessageLoading(true)
     const response = await fetch(
       `/api/message/${conversations[currentConv]._id}?createdBefore=${messages[0].createdAt}`,
       {
@@ -213,6 +215,7 @@ const Chatbox = () => {
     );
     const data = await response.json();
     setMessages(prev => [...data, ...prev]);
+    setMessageLoading(false)
   };
   
   
@@ -309,6 +312,7 @@ const Chatbox = () => {
                 </li>))}
           </div>
           <div ref={messageWindowRef} className="message-section w-full px-5 h-[70vh] overflow-y-scroll overflow-x-hidden flex flex-col mx-auto">
+            {messageLoading?<LoadingScreen /> :<>
             <button onClick={getOlderMessages} className='w-fit mx-auto bg-gray-50 border-2 border-gray-300 hover:border-gray-400 text-gray-500 font-bold py-2 px-4 rounded-full mt-2'>See Older</button>
             <ul className="flex flex-col gap-2 pt-5">
               {messages.map((msg, index) => {
@@ -352,6 +356,7 @@ const Chatbox = () => {
               })}
             </ul>
             <div ref={bottomRef}/>
+            </>}
           </div>
           <div className='relative  p-2 '>
             <input ref={msgBoxRef} type='text' placeholder='type here' className='h-[3rem]'
