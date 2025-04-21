@@ -8,7 +8,7 @@ export default defineConfig({
     port: 3000, // Change this if needed
     proxy: {
       '/api': {
-        target: 'http://localhost:39189',
+        target: 'https://lamoonqr.online',
         changeOrigin: true,
         secure: false,
       },
