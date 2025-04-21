@@ -1,5 +1,5 @@
 import React from "react";
-import { useToast } from "../Toast/Toast";
+import { useToast } from "./Toast";
 
 const ToastContainer = () => {
   const { toasts, dismiss } = useToast();
