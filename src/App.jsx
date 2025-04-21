@@ -1,4 +1,3 @@
-import { io } from "socket.io-client";
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { handleLogin } from './utils/authHandlers';
@@ -27,46 +26,9 @@ import Reservation from './Pages/Reservation';
 
 
 function AppContent({ accountState, setAccountState, profilePicture, setProfilePicture, email, setEmail }) {
-  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
   const location = useLocation();
   const hideNavbarPaths = ['/login', '/signup', '/resetpassword'];
   const shouldShowNavbar = !hideNavbarPaths.includes(location.pathname);
-  const [socket, setSocket] = useState(null)
-
-  useEffect(() => {
-    // Connect to the Socket.IO server
-    if(localStorage.getItem("token")) {
-      const socketInstance = io(baseURL, {
-        auth: {
-          token: localStorage.getItem('token')
-        }
-      });
-  
-      // Handle connection
-      socketInstance.on("connect", () => {
-        console.log("✅ Connected to socket server with ID:", socketInstance.id);
-      });
-
-      socketInstance.on("connect_error", (err) => {
-        console.error("❌ Socket connection to", baseURL, "failed:", err.message);
-      });
-
-      // socketInstance.on("private message", ({ from, message }) => {
-      //   console.log("TODO: Implement notification");
-      // });
-
-      socketInstance.on("message stored", (response) => {
-        console.log(response);
-      })
-
-      setSocket(socketInstance);
-  
-      // Clean up when component unmounts
-      return () => {
-        socketInstance.disconnect();
-      };
-    }
-  }, []);
 
   const handleLoginWrapper = (email, password) => handleLogin(email, password, setAccountState, setEmail);
 
@@ -95,7 +57,7 @@ function AppContent({ accountState, setAccountState, profilePicture, setProfileP
         <Route path="/main" element={<Main accountState={accountState} />} />
         <Route path="/mycourse" element={<Mycourse email={email} />} />
         <Route path="/enrollment" element={<Enrollment />} />
-        <Route path="/chatbox" element={<Chatbox socket={socket} />} />
+        <Route path="/chatbox" element={<Chatbox />} />
         <Route path="/reservation" element={<Reservation />} />
         <Route path="/notification" element={<Notification />} />
         <Route path='/course/:courseId/video/:videoNumber' element={<VideoPage />} />

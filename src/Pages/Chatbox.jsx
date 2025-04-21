@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import { io } from "socket.io-client";
 import { jwtDecode } from "jwt-decode";
 import { CircleUser } from 'lucide-react';
 import LoadingScreen from '../Components/LoadingScreen/LoadingScreen';
 import axios from 'axios';
 
-const Chatbox = ({ socket }) => {
-  
+const Chatbox = () => {
+  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL
+  const [socket, setSocket] = useState(null)
   const [messages,setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [conversations, setConversations] = useState([]);
@@ -27,6 +29,41 @@ const Chatbox = ({ socket }) => {
   const formatPreviewMsg = (msg) => {
     return msg.substring(0,50) + (msg.length>50 ? "..." : "")
   }
+
+  useEffect(() => {
+    // Connect to the Socket.IO server
+    if(localStorage.getItem("token")) {
+      const socketInstance = io(baseURL, {
+        auth: {
+          token: localStorage.getItem('token')
+        }
+      });
+  
+      // Handle connection
+      socketInstance.on("connect", () => {
+        console.log("✅ Connected to socket server with ID:", socketInstance.id);
+      });
+
+      socketInstance.on("connect_error", (err) => {
+        console.error("❌ Socket connection to", baseURL, "failed:", err.message);
+      });
+
+      // socketInstance.on("private message", ({ from, message }) => {
+      //   console.log("TODO: Implement notification");
+      // });
+
+      socketInstance.on("message stored", (response) => {
+        console.log(response);
+      })
+
+      setSocket(socketInstance);
+  
+      // Clean up when component unmounts
+      return () => {
+        socketInstance.disconnect();
+      };
+    }
+  }, []);
 
   useLayoutEffect(() => {
     const messageWindow = messageWindowRef.current;
