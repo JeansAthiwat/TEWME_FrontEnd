@@ -5,9 +5,9 @@ test.describe('Chat Functionality', () => {
     test.beforeEach(async ({ page }) => {
         // Go to login page
         await page.goto('http://localhost:3000/login');
-        await page.getByPlaceholder('Email Address').fill('learner1@example.com');
-        await page.getByPlaceholder('Password').fill('1234');
-        await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+        await page.fill('input[name="username"]', 'learner1@example.com');
+        await page.fill('input[name="password"]', '1234');
+        await page.click('button[type="submit"]');
 
         // Wait for redirect to home and navigate to chat
         await page.waitForURL('http://localhost:3000/');
@@ -43,8 +43,11 @@ test.describe('Chat Functionality', () => {
 
         const beforeCount = await page.locator('ul.flex.flex-col > li').count();
 
-        await page.fill('input[placeholder="type here"]', '');
+        // await page.fill('input[placeholder="type here"]', '');
         await page.click('button:has-text("Send")');
+
+        debugger;
+
 
         await expect(page.locator('ul.flex.flex-col > li')).toHaveCount(beforeCount);
     });
