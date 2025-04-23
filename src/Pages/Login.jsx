@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { handleLogin } from '../utils/authHandlers'; // ✅ Import the correct function
 import GoogleLogin from '../Components/GoogleLogin/GoogleLogin'; // ✅ Import Google Login component
@@ -6,7 +6,8 @@ import './CSS/Login.css';
 
 const Login = ({ accountState, setAccountState, setProfilePicture, email, setEmail }) => {
   // const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  // const [password, setPassword] = useState('');
+  const passwordRef = useRef(null)
   const [error, setError] = useState('');
   const navigate = useNavigate(); // Hook for redirecting after login
 
@@ -16,7 +17,7 @@ const Login = ({ accountState, setAccountState, setProfilePicture, email, setEma
     setError('');
 
     try {
-      await handleLogin(email, password, setAccountState, setProfilePicture, setEmail) // ✅ Call centralized login function
+      await handleLogin(email, passwordRef.current.value, setAccountState, setProfilePicture, setEmail) // ✅ Call centralized login function
       console.log("Logged in successfully");
       navigate('/')
 
@@ -55,8 +56,7 @@ const Login = ({ accountState, setAccountState, setProfilePicture, email, setEma
               name="password"
               autoComplete="current-password"
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              ref={passwordRef}
               required
             />
           </div>

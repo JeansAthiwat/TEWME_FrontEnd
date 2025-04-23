@@ -2,56 +2,50 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Chat Functionality', () => {
-    // Log in and open first conversation before each test
     test.beforeEach(async ({ page }) => {
-        // 1) Go to login page
-        await page.goto('/login');
-
-        // 2) Fill credentials
+        // Go to login page
+        await page.goto('http://localhost:3000/login');
         await page.getByPlaceholder('Email Address').fill('learner1@example.com');
         await page.getByPlaceholder('Password').fill('1234');
+        await page.getByRole('button', { name: 'Sign in', exact: true }).click();
 
-        // 3) Click only the form submit button
-        await page.locator('button[type="submit"]').click();
+        // Wait for redirect to home and navigate to chat
+        await page.waitForURL('http://localhost:3000/');
+        await page.goto('http://localhost:3000/chatbox');
 
-        // 4) Navigate to chat box
-        await page.goto('/chatbox');
-
-        // 5) Open the first conversation in the list
-        await page.locator('.flex-row.items-center').first().click();
-
-        // 6) Wait for messages to load
-        await expect(page.locator('ul.flex.flex-col > li')).toHaveCountGreaterThan(0, { timeout: 5000 });
+        // Wait for chatbox UI to load
+        await page.waitForSelector('text=Contacts');
     });
 
     test('Send valid message', async ({ page }) => {
-        const messageText = 'Hello from Playwright';
+        // Wait for any real conversation to load
+        await page.waitForSelector('div.conversation-name', { timeout: 10000 });
 
-        // Count existing messages
-        const messageItems = page.locator('ul.flex.flex-col > li');
-        const initialCount = await messageItems.count();
+        // Open the first conversation
+        await page.locator('div.conversation-name:has-text("Course:")').first().click();
 
-        // Type and send
-        await page.fill('input[placeholder="type here"]', messageText);
+        // Wait for messages to load
+        await page.waitForSelector('ul.flex.flex-col > li');
+
+        const beforeCount = await page.locator('ul.flex.flex-col > li').count();
+
+        await page.fill('input[placeholder="type here"]', 'Playwright Test Message');
         await page.click('button:has-text("Send")');
 
-        // Expect count to increase by one
-        await expect(messageItems).toHaveCount(initialCount + 1, { timeout: 5000 });
-
-        // And the last message item contains the text
-        await expect(messageItems.nth(initialCount)).toHaveText(messageText);
+        await expect(page.locator('ul.flex.flex-col > li')).toHaveCount(beforeCount + 1);
+        await expect(page.locator('ul.flex.flex-col > li').nth(-1)).toContainText('Playwright Test Message');
     });
 
     test('Empty message does not send', async ({ page }) => {
-        // Count existing messages
-        const messageItems = page.locator('ul.flex.flex-col > li');
-        const initialCount = await messageItems.count();
+        // Open first conversation
+        await page.waitForSelector('div.conversation-name', { timeout: 10000 });
+        await page.locator('div.conversation-name:has-text("Course:")').first().click();
 
-        // Attempt to send an empty message
+        const beforeCount = await page.locator('ul.flex.flex-col > li').count();
+
         await page.fill('input[placeholder="type here"]', '');
         await page.click('button:has-text("Send")');
 
-        // Expect count to remain unchanged
-        await expect(messageItems).toHaveCount(initialCount, { timeout: 3000 });
+        await expect(page.locator('ul.flex.flex-col > li')).toHaveCount(beforeCount);
     });
 });

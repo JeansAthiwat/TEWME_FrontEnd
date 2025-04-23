@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './CSS/Myprofile.css';
 import { Form, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
@@ -17,6 +17,7 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState(''); // 'profilePicture' or 'bio'
   const [modalValue, setModalValue] = useState('');
+  const [balanceValue, setBalanceValue] = useState(100);
   const navigate = useNavigate();
 
   const handleLogoutClick = () => {
@@ -139,6 +140,28 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
     setProfilePicture(user.profilePicture)
   }
 
+  const handleAddBalance = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) throw new Error('No token found');
+
+    const response = await fetch("/api/profile/update-balance", {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ balance: user.balance + balanceValue })
+    });
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.msg || `Failed to update ${modalType}`);
+
+    toast.success("Add Balance Success");
+    const { balance, ...newUser } = user;
+    newUser.balance = data.user.balance;
+    setUser(newUser);
+  }
+
   const handlePayout = async () => {
     const token = localStorage.getItem('token');
     if (!token) throw new Error('No token found');
@@ -218,10 +241,21 @@ const Myprofile = ({profilePicture, setProfilePicture, onLogout}) => {
       <hr className='mx-5 text-gray-200'/>
         <div className="flex flex-col gap-2 w-full max-w-180 m-auto px-5 pb-10">
           <h2 className="font-semibold text-xl">Balance:</h2>
-          <p>{`${user.balance} Tokens` || "0 Tokens"}</p>
+          <p>{`${user.balance} Coins` || "0 Coins"}</p>
+
+          {user.role=="learner" && (
+            <>
+            <button className="w-fit bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-full" onClick={handleAddBalance}>Add Balance</button>
+            <div className="flex-col items-center gap-4">
+              <input type='number' className="w-20 flex-shrink-0 border rounded px-2 py-1 text-right" value={balanceValue} onChange={(e) => setBalanceValue(Number(e.target.value))}></input>
+              <input type="range" min="10" max="2000" step="10" className='flex-1' value={balanceValue} onChange={(e) => setBalanceValue(Number(e.target.value))}></input>
+            </div>
+            </>
+          )
+          }
           
           {user.role=="tutor" && (
-            <button className="w-30 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-full" onClick={handlePayout}>Payout</button>
+            <button className="w-fit bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-full" onClick={handlePayout}>Payout</button>
           )}
         </div>
       </div>
