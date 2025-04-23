@@ -1,57 +1,83 @@
 // playwright-tests/chat.spec.js
 import { test, expect } from '@playwright/test';
 
-test.describe('Chat Functionality', () => {
-    // Log in and open first conversation before each test
-    test.beforeEach(async ({ page }) => {
-        // 1) Go to login page
-        await page.goto('/login');
+const FAKE_CONVERSATION = {
+    _id: 'conv-1',
+    participants: [
+        { _id: 'learner-1', firstname: 'Learner', lastname: 'One', profilePicture: '' },
+        { _id: 'tutor-1', firstname: 'Tutor', lastname: 'One', profilePicture: '' }
+    ],
+    courseId: { _id: 'course-1', course_name: 'Test Course' },
+    lastMessage: { text: 'Hello from Tutor', createdAt: new Date().toISOString() },
+    unreadCount: 0
+};
 
-        // 2) Fill credentials
+const FAKE_MESSAGES = [
+    { sender: 'tutor-1', text: 'Hello from Tutor', createdAt: new Date().toISOString() }
+];
+
+test.describe('Chat Functionality', () => {
+    test.beforeEach(async ({ page }) => {
+        // 1) Real login
+        await page.goto('/login');
         await page.getByPlaceholder('Email Address').fill('learner1@example.com');
         await page.getByPlaceholder('Password').fill('1234');
+        await page.getByRole('button', { name: 'Sign in', exact: true }).click();
 
-        // 3) Click only the form submit button
-        await page.locator('button[type="submit"]').click();
+        // 2) Stub-out socket.io completely
+        await page.addInitScript(() => {
+            window.io = () => ({ on: () => { }, emit: () => { }, disconnect: () => { } });
+        });
+
+        // 3) Stub the two backend calls
+        await page.route('**/api/conversation/user**', route =>
+            route.fulfill({
+                status: 200,
+                contentType: 'application/json',
+                body: JSON.stringify([FAKE_CONVERSATION])
+            })
+        );
+        await page.route(`**/api/message/${FAKE_CONVERSATION._id}**`, route =>
+            route.fulfill({
+                status: 200,
+                contentType: 'application/json',
+                body: JSON.stringify(FAKE_MESSAGES)
+            })
+        );
 
         // 4) Navigate to chat box
         await page.goto('/chatbox');
 
-        // 5) Open the first conversation in the list
-        await page.locator('.flex-row.items-center').first().click();
+        // 5) Wait for our stubbed conversation to render (just the course name)
+        await page.waitForSelector('text=Test Course', { timeout: 5_000 });
 
-        // 6) Wait for messages to load
-        await expect(page.locator('ul.flex.flex-col > li')).toHaveCountGreaterThan(0, { timeout: 5000 });
+        // 6) Open it
+        await page.click('text=Test Course');
+
+        // 7) Verify the single stubbed message shows up
+        await expect(page.locator('ul.flex.flex-col > li')).toHaveCount(1, { timeout: 5_000 });
     });
 
     test('Send valid message', async ({ page }) => {
-        const messageText = 'Hello from Playwright';
+        const items = page.locator('ul.flex.flex-col > li');
+        const before = await items.count();
 
-        // Count existing messages
-        const messageItems = page.locator('ul.flex.flex-col > li');
-        const initialCount = await messageItems.count();
-
-        // Type and send
-        await page.fill('input[placeholder="type here"]', messageText);
+        await page.fill('input[placeholder="type here"]', 'Playwright Test');
         await page.click('button:has-text("Send")');
 
-        // Expect count to increase by one
-        await expect(messageItems).toHaveCount(initialCount + 1, { timeout: 5000 });
-
-        // And the last message item contains the text
-        await expect(messageItems.nth(initialCount)).toHaveText(messageText);
+        // Should add one more
+        await expect(items).toHaveCount(before + 1, { timeout: 5_000 });
+        await expect(items.nth(before)).toHaveText('Playwright Test');
     });
 
     test('Empty message does not send', async ({ page }) => {
-        // Count existing messages
-        const messageItems = page.locator('ul.flex.flex-col > li');
-        const initialCount = await messageItems.count();
+        const items = page.locator('ul.flex.flex-col > li');
+        const before = await items.count();
 
-        // Attempt to send an empty message
         await page.fill('input[placeholder="type here"]', '');
         await page.click('button:has-text("Send")');
 
-        // Expect count to remain unchanged
-        await expect(messageItems).toHaveCount(initialCount, { timeout: 3000 });
+        // Count stays the same
+        await expect(items).toHaveCount(before, { timeout: 3_000 });
     });
 });
