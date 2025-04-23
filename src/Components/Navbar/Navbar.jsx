@@ -11,10 +11,10 @@ const Navbar = ({ accountState, profilePicture }) => {
   const location = useLocation().pathname.split("/")[1];
 
   const navObjects = [
-    { id: 1, name: "main", icon: <House />,path: "main", permission: "all" },
+    { id: 1, name: "Main", icon: <House />,path: "main", permission: "all" },
     { id: 2, name: "Verify Tutors", path: "admin", permission: "admin" },
     { id: 3, name: "Chat", icon:<MessageCircle />, path: "chatbox", permission: "all" },
-    { id: 4, name: "noti", icon:<Bell />, path: "notification", permission: "all" },
+    { id: 4, name: "Noti", icon:<Bell />, path: "notification", permission: "all" },
     { id: 5, name: "Reservations", icon:<BookMarked />, path: "Reservation", permission: "learner" },
     { id: 6, name: "My Courses", icon:<BookText />, path: "mycourse", permission: "tutor" },
   ];

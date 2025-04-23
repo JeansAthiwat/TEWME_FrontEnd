@@ -88,9 +88,8 @@ const Chatbox = () => {
     if (socket) {
       const handlePrivateMessage = ({ from, message, courseId, createdAt }) => {
         const newMessage = { sender: from, text: message, createdAt };
-  
         // Check if message is for current conversation
-        const isCurrent = conversations[currentConv]?.courseId === courseId;
+        const isCurrent = conversations[currentConv]?.courseId._id === courseId._id && conversations[currentConv].participants.some(p=>p._id===from);
   
         if (isCurrent) {
           setMessages(prev => [...prev, newMessage]);
@@ -100,7 +99,7 @@ const Chatbox = () => {
         setConversations(prevConvs => {
           let updatedConvs = [...prevConvs];
           const convIndex = updatedConvs.findIndex(conv =>
-            conv.courseId.id === courseId.id
+            (conv.courseId.id === courseId.id) && (conv.courseId.participants === courseId.participants)
           );
     
           if (convIndex !== -1) {
@@ -118,10 +117,17 @@ const Chatbox = () => {
             updatedConvs.splice(convIndex, 1);
             // Move to top
             updatedConvs.unshift(targetConv);
-          }          console.log(updatedConvs)
+          }
+          if(isCurrent) {
+            setCurrentConv(0)
+          } else if(convIndex > currentConv) {
+            setCurrentConv(currentConv+1)
+          }
+          console.log(updatedConvs)
           return updatedConvs;
         });
       };
+
   
       socket.on("private message", handlePrivateMessage);
   
@@ -177,7 +183,6 @@ const Chatbox = () => {
     
     const getMessages = async() => {
       setMessageLoading(true)
-      console.log("case1 jaa")
       const response = await fetch(`/api/message/${conversations[currentConv]._id}`, {
         method: "GET",
         headers: {
@@ -196,6 +201,22 @@ const Chatbox = () => {
     
   },[currentConv])
 
+  const handleChangeConvo = async(e) => {
+    if(!conversations.length) return
+
+    setMessageLoading(true)
+    setCurrentConv(e)
+    const response = await fetch(`/api/message/${conversations[currentConv]._id}`, {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+    const data = await response.json();
+    setMessages([...data]);
+    setMessageLoading(false)
+  }
+
   const getOlderMessages = async () => {
     const messageWindow = messageWindowRef.current;
   
@@ -204,7 +225,6 @@ const Chatbox = () => {
     prevScrollTopRef.current = messageWindow.scrollTop;
     isLoadingOlderMessages.current = true;
     setMessageLoading(true)
-    console.log("case2 jaa")
     const response = await fetch(
       `/api/message/${conversations[currentConv]._id}?createdBefore=${messages[0].createdAt}`,
       {
@@ -284,13 +304,9 @@ const Chatbox = () => {
                 Course: {conv.courseId.course_name}
               </div>
               <div className="last-message text-gray-400 truncate flex flex-row gap-1 items-center">
-                {conv.unreadCount > 1 ? (
-                  <p className="text-center text-blue-600 font-bold">{conv.unreadCount}+ unread messages</p>
-                ) : (
-                  <p className={`${conv.unreadCount === 1 && "font-bold text-blue-600"}`}>
+                  <p>
                     {conv.lastMessage && formatPreviewMsg(conv.lastMessage.text)}
                   </p>
-                )}
               </div>
             </div>
           </div>
@@ -304,13 +320,13 @@ const Chatbox = () => {
          {currentConv!== null && <>
          <div className='border-b-1 border-gray-200 p-1'>
             {conversations[currentConv].participants.map((p, index) => p._id !== user.id && (
-              <li key={index} className={`overflow-hidden flex flex-row items-center gap-3 rounded-xl py-2 px-4 `}>
+              <div key={index} className={`overflow-hidden flex flex-row items-center gap-3 rounded-xl py-2 px-4 `}>
                   <img className="w-10 h-10 rounded-full object-cover" src={p.profilePicture} alt="d" />
                   <div>
                   <div className="conversation-name font-semibold truncate">{p.firstname} {p.lastname}</div>
                   <div className="conversation-name text-gray-600 truncate ">Course: {conversations[currentConv].courseId.course_name} </div>
                   </div>
-                </li>))}
+                </div>))}
           </div>
           <div ref={messageWindowRef} className="message-section w-full px-5 h-[70vh] overflow-y-scroll overflow-x-hidden flex flex-col mx-auto">
             {messageLoading?<LoadingScreen /> :<>
