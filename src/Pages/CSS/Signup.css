@@ -160,3 +160,9 @@
         font-size: 14px;
     }
 }
+
+form .input-warning {
+    color: red;
+    position: absolute;
+    font-size: 10px
+}

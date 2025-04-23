@@ -22,10 +22,19 @@ const Signup = () => {
   });
   const [error, setError] = useState('');
   const [agree, setAgree] = useState(false);
+  const [passwordWarning, setPasswordWarning] = useState('')
 
   // Handle input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    if(e.target.name==="password") {
+      if(e.target.value.length < 8) {
+        setPasswordWarning("Password must be at least 8 characters long.")
+      } else {
+        setPasswordWarning("")
+      }
+    }
   };
 
   // Handle form submission
@@ -40,6 +49,11 @@ const Signup = () => {
 
     if (!agree) {
       toast.warn("You must agree to the terms of use & privacy policy.");
+      return;
+    }
+
+    if (formData.password.length < 8) {
+      toast.warn("Password must be at least 8 characters long.");
       return;
     }
 
@@ -99,7 +113,10 @@ const Signup = () => {
             <input type="text" name="lastname" placeholder='Last Name' value={formData.lastname} onChange={handleChange} required />
             {/* <input type="text" name="display_name" placeholder='Display Name' value={formData.display_name} onChange={handleChange} required /> */}
             <input type="email" name="email" placeholder='Email Address' value={formData.email} onChange={handleChange} required />
-            <input type="password" name="password" placeholder='Password' value={formData.password} onChange={handleChange} required />
+            <div style={{ position: 'relative' }}>
+              <input type="password" name="password" placeholder='Password' value={formData.password} onChange={handleChange} required />
+              {passwordWarning && <p className='input-warning'>{passwordWarning}</p>}
+            </div>
             <input type="date" name="birthdate" placeholder='Birthdate' value={formData.birthdate} onChange={handleChange}  max={new Date().toISOString().split("T")[0]} required />
             <input type="text" name="contact_info" placeholder='Contact Info' value={formData.contact_info} onChange={handleChange} required />
           </div>
